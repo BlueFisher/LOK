@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="UTF-8">
+	<title>LOK</title>
+	<link href="~/Content/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="~/Content/css/bootstrap/ripples.css" rel="stylesheet" />
+	<link href="~/Content/css/animate.min.css" rel="stylesheet">
+	<link href="~/Content/css/global.css" rel="stylesheet" />
+	<link href="~/Content/css/business.css" rel="stylesheet" />
+
+	<script src="~/Scripts/jquery/jquery.min.js"></script>
+	<script src="~/Scripts/jquery/bootstrap.min.js"></script>
+	<script src="~/Scripts/ripples.min.js"></script>
+	<script src="~/Scripts/nav.js"></script>
+	<script src="~/Scripts/business.js"></script>
+	<!-- Baidu Map -->
+	<script src="http://api.map.baidu.com/api?v=2.0&ak=NjeXbocivjGjGPAI2nCG4BRe"></script>
+	<script src="~/Scripts/map.js"></script>
+</head>
+<body>
+	<div class="load-container">
+		<div class="loader"></div>
+	</div>
+
+	<div class="wrapper">
+		<nav class="navbar navbar-material" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand btn-ripples" href="/Home/Index">LOK</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a href="javascript:;" class="btn-ripples">&gt;&gt;上海大学（切换校区）</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="javascript:;" class="btn-ripples">商户合作</a></li>
+						<li><a href="javascript:;" class="btn-ripples">联系我们</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="container-fluid">
+			<div class="well well-blank well-step1" id="step1">
+				<div class="well well-blank well-sm well-map-search">
+					<ul class="list-group">
+						<a href="javascript:;" class="list-group-item map-panto active" data-cordinate-x="121.400532" data-cordinate-y="31.322212">
+							<div class="row-action">
+								<span>A</span>
+							</div>
+							<div class="row-content">
+								<h4 class="list-group-item-heading">上海大学</h4>
+								<p class="list-group-item-text">宝山区上大路99号（近南陈路）</p>
+							</div>
+						</a>
+						<a href="javascript:;" class="list-group-item map-panto disabled">
+							<div class="row-action">
+								<span>B</span>
+							</div>
+							<div class="row-content">
+								<h4 class="list-group-item-heading">上海应用技术学院（即将上线）</h4>
+								<p class="list-group-item-text">海泉路100号</p>
+							</div>
+						</a>
+						<a href="javascript:;" class="list-group-item map-panto disabled">
+							<div class="row-action">
+								<span>C</span>
+							</div>
+							<div class="row-content">
+								<h4 class="list-group-item-heading">上海交通大学（即将上线）</h4>
+								<p class="list-group-item-text">上海市闵行区东川路800号</p>
+							</div>
+						</a>
+					</ul>
+				</div>
+				<div id="map"></div>
+			</div> <!-- step1 end -->
+
+			<div class="container" id="step2">
+				<div class="row">
+					<div class="col-sm-6 col-md-5 col-md-offset-1">
+						<div class="well well-blank well-with-heading well-step2 well-get">
+							<div class="well-heading">
+								<span class="fa fa-shopping-cart"></span>
+								<span>取件</span>
+							</div>
+							<a href="javascript:;" class="well-wrapper" id="btn-choose-getting">
+								<div class="btn btn-flat">我要寄件（营业中）</div>
+							</a>
+							<div class="well-content">
+								<form role="form">
+									<div class="form-group">
+										<label for="getting-company">快递公司</label>
+										<input type="text" class="form-control" id="getting-company" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="getting-no">快递号</label>
+										<input type="text" class="form-control" id="getting-no" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="getting-name">姓名</label>
+										<input type="text" class="form-control" id="getting-name" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="getting-phone">手机号码</label>
+										<input type="number" class="form-control" id="getting-phone" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="getting-address">地址</label>
+										<input type="text" class="form-control" id="getting-adress" placeholder="">
+									</div>
+									<div class="row btn-form-group">
+										<div class="col-md-4">
+											<button type="submit" class="btn btn-primary btn-material btn-block">
+												<i class="fa fa-check"></i> 确认下单
+											</button>
+										</div>
+										<div class="col-md-4">
+											<button type="reset" class="btn btn-danger btn-material btn-block">
+												<i class="fa fa-refresh"></i> 重置表单
+											</button>
+										</div>
+										<div class="col-md-4">
+											<button type="button" class="btn btn-default btn-material btn-block">
+												<i class="fa fa-arrow-circle-left"></i> 切换校区
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-5">
+						<div class="well well-blank well-with-heading well-step2 well-send">
+							<div class="well-heading">
+								<span class="fa fa-paper-plane"></span>
+								<span>寄件</span>
+							</div>
+							<a href="javascript:;" class="well-wrapper" id="btn-choose-sending">
+								<div class="btn btn-flat">我要寄件（营业中）</div>
+							</a>
+							<div class="well-content">
+								<form role="form">
+
+									<div class="form-group">
+										<label for="sending-company">快递公司</label>
+										<select class="form-control" id="sending-company">
+											<option>快递公司1</option>
+											<option>快递公司2</option>
+											<option>快递公司3</option>
+											<option>快递公司4</option>
+											<option>快递公司5</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="sending-name">姓名</label>
+										<input type="text" class="form-control" id="sending-name" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="getting-phone">手机号码</label>
+										<input type="number" class="form-control" id="getting-phone" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="sending-address">地址</label>
+										<input type="text" class="form-control" id="sending-adress" placeholder="">
+									</div>
+									<div class="form-group">
+										<label for="sending-toaddress">目的地址</label>
+										<input type="text" class="form-control" id="sending-toaddress" placeholder="">
+									</div>
+									<div class="row btn-form-group">
+										<div class="col-md-4">
+											<button type="submit" class="btn btn-primary btn-material btn-block">
+												<i class="fa fa-check"></i> 确认下单
+											</button>
+										</div>
+										<div class="col-md-4">
+											<button type="reset" class="btn btn-danger btn-material btn-block">
+												<i class="fa fa-refresh"></i> 重置表单
+											</button>
+										</div>
+										<div class="col-md-4">
+											<button type="button" class="btn btn-default btn-material btn-block">
+												<i class="fa fa-arrow-circle-left"></i> 切换校区
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- setp2 end -->
+		</div> <!-- container-fluid end -->
+	</div> <!-- wrapper end -->
+	<div class="steps">
+		<ul>
+			<li><a href="javascript:;" class="active">1. 选择校区</a></li>
+			<li><a href="javascript:;">2. 寄件取件</a></li>
+			<li><a href="javascript:;">3. 填写信息</a></li>
+		</ul>
+	</div>
+
+</body>
+<div class="tpl" id="map-info">
+	<p class="lead">上海大学</p>
+	<p>宝山区上大路99号（近南陈路）</p>
+	<button class="btn btn-primary btn-block" id="map-confirm" onclick="$.test()">
+		<i class="fa fa-check"></i> 选择
+	</button>
+</div>
+</html>

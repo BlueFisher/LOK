@@ -1,0 +1,82 @@
+.wrapper{
+	padding-bottom: 400px;
+	min-height: 100%;
+}
+.header {
+	position: relative;
+	/*height: 500px;*/
+	color: #fff !important;
+}
+.header .logo-container {
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+.header .logo-container img{
+	/*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);*/
+}
+.header .logo-container h1 {
+	font-family: Helvetica;
+	font-size: 80px;
+	font-weight: thin;
+	text-shadow: 0 3px 10px rgba(0, 0, 0, .23);
+}
+.btn-main-container {
+	margin-bottom: 50px;
+}
+.btn-main-container .btn-flat {
+	padding: 10px 50px;
+	margin:5px 20px;
+}
+.well-step {
+	color: #fff !important;
+}
+.well-step h3 {
+	margin-top: 10px;
+}
+.well-step .btn {
+	color: #fff !important;
+}
+.well.well-step-1 {
+	background-color: #D62425;
+}
+.well.well-step-2 {
+	background-color: #3B4EA0;
+}
+.well.well-step-3 {
+	background-color: #2D9439;
+}
+.step-icon-1,
+.step-icon-2,
+.step-icon-3{
+	display: inline-block;
+	height: 60px;
+	width: 60px;
+	background-image: url(../image/icons.png);
+	background-repeat: no-repeat;
+}
+.step-icon-1 {
+	background-size: 58px auto;
+}
+.step-icon-2 {
+	background-position: 0 -65px;
+	background-size: 58px auto;
+}
+.step-icon-3 {
+	background-position: 0 -185px;
+	background-size: 58px auto;
+}
+
+.footer{
+	margin-top: -250px;
+}
+@media screen and (max-width: 992px) {
+	.wrapper{
+		padding-bottom: 250px;
+	}
+	.header .logo-container h1{
+		font-size: 50px;
+	}
+	.well-step{
+		text-align: center;
+	}
+}
