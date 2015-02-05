@@ -9,8 +9,5 @@ namespace LOK.Controllers {
 		public ActionResult Index() {
 			return View();
 		}
-		public ActionResult Business() {
-			return View();
-		}
 	}
 }

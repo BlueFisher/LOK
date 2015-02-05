@@ -1,0 +1,122 @@
+﻿@model List<OrderModels>
+
+@helper getOrderStatus(OrderStatusEnum status) {
+	switch(status) {
+		case OrderStatusEnum.Completed:
+			<p class="lead no-margin-bottom">状态： <i class="fa fa-check"></i></p>
+			break;
+		case OrderStatusEnum.Closed:
+			<p class="lead no-margin-bottom">状态： <i class="fa fa-exchange"></i></p>
+			break;
+		case OrderStatusEnum.Failed:
+			<p class="lead no-margin-bottom">状态： <i class="fa fa-ban"></i></p>
+			break;
+		case OrderStatusEnum.OnGoing:
+		case OrderStatusEnum.Confirming:
+			<p class="lead no-margin-bottom">状态： <i class="fa fa-refresh"></i></p>
+			break;
+		default:
+			break;
+	}
+}
+
+@foreach(OrderModels order in Model) {
+	<div class="col-sm-6 col-order">
+		@if(order.OrderType == OrderTypeEnum.Get) {
+			<div class="well well-blank well-no-padding well-order-get">
+				<div class="well-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<p class="lead no-margin-bottom"><i class="fa fa-shopping-cart"></i> 取件单</p>
+						</div>
+						<div class="col-xs-6 text-right">
+							@getOrderStatus(order.OrderStatus)
+						</div>
+					</div>	
+				</div>
+				<div class="well-content">
+					<div class="row">
+						<div class="col-md-6">
+							<p>订单号：@order.OrderId</p>
+						</div>
+						<div class="col-md-6">
+							<p>下单时间：@order.StartTime</p>
+						</div>
+						<div class="col-md-6">
+							<p>快递号：@order.ExpressNo</p>
+						</div>
+						<div class="col-md-6">
+							<p>快递公司：@order.ExpressCompany</p>
+						</div>
+						<div class="col-md-6">
+							<p>上门地址：@order.Address</p>
+						</div>
+						<div class="col-md-6">
+							<p>联系电话：@order.Phone</p>
+						</div>
+						<div class="col-md-6">
+							<p>备注：@order.Remark</p>
+						</div>
+						<div class="col-md-12">
+							<div class="progress">
+								@Html.Partial("_PartialOrderStatusProgress", order.OrderStatus)
+							</div>
+						</div>
+					</div>
+					<div class="text-right">
+						<button class="btn btn-danger btn-material btn-close-order">关闭订单</button>
+					</div>	
+				</div>
+				
+			</div>
+		}
+		else {
+			<div class="well well-blank well-no-padding well-order-send">
+				<div class="well-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<p class="lead no-margin-bottom"><i class="fa fa-paper-plane"></i> 寄件单</p>
+						</div>
+						<div class="col-xs-6 text-right">
+							@getOrderStatus(order.OrderStatus)
+						</div>
+					</div>	
+				</div>
+				<div class="well-content">
+					<div class="row">
+						<div class="col-md-6">
+							<p>订单号：@order.OrderId</p>
+						</div>
+						<div class="col-md-6">
+							<p>下单时间：@order.StartTime</p>
+						</div>
+						<div class="col-md-6">
+							<p>上门地址：@order.Address</p>
+						</div>
+						<div class="col-md-6">
+							<p>快递公司：@order.ExpressCompany</p>
+						</div>
+						<div class="col-md-6">
+							<p>目的地址：@order.ToAddress</p>
+						</div>
+						<div class="col-md-6">
+							<p>联系电话：@order.Phone</p>
+						</div>
+						<div class="col-md-6">
+							<p>备注：@order.Remark</p>
+						</div>
+						<div class="col-md-12">
+							<div class="progress">
+								@Html.Partial("_PartialOrderStatusProgress", order.OrderStatus)
+							</div>
+						</div>
+					</div>
+					<div class="text-right">
+						<button class="btn btn-danger btn-material btn-close-order">关闭订单</button>
+					</div>	
+				</div>
+				
+			</div>
+		}
+	</div>
+}

@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	$map = $('#map');
 	$map.css('height', $(window).height() - 170 + 'px');
-	$(window).resize(function() {
+	$(window).resize(function () {
 		$map.css('height', $(window).height() - 170 + 'px');
 	});
 
-	var sContent = $('#map-info').html();
+	var sContent = $('#tpl-map-info').html();
 	var map = new BMap.Map("map");
 	map.enableScrollWheelZoom(true);
 	var point = new BMap.Point(121.400532, 31.322212);
@@ -19,16 +19,23 @@ $(document).ready(function() {
 	}); // 创建信息窗口对象
 	map.centerAndZoom(point, 17);
 	map.addOverlay(marker);
-	marker.openInfoWindow(infoWindow);
-	marker.addEventListener("click", function() {
-		this.openInfoWindow(infoWindow);
+	marker.addEventListener("click", function () {
+		showInfoWindow();
 	});
 
-
-	$('.map-panto').click(function() {
-		if(!$(this).hasClass('disabled')){
+	$('.map-panto').click(function () {
+		if (!$(this).hasClass('disabled')) {
 			map.panTo(new BMap.Point($(this).attr('data-cordinate-x'), $(this).attr('data-cordinate-y')));
-			marker.openInfoWindow(infoWindow);
+			showInfoWindow();
 		}
 	});
+	$(window).load(function () {
+		showInfoWindow();
+	})
+	function showInfoWindow() {
+		marker.openInfoWindow(infoWindow);
+		$('#test').click('click', function () {
+			$.gotoStep2();
+		});
+	}
 });
