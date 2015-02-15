@@ -31,9 +31,9 @@ $(document).ready(function() {
 
 	function InitializeMap() {
 		$map = $('#map');
-		$map.css('height', $(window).height() - 170 + 'px');
+		$map.css('height', $(window).height() - 200 + 'px');
 		$(window).resize(function() {
-			$map.css('height', $(window).height() - 170 + 'px');
+			$map.css('height', $(window).height() - 200 + 'px');
 		});
 
 		var sContent = $('#tpl-map-info').html();

@@ -9,6 +9,7 @@ html {
 }
 .wrapper{
 	min-height: 100%;
+	padding-bottom: 50px;
 }
 .modal-dialog{
 	background-color: #FAFAFA;
@@ -252,20 +253,13 @@ html {
 	background-color: rgba(0,0,0,0.5);
 }
 
-.menu-toggle-container{
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 8px;
-}
 .menu-toggle{
-	display: block;
 	position: relative;
-	padding: 9px 10px;
 	background-color: transparent;
 	background-image: none;
 	border: 1px solid transparent;
 	border-radius: 4px;
+	outline: none;
 }
 .menu-toggle .icon-bar{
 	display: block;
@@ -292,10 +286,6 @@ html {
 	height: 100%;
 	background-color: #4884A7;
 }
-/*.menu .close{
-	font-size: 30px;
-	padding-right: 5px;
-}*/
 .menu .title{
 	display: block;
 	margin:0;
@@ -350,6 +340,14 @@ html {
 }
 #myorder-list-group .list-group-item:last-child{
 	border-bottom: none;
+}
+
+.footer{
+	margin-top: -50px;
+}
+.copy-right p{
+	margin-bottom: 3px;
+	color: #aaa;
 }
 
 
