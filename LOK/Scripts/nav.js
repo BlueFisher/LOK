@@ -1,10 +1,52 @@
 $(document).ready(function() {
-	$('#btn-myorder').popover({
-		html: true,
-		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-		content: $('#tpl-myorder').html(),
-		placement: "bottom"
+	var ANIMATION_FINISH = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+	var $menuContainer = $('.menu-container').css({
+		'-webkit-animation-duration': '0.3s',
+		'animation-duration': '0.3s',
+		'display': 'none'
+	}).addClass('animated fadeIn');
+		$menu = $('.menu-container .menu').css({
+		'-webkit-animation-duration': '0.3s',
+		'animation-duration': '0.3s',
+		'display': 'none'
+	}).addClass('animated fadeInLeft');
+	$('.menu-toggle').click(function(){
+		$menuContainer.css('display', 'block');
+		$menu.css('display', 'block');
+		$menuContainer.one('click',function(){
+			$menuContainer.addClass('fadeOut');
+			$menu.addClass('fadeOutLeft').one(ANIMATION_FINISH, function() {
+				$menuContainer.css('display', 'none').removeClass('fadeOut');
+				$menu.css('display', 'none').removeClass('fadeOutLeft');
+			});
+		});
 	});
+	$menu.click(function(event){
+		event.stopPropagation()
+	})
+
+	var isPopoverOpen = false;
+	$('#btn-myorder').click(function() {
+		var $this = $(this);
+		if (isPopoverOpen) {
+			$this.popover('destroy');
+		} else {
+			var oriText = $this.text();
+			$this.text('正在获取');
+			$.get('/Business/OrderMenus', function(data) {
+				$this.popover({
+					html: true,
+					placement: 'bottom',
+					trigger: 'manual',
+					content: data
+				}).popover('show');
+			}).always(function() {
+				$this.text(oriText);
+			});
+		}
+		isPopoverOpen = !isPopoverOpen;
+	});
+
 	toastr.options = {
 		onclick: function() {
 			// alert();
@@ -15,9 +57,12 @@ $(document).ready(function() {
 		timeOut: "5000",
 		extendedTimeOut: "1000",
 	};
+}).ajaxError(function(event, jqxhr, settings, exception) {
+	toastr.error("连接服务器失败 " + settings.url);
+});
 
-}).ajaxError(function() {
-	toastr.error("连接服务器失败");
+$.ajaxSetup({
+	cache: false
 });
 
 $.fn.extend({
@@ -25,17 +70,17 @@ $.fn.extend({
 		var $this = $(this);
 		$this.focus();
 		$this.on('keypress focusout', function() {
-			$(this).popover('destroy').parents('.form-group').removeClass("has-error");
+			$this.popover('destroy').parents('.form-group').removeClass("has-error");
 		});
 		if (content == undefined || content == null) {
 			content = "错误";
 		}
-		$(this).popover({
+		$this.popover({
 			trigger: "manual",
 			container: "body",
 			placement: "top",
 			content: content
 		}).popover("show").parents('.form-group').addClass("has-error");
-		return $(this);
+		return $this;
 	}
 });

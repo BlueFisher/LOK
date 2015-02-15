@@ -1,0 +1,27 @@
+.well.well-signin .well-heading,
+.well.well-signup .well-heading{
+	padding: 75px 19px 5px 19px;
+	border-radius: 2px 2px 0 0;
+	color: #fff;
+	font-size: 30px;
+}
+.well.well-signin .well-content,
+.well.well-signup .well-content{
+	padding: 19px;
+}
+.well.well-signin .well-heading{
+	font-weight: 100;
+	background-color: #3AA2B4;
+	background-image: url(../image/well-get-heading.jpg);
+}
+.well.well-signup .well-heading{
+	font-weight: 100;
+	background-color: #FF9800;
+	background-image: url(../image/well-send-heading.jpg);
+}
+
+@media screen and (max-width: 992px) {
+	.btn-form-group .btn{
+		margin-bottom: 12px;
+	}
+}

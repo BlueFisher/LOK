@@ -1,0 +1,125 @@
+﻿@model List<OrderModels>
+
+
+@helper formatTime(int time) {
+	if(time == 0) {
+		<span>立即送出</span>
+	}
+	else {
+		int sec = time % 100;
+		int min = (time - sec) / 100;
+		<span>@min : @sec</span>
+	}
+}
+@helper getButton(OrderStatusEnum status) {
+	<div class="btn-group">
+		@if(status == OrderStatusEnum.Confirming) {
+			<button class="btn btn-success btn-material btn-accept-order">确认订单</button>
+			<button class="btn btn-danger btn-material btn-fail-order">取消订单</button>
+		}
+		else if(status == OrderStatusEnum.OnGoing) {
+			<button class="btn btn-success btn-material btn-complete-order">完成订单</button>
+			<button class="btn btn-danger btn-material btn-fail-order">取消订单</button>
+		}
+		
+		<button class="btn btn-primary btn-material btn-find-user">查看用户</button>
+	</div>
+}
+@helper getStatusText(OrderStatusEnum status) {
+	switch(status) {
+		case OrderStatusEnum.Closed:
+			<span>已关闭</span>
+			break;
+		case OrderStatusEnum.Completed:
+		<span>已完成</span>
+			break;
+		case OrderStatusEnum.Confirming:
+		<span>待确认</span>
+			break;
+		case OrderStatusEnum.Failed:
+		<span>失败</span>
+			break;
+		case OrderStatusEnum.OnGoing:
+		<span>正在上门</span>
+			break;
+	}
+}
+
+
+@if(ViewBag.OrderTableType == OrderTypeEnum.Get) {
+	<table class="table table-striped">
+		<tr>
+			<th>订单号</th>
+			<th>订单类型</th>
+			<th>快递公司</th>
+			<th>快递号</th>
+			<th>用户姓名</th>
+			<th>联系电话</th>
+			<th>地址</th>
+			<th>下单时间</th>
+			<th>上门时间</th>
+			<th>备注</th>
+			<th>状态</th>
+			@if(ViewBag.hasFunctionBtn) {
+				<th>功能</th>
+			}
+			
+		</tr>
+		@foreach(OrderModels item in Model) {
+			<tr data-order-id="@item.OrderId" data-user-id="@item.UserId">
+				<td>@item.OrderId</td>
+				<td>取件单</td>
+				<td>@item.ExpressCompany</td>
+				<td>@item.ExpressNo</td>
+				<td>@item.Name</td>
+				<td>@item.Phone</td>
+				<td>@item.Address</td>
+				<td>@item.StartTime</td>
+				<td>@formatTime(item.Time)</td>
+				<td>@item.Remark</td>
+				<td>@getStatusText(item.OrderStatus)</td>
+				@if(ViewBag.hasFunctionBtn) {
+					<td>@getButton(item.OrderStatus)</td>
+				}
+			</tr>
+		}
+	</table>
+}
+else {
+	<table class="table table-striped">
+		<tr>
+			<th>订单号</th>
+			<th>订单类型</th>
+			<th>快递公司</th>
+			<th>用户姓名</th>
+			<th>联系电话</th>
+			<th>地址</th>
+			<th>目的地址</th>
+			<th>下单时间</th>
+			<th>上门时间</th>
+			<th>备注</th>
+			<th>状态</th>
+			@if(ViewBag.hasFunctionBtn) {
+				<th>功能</th>
+			}
+		</tr>
+		@foreach(OrderModels item in Model) {
+			<tr data-order-id="@item.OrderId" data-user-id="@item.UserId">
+				<td>@item.OrderId</td>
+				<td>寄件单</td>
+				<td>@item.ExpressCompany</td>
+				<td>@item.Name</td>
+				<td>@item.Phone</td>
+				<td>@item.Address</td>
+				<td>@item.ToAddress</td>
+				<td>@item.StartTime</td>
+				<td>@formatTime(item.Time)</td>
+				<td>@item.Remark</td>
+				<td>@getStatusText(item.OrderStatus)</td>
+				@if(ViewBag.hasFunctionBtn) {
+					<td>@getButton(item.OrderStatus)</td>
+				}
+			</tr>
+		}
+	</table>
+}

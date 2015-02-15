@@ -1,0 +1,52 @@
+﻿@model List<ApplicationUser>
+
+@{
+	string roleName = ViewBag.RoleName;
+}
+
+@if(roleName == UserRolesEnum.Guest.ToString()) {
+	<table class="table">
+		<tr>
+			<th>UserName</th>
+			<th>身份</th>
+			@if(ViewBag.hasFunctionBtn) {
+				<th>功能</th>
+			}
+			
+		</tr>
+		@foreach(ApplicationUser user in Model) {
+			<tr data-user-id="@user.Id">
+				<td>@user.UserName</td>
+				<td>@roleName</td>
+				@if(ViewBag.hasFunctionBtn) {
+					<td><button class="btn btn-primary btn-material btn-find-order">查看订单</button></td>
+				}
+				
+			</tr>
+		}
+	</table>
+}
+else if(roleName == UserRolesEnum.SignedUp.ToString() || roleName == UserRolesEnum.Admin.ToString()) {
+	<table class="table">
+		<tr>
+			<th>邮箱</th>
+			<th>昵称</th>
+			<th>身份</th>
+			@if(ViewBag.hasFunctionBtn) {
+				<th>功能</th>
+			}
+			
+		</tr>
+		@foreach(ApplicationUser user in Model) {
+			<tr data-user-id="@user.Id">
+				<td>@user.Email</td>
+				<td>@user.NickName</td>
+				<td>@roleName</td>
+				@if(ViewBag.hasFunctionBtn) {
+					<td><button class="btn btn-primary btn-material btn-find-order">查看订单</button></td>
+				}
+				
+			</tr>
+		}
+	</table>
+}

@@ -30,10 +30,6 @@ html {
 .well-blank {
 	background-color: #FAFAFA;
 }
-.well-sm .row{
-	margin-left: -4.5px;
-	margin-right: -4.5px;
-}
 .well.well-no-padding{
 	padding: 0;
 }
@@ -88,12 +84,47 @@ html {
 .well.well-no-padding .well-wrapper.disabled{
 	background-color: rgba(0,0,0,0.95);
 }
+
+.panel{
+	margin-bottom: 9px;
+	border: none;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, .23), 0 3px 10px rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+.panel.panel-default {
+	background-color: #FAFAFA;
+}
+
+.list-group .list-group-item .row-action {
+	display: block;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 5px;
+}
+.list-group .list-group-item .row-action span {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 20px;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.35);
+	border-radius: 20px;
+}
+.list-group .list-group-item.disabled .row-action span {
+	background-color: #D4D4D4;
+}
+.list-group .list-group-item .row-content {
+	display: inline-block;
+}
 .list-group *:first-child{
 	border-radius: 2px 2px 0 0;
 }
 .list-group *:last-child{
 	border-radius: 0 0 2px 2px;
 }
+
 .progress-bar{
 	webkit-transition: none;
 			transition: none;
@@ -107,11 +138,12 @@ html {
 }
 
 .no-margin-bottom{
-	margin-bottom: 0;
+	margin-bottom: 0 !important;
 }
-.dropdown-menu{
-	width: 100%;
-	min-width: 0;
+
+.lead small{
+	margin-left: 10px;
+	font-size: 14px;
 }
 .btn{
 	border-radius: 2px;
@@ -172,12 +204,9 @@ html {
 	border:none;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, .23), 0 3px 10px rgba(0, 0, 0, .16);
 }
-.popover .popover-content{
-	padding: 0 9px;
-}
 
 .navbar-material {
-	background-color: rgba(48,63,159,0.75);
+	/*background-color: rgba(48,63,159,0.75);*/
 	border-radius: 0;
 	border: none;
 }
@@ -204,6 +233,7 @@ html {
 .navbar-material .navbar-nav > .disabled > a:focus {
 	color: #444;
 	background-color: transparent;
+	transition: background-color 0.2s;
 }
 .navbar-material .navbar-toggle {
 	border: none;
@@ -219,34 +249,95 @@ html {
 .navbar-material .navbar-nav > .open > a:hover,
 .navbar-material .navbar-nav > .open > a:focus {
 	color: #fff;
-	background-color: #080808;
+	background-color: rgba(0,0,0,0.5);
 }
-.list-group .list-group-item {
-	padding-top: 15px;
+
+.menu-toggle-container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 8px;
 }
-.list-group .list-group-item .row-action {
+.menu-toggle{
 	display: block;
-	float: left;
-	margin-right: 20px;
-	margin-bottom: 5px;
+	position: relative;
+	padding: 9px 10px;
+	background-color: transparent;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
 }
-.list-group .list-group-item .row-action span {
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	color: #fff;
-	font-size: 20px;
+.menu-toggle .icon-bar{
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: #fff;
+}
+.menu-toggle .icon-bar+.icon-bar {
+	margin-top: 4px;
+}
+
+.menu-container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.75);
+	z-index:20;
+}
+.menu{
+	width: 250px;
+	height: 100%;
+	background-color: #4884A7;
+}
+/*.menu .close{
+	font-size: 30px;
+	padding-right: 5px;
+}*/
+.menu .title{
+	display: block;
+	margin:0;
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	line-height: 70px;
+	font-size: 24px;
 	text-align: center;
-	background-color: rgba(0, 0, 0, 0.35);
-	border-radius: 20px;
+	color: #f3efe0;
+	text-decoration: none;
+	transition: background-color 0.2s;
 }
-.list-group .list-group-item.disabled .row-action span {
-	background-color: #D4D4D4;
+.menu .title:hover{
+	background-color: rgba(0,0,0,0.25);
 }
-.list-group .list-group-item .row-content {
+.menu ul{
+	list-style: none;
+	padding: 0;
+	/*padding-top: 70px;*/
+}
+.menu ul>li>a{
 	display: inline-block;
+	width: 100%;
+	padding: 1em 1em 1em 1.2em;
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	color: #f3efe0;
+	text-decoration: none;
+	transition: background-color 0.2s;
 }
+.menu ul>li>a:hover{
+	background-color: rgba(0,0,0,0.25);
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+	text-align: center;
+	vertical-align: middle;
+}
+
 #myorder-list-group{
 	width: 400px;
 }
@@ -271,5 +362,10 @@ html {
 	.list-group .list-group-item .row-action {
 		float: none;
 		text-align: center;
+	}
+}
+@media (min-width: 992px){
+	.modal-lg {
+		width: 80%;
 	}
 }

@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "用户中心";
+    Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+}
+
+@section JavaScript{
+	<script src="~/Scripts/admin.usersControl.js"></script>
+}
+
+<div class="modal fade" id="modal-order">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				<h4 class="modal-title">订单信息</h4>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="panel panel-default" id="panel-signedup">
+				<div class="panel-heading">
+					<h3 class="panel-title">已注册用户</h3>
+				</div>
+				@* Ajax Region *@
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default" id="panel-guest">
+				<div class="panel-heading">
+					<h3 class="panel-title">未注册用户</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default" id="panel-admin">
+				<div class="panel-heading">
+					<h3 class="panel-title">管理员</h3>
+				</div>
+				@* Ajax Region *@
+			</div>
+		</div>
+	</div>
+</div>

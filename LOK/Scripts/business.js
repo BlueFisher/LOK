@@ -2,7 +2,8 @@ $(document).ready(function() {
 	var ANIMATION_FINISH = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 	var $step1 = $('#step1').css({
 		'-webkit-animation-duration': '0.3s',
-		'animation-duration': '0.3s'
+		'animation-duration': '0.3s',
+		'display': 'none'
 	});
 	var $step2 = $('#step2').css({
 		'-webkit-animation-duration': '0.3s',
@@ -28,6 +29,40 @@ $(document).ready(function() {
 		'animation-duration': '0.3s'
 	}).addClass('animated fadeIn');
 
+	function InitializeMap() {
+		$map = $('#map');
+		$map.css('height', $(window).height() - 170 + 'px');
+		$(window).resize(function() {
+			$map.css('height', $(window).height() - 170 + 'px');
+		});
+
+		var sContent = $('#tpl-map-info').html();
+		var map = new BMap.Map("map");
+		map.enableScrollWheelZoom(true);
+		var point = new BMap.Point(121.400532, 31.322212);
+		var marker = new BMap.Marker(point, {
+			icon: new BMap.Icon("/Content/image/map_icon.png", new BMap.Size(20, 25), {
+				imageOffset: new BMap.Size(-46, -21)
+			})
+		});
+		var infoWindow = new BMap.InfoWindow(sContent, {
+			enableMessage: false,
+		}); // 创建信息窗口对象
+		map.centerAndZoom(point, 17);
+		map.addOverlay(marker);
+		marker.openInfoWindow(infoWindow);
+		marker.addEventListener("click", function() {
+			marker.openInfoWindow(infoWindow);
+		});
+
+		$('.map-panto').click(function() {
+			if (!$(this).hasClass('disabled')) {
+				map.panTo(new BMap.Point($(this).attr('data-cordinate-x'), $(this).attr('data-cordinate-y')));
+				marker.openInfoWindow(infoWindow);
+			}
+		});
+	}
+
 	function step1Model() {
 		$loader.css('display', 'block');
 
@@ -41,25 +76,23 @@ $(document).ready(function() {
 		$btnStep1.addClass('active');
 		$btnStep2.removeClass('active');
 		$btnStep3.removeClass('active');
-
+		InitializeMap();
 	}
 
 	function step2Model() {
 		var $labelGetting = $('#label-isOrderGettingOnService'),
 			$labelSending = $('#label-isOrderSendingOnService');
 		$loader.css('display', 'block');
-		$.ajax({
-			url: '/Business/IsOrderOnService'
-		}).done(function(data) {
+		$.post('/Business/IsOrderOnService', function(data) {
 			if (data.Getting) {
-				$labelGetting.text('（接受订单）').parent().removeClass('disabled').parent().removeClass('disabled')
+				$labelGetting.text('（接受订单）').parent().removeClass('disabled').parent().removeClass('disabled');
 			} else {
-				$labelGetting.text('（暂停业务）').parent().addClass('disabled').parent().addClass('disabled')
+				$labelGetting.text('（暂停业务）').parent().addClass('disabled').parent().addClass('disabled');
 			}
 			if (data.Sending) {
-				$labelSending.text('（接受订单）').parent().removeClass('disabled').parent().removeClass('disabled')
+				$labelSending.text('（接受订单）').parent().removeClass('disabled').parent().removeClass('disabled');
 			} else {
-				$labelSending.text('（暂停业务）').parent().addClass('disabled').parent().addClass('disabled')
+				$labelSending.text('（暂停业务）').parent().addClass('disabled').parent().addClass('disabled');
 			}
 		}).always(function() {
 			$loader.addClass('fadeOut').one(ANIMATION_FINISH, function() {
@@ -102,6 +135,12 @@ $(document).ready(function() {
 		$btnStep3.addClass('active');
 	}
 
+
+	if ($('#is-step1-model').val() == 1) {
+		step1Model();
+	} else {
+		step2Model();
+	}
 	$('#btn-choose-sending').click(function() {
 		sendingModel();
 	});
@@ -133,11 +172,8 @@ $(document).ready(function() {
 		var $form = $(this);
 		var $modal = $('#modal-submit');
 		event.preventDefault();
-		$.ajax({
-			url: $form.attr('data-valid-url'),
-			type: 'POST',
-			data: $form.serialize(),
-		}).done(function(data) {
+		$form.find('.input-region').val($('.map-panto.active').attr('data-region'));
+		$.post($form.attr('data-valid-url'), $form.serialize(), function(data, textStatus, xhr) {
 			// 提交的表单是否合法
 			if (data.IsSucceed == true) {
 				// 提交模态框弹出
@@ -158,6 +194,9 @@ $(document).ready(function() {
 							}).done(function(data) {
 								if (data.IsSucceed == true) {
 									window.location = "/Business/Order";
+								}else{
+									$modal.modal('hide');
+									toastr.error(data.ErrorMessage);
 								}
 							}).always(function() {
 								$progressSubmit.css('width', '0%').text('0%');
@@ -173,7 +212,6 @@ $(document).ready(function() {
 				});
 			} else {
 				if ($form.attr('id') == 'form-getting') {
-					console.log($('#getting-' + data.ErrorPosition.toLowerCase())[0])
 					$('#getting-' + data.ErrorPosition.toLowerCase()).inputError(data.ErrorMessage);
 				} else {
 					$('#sending-' + data.ErrorPosition.toLowerCase()).inputError(data.ErrorMessage);

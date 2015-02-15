@@ -1,0 +1,88 @@
+﻿
+@{
+	ViewBag.Title = "登录";
+	Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+}
+@section CSS{
+	<link href="~/Content/css/account.css" rel="stylesheet" />
+}
+@section JavaScript{
+	<script src="~/Scripts/account.js"></script>
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-lg-5 col-lg-offset-1">
+			<div class="well well-blank well-no-padding well-signin">
+				<div class="well-heading">
+					<i class="fa fa-user"></i>
+					<span>登录</span>
+				</div>
+				<div class="well-content">
+					<form action="/Account/SignIn" method="POST" id="form-signin">
+						<div class="form-group">
+							<label class="control-label" for="signin-email">邮箱</label>
+							<input type="email" class="form-control" id="signin-email" name="Email" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="signin-password">密码</label>
+							<input type="password" class="form-control" id="signin-password" name="Password" placeholder="">
+						</div>
+						<div class="row btn-form-group">
+							<div class="col-md-6">
+								<button type="submit" class="btn btn-primary btn-material btn-block">
+									<i class="fa fa-check"></i> 登录
+								</button>
+							</div>
+							<div class="col-md-6">
+								<button type="reset" class="btn btn-danger btn-material btn-block">
+									<i class="fa fa-refresh"></i> 重置表单
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6 col-lg-5">
+			<div class="well well-blank well-no-padding well-signup">
+				<div class="well-heading">
+					<i class="fa fa-user-plus"></i>
+					<span>注册</span>
+				</div>
+				<div class="well-content">
+					<form action="/Account/SignUp" method="POST" id="form-signup">
+						<div class="form-group">
+							<label class="control-label" for="signup-email">邮箱</label>
+							<input type="email" class="form-control" id="signup-email" name="Email" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="signup-nickname">昵称</label>
+							<input type="text" class="form-control" id="signup-nickname" name="NickName" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="signup-password">密码</label>
+							<input type="password" class="form-control" id="signup-password" name="Password" placeholder="">
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="signup-passwordrepeat">重复密码</label>
+							<input type="password" class="form-control" id="signup-passwordrepeat" name="PasswordRepeat" placeholder="">
+						</div>
+						<div class="row btn-form-group">
+							<div class="col-md-6">
+								<button type="submit" class="btn btn-primary btn-material btn-block">
+									<i class="fa fa-check"></i> 注册
+								</button>
+							</div>
+							<div class="col-md-6">
+								<button type="reset" class="btn btn-danger btn-material btn-block">
+									<i class="fa fa-refresh"></i> 重置表单
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

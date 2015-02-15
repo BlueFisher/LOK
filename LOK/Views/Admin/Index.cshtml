@@ -1,16 +1,111 @@
 ﻿@{
-	Layout = null;
+	ViewBag.Title = "管理员";
+	Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+	UserStatistics us = ViewBag.UsersStatistics;
+	OrderStatistics os = ViewBag.OrdersStatistics;
 }
 
-<!DOCTYPE html>
+@section JavaScript{
+	<script src="~/Scripts/admin.js"></script>
+}
 
-<html>
-<head>
-	<meta name="viewport" content="width=device-width" />
-	<title>Admin</title>
-</head>
-<body>
-	<div>
+<div class="modal fade" id="modal-user">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				<h4 class="modal-title">用户信息</h4>
+			</div>
+		</div>
 	</div>
-</body>
-</html>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">订单数据</h3>
+				</div>
+				<table class="table">
+					<tr>
+						<th>订单总数</th>
+						<th>未完成的订单总数</th>
+						<th>取件单数</th>
+						<th>未完成的取件单数</th>
+						<th>寄件单数</th>
+						<th>未完成的寄件单数</th>
+					</tr>
+					<tr>
+						<td>@os.OrdersAllCount</td>
+						<td>@os.OrdersActiveCount</td>
+						<td>@os.OrdersGettingCount</td>
+						<td>@os.OrdersGettingActiveCount</td>
+						<td>@os.OrdersSendingCount</td>
+						<td>@os.OrdersSendingActiveCount</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">用户数据</h3>
+				</div>
+				<table class="table">
+					<tr>
+						<th>总用户数</th>
+						<th>匿名用户数</th>
+						<th>已注册用户数</th>
+					</tr>
+					<tr>
+						<td>@us.UsersAllCount</td>
+						<td>@us.UsersGuestCount</td>
+						<td>@us.UsersSignedUpCount</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="panel panel-default" id="panel-table">
+				<div class="panel-heading">
+					<form class="form-inline">
+						<div class="form-group">
+							<label>订单类型： </label>
+							<div class="dropdown form-control dropdown-select">
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+									<span class="label-text">取件单</span> <span class="caret"></span>
+								</button>
+								<input type="hidden" name="OrderType" value="Getting">
+								<ul class="dropdown-menu">
+									<li><a href="javascript:;" data-value="Getting">取件单</a></li>
+									<li><a href="javascript:;" data-value="Sending">寄件单</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>订单状态： </label>
+							<div class="dropdown form-control dropdown-select">
+								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+									<span class="label-text">未完成</span> <span class="caret"></span>
+								</button>
+								<input type="hidden" name="OrderStatus" value="Active">
+								<ul class="dropdown-menu">
+									<li><a href="javascript:;" data-value="Full">所有</a></li>
+									<li><a href="javascript:;" data-value="Active">未完成</a></li>
+									<li><a href="javascript:;" data-value="Confirming">等待确认</a></li>
+									<li><a href="javascript:;" data-value="OnGoing">正在上门</a></li>
+									<li><a href="javascript:;" data-value="Completed">完成</a></li>
+									<li><a href="javascript:;" data-value="Closed">关闭</a></li>
+									<li><a href="javascript:;" data-value="Failed">失败</a></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div>
+				@* Ajax Region *@
+			</div>
+		</div>
+	</div>
+</div>

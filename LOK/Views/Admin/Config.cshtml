@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "设置中心";
+    Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+}
+
+@section JavaScript{
+	<script>
+		$(document).ready(function() {
+			// admin.config
+			$('#switch-getting').bootstrapSwitch();
+			$('#switch-sending').bootstrapSwitch();
+			$.getJSON('/Business/IsOrderOnService', function(json, textStatus) {
+				$('#switch-getting').bootstrapSwitch('state', json.Getting).bootstrapSwitch('onSwitchChange', function(e, s) {
+					$.get('/Admin/ChangeOrderGettingService/' + s, function(data) {
+						/*optional stuff to do after success */
+					});
+				});
+				$('#switch-sending').bootstrapSwitch('state', json.Sending).bootstrapSwitch('onSwitchChange', function(e, s) {
+					$.get('/Admin/ChangeOrderSendingService/' + s, function(data) {
+						/*optional stuff to do after success */
+					});
+				});
+			});
+		});
+	</script>
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">服务设置</h3>
+				</div>
+				<div class="panel-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="switch-getting" class="col-sm-2 control-label">取件服务</label>
+							<div class="col-sm-10">
+								<input type="checkbox"id="switch-getting">
+							</div>
+						</div>
+						<div class="form-group no-margin-bottom">
+							<label for="switch-sending" class="col-sm-2 control-label">寄件服务</label>
+							<div class="col-sm-10">
+								<input type="checkbox" id="switch-sending">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">校区设置</h3>
+				</div>
+				<div class="panel-body">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
