@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	var ANIMATION_FINISH = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 	var $step1 = $('#step1').css({
 		'-webkit-animation-duration': '0.3s',
 		'animation-duration': '0.3s',
@@ -31,9 +30,9 @@ $(document).ready(function() {
 
 	function InitializeMap() {
 		$map = $('#map');
-		$map.css('height', $(window).height() - 200 + 'px');
+		$map.css('height', $(window).height() - 180 + 'px');
 		$(window).resize(function() {
-			$map.css('height', $(window).height() - 200 + 'px');
+			$map.css('height', $(window).height() - 180 + 'px');
 		});
 
 		var sContent = $('#tpl-map-info').html();
@@ -66,7 +65,7 @@ $(document).ready(function() {
 	function step1Model() {
 		$loader.css('display', 'block');
 
-		$loader.addClass('fadeOut').one(ANIMATION_FINISH, function() {
+		$loader.addClass('fadeOut').afterAnimation(function(){
 			$loader.removeClass('fadeOut').css('display', 'none');
 		});
 
@@ -95,7 +94,7 @@ $(document).ready(function() {
 				$labelSending.text('（暂停业务）').parent().addClass('disabled').parent().addClass('disabled');
 			}
 		}).always(function() {
-			$loader.addClass('fadeOut').one(ANIMATION_FINISH, function() {
+			$loader.addClass('fadeOut').afterAnimation(function() {
 				$loader.removeClass('fadeOut').css('display', 'none');
 			});
 
@@ -115,7 +114,7 @@ $(document).ready(function() {
 		if ($sendingWrapper.hasClass('disabled')) {
 			return;
 		}
-		$sendingWrapper.addClass('fadeOut').one(ANIMATION_FINISH, function() {
+		$sendingWrapper.addClass('fadeOut').afterAnimation(function() {
 			$sendingWrapper.css('display', 'none').removeClass('fadeOut').addClass('fadeIn');
 		});
 		$gettingWrapper.css('display', 'block');
@@ -127,14 +126,13 @@ $(document).ready(function() {
 		if ($gettingWrapper.hasClass('disabled')) {
 			return;
 		}
-		$gettingWrapper.addClass('fadeOut').one(ANIMATION_FINISH, function() {
+		$gettingWrapper.addClass('fadeOut').afterAnimation(function() {
 			$gettingWrapper.css('display', 'none').removeClass('fadeOut').addClass('fadeIn');
 		});
 		$sendingWrapper.css('display', 'block');
 		$btnStep2.removeClass('active');
 		$btnStep3.addClass('active');
 	}
-
 
 	if ($('#is-step1-model').val() == 1) {
 		step1Model();

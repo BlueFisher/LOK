@@ -41,7 +41,7 @@ $(document).ready(function() {
 			url = '/Business/OrderWells/Nearly';
 			$btnReady = $btnOrderNearly;
 		} else if (type == 'Active') {
-			url = '/Business/OrderWells/Nearly';
+			url = '/Business/OrderWells/Active';
 			$btnReady = $btnOrderActive;
 		} else {
 			url = '/Business/OrderWells/Fail';

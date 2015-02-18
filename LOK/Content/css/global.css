@@ -38,7 +38,9 @@ html {
 .well.well-no-padding .well-heading{
 	padding: 9px 19px;
 	border-radius: 2px 2px 0 0;
-	font-size: 30px;
+}
+.well.well-no-padding .well-heading .lead{
+	line-height: 32px;
 }
 
 .well.well-no-padding .well-content{
@@ -208,6 +210,7 @@ html {
 
 .navbar-material {
 	/*background-color: rgba(48,63,159,0.75);*/
+	margin-bottom: 0;
 	border-radius: 0;
 	border: none;
 }
@@ -216,8 +219,6 @@ html {
 	color: #fff;
 	transition: background-color 0.2s;
 }
-.navbar-material .navbar-brand:hover,
-.navbar-material .navbar-brand:focus,
 .navbar-material .navbar-nav > li > a:hover,
 .navbar-material .navbar-nav > li > a:focus {
 	color: #fff;
@@ -317,6 +318,29 @@ html {
 .menu ul>li>a:hover{
 	background-color: rgba(0,0,0,0.25);
 }
+
+
+.nav-material{
+	/*background-color: #00BCD4;*/
+}
+.nav-material li{
+	float: left;
+}
+.nav-material li>a{
+	display: inline-block;
+	padding: 15px 30px;
+	border-bottom: 2px solid transparent;
+	color: #333;
+	/*font-weight: bold;*/
+	transition: border-bottom-color 0.2s;
+}
+.nav-material li>a:hover,
+.nav-material li.active>a{
+	color: #00BCD4;
+	border-bottom-color: #00BCD4;
+	background-color: transparent;
+}
+
 
 .table>thead>tr>th,
 .table>tbody>tr>th,

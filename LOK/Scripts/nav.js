@@ -47,6 +47,11 @@ $(document).ready(function() {
 		isPopoverOpen = !isPopoverOpen;
 	});
 
+	$('.btn:not(.disabled)').css('position','relative').ripples();
+	$('a.list-group-item:not(.disabled)').css('position','relative').ripples();
+	$('.btn-ripples:not(.disabled)').css('position','relative').ripples();
+	$('.ripples:not(.disabled)').ripples();
+
 	toastr.options = {
 		onclick: function() {
 			// alert();
@@ -82,5 +87,14 @@ $.fn.extend({
 			content: content
 		}).popover("show").parents('.form-group').addClass("has-error");
 		return $this;
+	},
+	afterAnimation: function(fun){
+		var $this = $(this);
+		$this.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+			fun();
+		});
+		setTimeout(function(){
+			fun();
+		}, 300);
 	}
 });

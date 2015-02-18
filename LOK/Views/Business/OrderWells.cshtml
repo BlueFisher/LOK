@@ -24,13 +24,13 @@
 		<button class="btn btn-danger btn-material btn-close-order">取消订单</button>
 	}
 	else if(status == OrderStatusEnum.OnGoing) {
-		<button class="btn btn-danger btn-material btn-close-order" disabled>取消订单</button>
+		<button class="btn btn-default btn-material btn-close-order" disabled>取消订单</button>
 	}
 	else if(status == OrderStatusEnum.Completed) {
 		<button class="btn btn-danger btn-material btn-close-order">关闭订单</button>
 	}
 	else {
-		<button class="btn btn-danger btn-material btn-close-order" disabled>已关闭</button>
+		<button class="btn btn-default btn-material btn-close-order" disabled>已关闭</button>
 	}
 }
 
@@ -51,8 +51,8 @@ else {
 							<div class="col-xs-6">
 								<p class="lead no-margin-bottom"><i class="fa fa-shopping-cart"></i> 取件单</p>
 							</div>
-							<div class="col-xs-6 text-right">
-								@getOrderStatus(order.OrderStatus)
+							<div class="col-xs-6 text-right" data-orderid="@order.OrderId">
+								@getCloseBtn(order.OrderStatus)
 							</div>
 						</div>
 					</div>
@@ -76,7 +76,7 @@ else {
 							<div class="col-md-6">
 								<p>联系电话：@order.Phone</p>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<p>备注：@order.Remark</p>
 							</div>
 							<div class="col-md-12">
@@ -85,12 +85,7 @@ else {
 								</div>
 							</div>
 						</div>
-						<div class="text-right" data-orderid="@order.OrderId">
-							@getCloseBtn(order.OrderStatus)
-						</div>
-
 					</div>
-
 				</div>
 			}
 			else {
@@ -100,8 +95,8 @@ else {
 							<div class="col-xs-6">
 								<p class="lead no-margin-bottom"><i class="fa fa-paper-plane"></i> 寄件单</p>
 							</div>
-							<div class="col-xs-6 text-right">
-								@getOrderStatus(order.OrderStatus)
+							<div class="col-xs-6 text-right" data-orderid="@order.OrderId">
+								@getCloseBtn(order.OrderStatus)
 							</div>
 						</div>
 					</div>
@@ -125,7 +120,7 @@ else {
 							<div class="col-md-6">
 								<p>联系电话：@order.Phone</p>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<p>备注：@order.Remark</p>
 							</div>
 							<div class="col-md-12">
@@ -134,11 +129,7 @@ else {
 								</div>
 							</div>
 						</div>
-						<div class="text-right" data-orderid="@order.OrderId">
-							@getCloseBtn(order.OrderStatus)
-						</div>
 					</div>
-
 				</div>
 			}
 		</div>
