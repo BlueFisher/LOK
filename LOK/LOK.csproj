@@ -128,15 +128,17 @@
       <DependentUpon>LOKDB.mdf</DependentUpon>
     </Content>
     <Content Include="Content\css\account.css" />
-    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-ie6.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-switch.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\css\bootstrap\material.css" />
     <Content Include="Content\css\bootstrap\ripples.css" />
     <Content Include="Content\css\business.css" />
-    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\business.order.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\index.css" />
-    <Content Include="Content\css\toastr.min.css" />
+    <Content Include="Content\css\tools\animate.min.css" />
+    <Content Include="Content\css\tools\font-awesome.min.css" />
+    <Content Include="Content\css\tools\toastr.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\image\ad.jpg" />
     <Content Include="Content\image\background.jpg" />
@@ -148,16 +150,18 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\account.js" />
     <Content Include="Scripts\admin.js" />
+    <Content Include="Scripts\admin.usersControl.js" />
     <Content Include="Scripts\business.js" />
     <Content Include="Scripts\business.order.js" />
-    <Content Include="Scripts\handlebars.js" />
+    <Content Include="Scripts\home.about.js" />
+    <Content Include="Scripts\jquery\bootstrap-ie.js" />
+    <Content Include="Scripts\jquery\bootstrap-switch.min.js" />
     <Content Include="Scripts\jquery\bootstrap.min.js" />
     <Content Include="Scripts\jquery\jquery.cookie.min.js" />
     <Content Include="Scripts\jquery\jquery.min.js" />
-    <Content Include="Scripts\material.min.js" />
     <Content Include="Scripts\nav.js" />
-    <Content Include="Scripts\ripples.min.js" />
-    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\tools\ripples.min.js" />
+    <Content Include="Scripts\tools\toastr.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +178,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\ConfigModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\OrderModels.cs" />
@@ -199,14 +204,14 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Business\OrderMenus.cshtml" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\image\icons.ai" />
     <Content Include="Views\Admin\OrdersTable.cshtml" />
     <Content Include="Views\Admin\Config.cshtml" />
     <Content Include="Views\Admin\UsersControl.cshtml" />
     <Content Include="Views\Admin\UsersTable.cshtml" />
-    <Content Include="Views\Admin\SupreAdminControl.cshtml" />
+    <Content Include="Views\Admin\SuperAdminControl.cshtml" />
     <Content Include="Views\Shared\_PartialNavBar.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <None Include="Properties\PublishProfiles\LOKConfig.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -214,7 +219,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

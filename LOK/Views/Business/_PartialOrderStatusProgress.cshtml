@@ -5,7 +5,7 @@
 		<div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 100%">完成</div>
 		break;
 	case OrderStatusEnum.Closed:
-		<div class="progress-bar progress-bar-primary" style="width: 100%">已关闭</div>
+		<div class="progress-bar progress-bar-ready" style="width: 100%">已关闭</div>
 		break;
 	case OrderStatusEnum.Failed:
 		<div class="progress-bar progress-bar-danger" style="width: 100%">失败</div>
@@ -15,8 +15,8 @@
 		<div class="progress-bar progress-bar-ready" style="width: 33.3333%">完成</div>
 		break;
 	case OrderStatusEnum.Confirming:
-		<div class="progress-bar progress-bar-primary progress-bar-striped active" style="width: 33.3333%">正在确认订单</div>
-		<div class="progress-bar progress-bar-ready" style="width: 33.3333%">上门</div>
+		<div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 33.3333%">正在确认订单</div>
+		<div class="progress-bar progress-bar-ready" style="width: 33.3333%">正在上门</div>
 		<div class="progress-bar progress-bar-ready" style="width: 33.3333%">完成</div>
 		break;
 	default:

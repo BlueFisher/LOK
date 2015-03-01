@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "关于我们";
+    Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+}
+
+@section Javascript{
+	<script src="~/Scripts/home.about.js"></script>
+}
+
+<div class="container">
+	<div class="well well-blank well-no-padding">
+		<!-- Nav tabs -->
+		<ul class="nav nav-material">
+			<li><a href="#about-us" data-toggle="tab" id="tab-about-us">关于我们</a></li>
+			<li><a href="#contact-us" data-toggle="tab" id="tab-contact-us">联系我们</a></li>
+			<li><a href="#work-together" data-toggle="tab" id="tab-work-together">商户合作</a></li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="well-content">
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane fade" id="about-us">
+					<p>LOK基于MIT开源协议</p>
+					<pre>The MIT License (MIT)
+Copyright © 2015 LOK
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</pre>
+					<p>托管于GitHub <a target="_blank" href="https://github.com/BlueFisher/LOK"><i class="fa fa-github"> https://github.com/BlueFisher/LOK</i></a></p>
+					<p>感谢以下开源代码的贡献：</p>
+					<ul>
+						<li>jQuery v1.11.2 <a target="_blank" href="http://jquery.com/" class="fa fa-bookmark"></a></li>
+						<li>Bootstrap v3.3.2 <a target="_blank" href="http://getbootstrap.com/" class="fa fa-bookmark"></a></li>
+						<li>Bootstrap Swtich v3.3.2 (Mattia Larentis) <a target="_blank" href="https://github.com/nostalgiaz/bootstrap-switch" class="fa fa-bookmark"></a></li>
+						<li>Bootstrap Material Design (Mattia Larentis) <a target="_blank" href="http://www.bootstrap-switch.org" class="fa fa-bookmark"></a></li>
+						<li>Font Awesome v4.3.0 (Dave Gandy) <a target="_blank" href="https://github.com/FortAwesome/Font-Awesome" class="fa fa-bookmark"></a></li>
+						<li>toastr v1.2.2 (CodeSeven) <a target="_blank" href="https://github.com/CodeSeven/toastr" class="fa fa-bookmark"></a></li>
+						<li>Animate.css (daneden) <a target="_blank" href="https://github.com/daneden/animate.css" class="fa fa-bookmark"></a></li>
+					</ul>
+				</div>
+				<div role="tabpanel" class="tab-pane fade" id="contact-us">联系我们</div>
+				<div role="tabpanel" class="tab-pane fade" id="work-together">商户合作</div>
+			</div>	
+		</div>
+	</div>
+</div>

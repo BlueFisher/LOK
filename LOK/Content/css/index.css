@@ -1,9 +1,5 @@
-.wrapper{
-	padding-bottom: 400px;
-}
 .header {
 	position: relative;
-	/*height: 500px;*/
 	color: #fff !important;
 }
 .header .logo-container {
@@ -30,7 +26,7 @@
 	color: #fff !important;
 }
 .well-step h3 {
-	margin-top: 10px;
+	margin-top: 0;
 }
 .well-step .btn {
 	color: #fff !important;
@@ -65,8 +61,8 @@
 	background-size: 58px auto;
 }
 
-.footer{
-	margin-top: -277px;
+.footer-container{
+	padding-bottom: 275px;
 }
 @media screen and (max-width: 992px) {
 	.wrapper{

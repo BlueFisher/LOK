@@ -1,4 +1,4 @@
-﻿@model List<OrderModels>
+﻿@model List<Order>
 
 
 @helper formatTime(int time) {
@@ -21,8 +21,8 @@
 			<button class="btn btn-success btn-material btn-complete-order">完成订单</button>
 			<button class="btn btn-danger btn-material btn-fail-order">取消订单</button>
 		}
-		
 		<button class="btn btn-primary btn-material btn-find-user">查看用户</button>
+		<button class="btn btn-primary btn-material btn-admin-remark">编辑备注</button>
 	</div>
 }
 @helper getStatusText(OrderStatusEnum status) {
@@ -59,13 +59,14 @@
 			<th>下单时间</th>
 			<th>上门时间</th>
 			<th>备注</th>
+			<th>客服备注</th>
 			<th>状态</th>
 			@if(ViewBag.hasFunctionBtn) {
 				<th>功能</th>
 			}
 			
 		</tr>
-		@foreach(OrderModels item in Model) {
+		@foreach(Order item in Model) {
 			<tr data-order-id="@item.OrderId" data-user-id="@item.UserId">
 				<td>@item.OrderId</td>
 				<td>取件单</td>
@@ -77,6 +78,7 @@
 				<td>@item.StartTime</td>
 				<td>@formatTime(item.Time)</td>
 				<td>@item.Remark</td>
+				<td>@item.AdminRemark</td>
 				<td>@getStatusText(item.OrderStatus)</td>
 				@if(ViewBag.hasFunctionBtn) {
 					<td>@getButton(item.OrderStatus)</td>
@@ -95,15 +97,17 @@ else {
 			<th>联系电话</th>
 			<th>地址</th>
 			<th>目的地址</th>
+			<th>取件人姓名</th>
 			<th>下单时间</th>
 			<th>上门时间</th>
 			<th>备注</th>
+			<th>客服备注</th>
 			<th>状态</th>
 			@if(ViewBag.hasFunctionBtn) {
 				<th>功能</th>
 			}
 		</tr>
-		@foreach(OrderModels item in Model) {
+		@foreach(Order item in Model) {
 			<tr data-order-id="@item.OrderId" data-user-id="@item.UserId">
 				<td>@item.OrderId</td>
 				<td>寄件单</td>
@@ -112,9 +116,11 @@ else {
 				<td>@item.Phone</td>
 				<td>@item.Address</td>
 				<td>@item.ToAddress</td>
+				<td>@item.ToName</td>
 				<td>@item.StartTime</td>
 				<td>@formatTime(item.Time)</td>
 				<td>@item.Remark</td>
+				<td>@item.AdminRemark</td>
 				<td>@getStatusText(item.OrderStatus)</td>
 				@if(ViewBag.hasFunctionBtn) {
 					<td>@getButton(item.OrderStatus)</td>

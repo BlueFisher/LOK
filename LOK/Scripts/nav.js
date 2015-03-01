@@ -5,15 +5,15 @@ $(document).ready(function() {
 		'animation-duration': '0.3s',
 		'display': 'none'
 	}).addClass('animated fadeIn');
-		$menu = $('.menu-container .menu').css({
+	$menu = $('.menu-container .menu').css({
 		'-webkit-animation-duration': '0.3s',
 		'animation-duration': '0.3s',
 		'display': 'none'
 	}).addClass('animated fadeInLeft');
-	$('.menu-toggle').click(function(){
+	$('.menu-toggle').click(function() {
 		$menuContainer.css('display', 'block');
 		$menu.css('display', 'block');
-		$menuContainer.one('click',function(){
+		$menuContainer.one('click', function() {
 			$menuContainer.addClass('fadeOut');
 			$menu.addClass('fadeOutLeft').one(ANIMATION_FINISH, function() {
 				$menuContainer.css('display', 'none').removeClass('fadeOut');
@@ -21,7 +21,7 @@ $(document).ready(function() {
 			});
 		});
 	});
-	$menu.click(function(event){
+	$menu.click(function(event) {
 		event.stopPropagation()
 	})
 
@@ -47,9 +47,9 @@ $(document).ready(function() {
 		isPopoverOpen = !isPopoverOpen;
 	});
 
-	$('.btn:not(.disabled)').css('position','relative').ripples();
-	$('a.list-group-item:not(.disabled)').css('position','relative').ripples();
-	$('.btn-ripples:not(.disabled)').css('position','relative').ripples();
+	$('.btn:not(.disabled)').css('position', 'relative').ripples();
+	$('a.list-group-item:not(.disabled)').css('position', 'relative').ripples();
+	$('.btn-ripples:not(.disabled)').css('position', 'relative').ripples();
 	$('.ripples:not(.disabled)').ripples();
 
 	toastr.options = {
@@ -88,13 +88,65 @@ $.fn.extend({
 		}).popover("show").parents('.form-group').addClass("has-error");
 		return $this;
 	},
-	afterAnimation: function(fun){
+	afterAnimation: function(fun) {
 		var $this = $(this);
 		$this.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 			fun();
 		});
-		setTimeout(function(){
+		setTimeout(function() {
 			fun();
 		}, 300);
+	},
+	btnConfirm: function(callBack, changedText) {
+		var $this = $(this);
+		var oriText = $this.text();
+		var id = $this.parent('[data-orderid]').attr('data-orderid');
+		$this.text(changedText);
+		var isFail = true;
+		$this.one({
+			'click': function() {
+				if (isFail) {
+					callBack.call($this);
+					$this.text(oriText);
+				}
+			},
+			'mouseout': function() {
+				isFail = false;
+				$this.text(oriText);
+			}
+		});
 	}
 });
+$.extend({
+	loadUsersTable: function(hasFunction, roleName, userId, panelId) {
+		var $panel = $('#' + panelId);
+		$.post('/Admin/UsersTable/', {
+			HasFunction: hasFunction,
+			RoleName: roleName,
+			UserId: userId
+		}, function(data, textStatus, xhr) {
+			$data = $(data).addClass('animated fadeIn').css({
+				'-webkit-animation-duration': '0.3s',
+				'animation-duration': '0.3s'
+			});
+			$panel.find('table').detach();
+			$panel.append($data);
+		});
+	},
+	loadOrdersTable: function(hasFunction, type, status, userId, panelId) {
+		var $panel = $('#' + panelId);
+		$.post('/Admin/OrdersTable/', {
+			HasFunction: hasFunction,
+			Type: type,
+			Status: status,
+			UserId: userId
+		}, function(data, textStatus, xhr) {
+			$data = $(data).addClass('animated fadeIn').css({
+				'-webkit-animation-duration': '0.3s',
+				'animation-duration': '0.3s'
+			});
+			$panel.find('table').detach();
+			$panel.append($data);
+		});
+	}
+})

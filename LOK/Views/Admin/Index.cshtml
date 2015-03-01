@@ -19,6 +19,25 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="modal-admin-remark">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				<h4 class="modal-title">客服备注</h4>
+			</div>
+			<div class="modal-body">
+				<form action="/Admin/FailOrder/" id="form-admin-remark">
+					<div class="form-group">
+						<input class="form-control" type="text" name="AdminRemark" placeholder="备注，置空则删除备注">
+					</div>
+					<button class="btn btn-danger" type="submit">确定</button>
+					<button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div class="container-fluid">
 	<div class="row">
@@ -70,41 +89,48 @@
 		<div class="col-md-12">
 			<div class="panel panel-default" id="panel-table">
 				<div class="panel-heading">
-					<form class="form-inline">
-						<div class="form-group">
-							<label>订单类型： </label>
-							<div class="dropdown form-control dropdown-select">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-									<span class="label-text">取件单</span> <i class="fa fa-chevron-circle-down"></i>
-								</button>
-								<input type="hidden" name="OrderType" value="Getting">
-								<ul class="dropdown-menu">
-									<li><a href="javascript:;" data-value="Getting">取件单</a></li>
-									<li><a href="javascript:;" data-value="Sending">寄件单</a></li>
-								</ul>
-							</div>
+					<div class="row">
+						<div class="col-md-10">
+							<form class="form-inline">
+								<div class="form-group">
+									<label>订单类型： </label>
+									<div class="dropdown form-control dropdown-select">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+											<span class="label-text">取件单</span> <i class="fa fa-chevron-circle-down"></i>
+										</button>
+										<input type="hidden" name="OrderType" value="Getting">
+										<ul class="dropdown-menu">
+											<li><a href="javascript:;" data-value="Getting">取件单</a></li>
+											<li><a href="javascript:;" data-value="Sending">寄件单</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="form-group">
+									<label>订单状态： </label>
+									<div class="dropdown form-control dropdown-select">
+										<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+											<span class="label-text">未完成</span> <i class="fa fa-chevron-circle-down"></i>
+										</button>
+										<input type="hidden" name="OrderStatus" value="Active">
+										<ul class="dropdown-menu">
+											<li><a href="javascript:;" data-value="Full">所有</a></li>
+											<li><a href="javascript:;" data-value="Active">未完成</a></li>
+											<li><a href="javascript:;" data-value="Confirming">等待确认</a></li>
+											<li><a href="javascript:;" data-value="OnGoing">正在上门</a></li>
+											<li><a href="javascript:;" data-value="Completed">完成</a></li>
+											<li><a href="javascript:;" data-value="Closed">关闭</a></li>
+											<li><a href="javascript:;" data-value="Failed">失败</a></li>
+										</ul>
+									</div>
+								</div>
+							</form>		
 						</div>
-						<div class="form-group">
-							<label>订单状态： </label>
-							<div class="dropdown form-control dropdown-select">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-									<span class="label-text">未完成</span> <i class="fa fa-chevron-circle-down"></i>
-								</button>
-								<input type="hidden" name="OrderStatus" value="Active">
-								<ul class="dropdown-menu">
-									<li><a href="javascript:;" data-value="Full">所有</a></li>
-									<li><a href="javascript:;" data-value="Active">未完成</a></li>
-									<li><a href="javascript:;" data-value="Confirming">等待确认</a></li>
-									<li><a href="javascript:;" data-value="OnGoing">正在上门</a></li>
-									<li><a href="javascript:;" data-value="Completed">完成</a></li>
-									<li><a href="javascript:;" data-value="Closed">关闭</a></li>
-									<li><a href="javascript:;" data-value="Failed">失败</a></li>
-								</ul>
-							</div>
+						<div class="col-md-2 text-right">
+							<button class="btn btn-primary btn-material btn-refresh">刷新</button>
 						</div>
-					</form>
+					</div>
 				</div>
-				@* Ajax Region *@
+				<!-- Ajax Region -->
 			</div>
 		</div>
 	</div>

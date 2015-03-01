@@ -1,4 +1,4 @@
-﻿@model List<OrderModels>
+﻿@model List<Order>
 
 <ul class="list-group no-margin-bottom" id="myorder-list-group">
 	@if(Request.IsAuthenticated) {
@@ -15,7 +15,7 @@
 			</li>
 		}
 		else {
-			foreach(OrderModels order in Model) {
+			foreach(Order order in Model) {
 				<li class="list-group-item">
 					<div class="row">
 						<div class="col-sm-8">

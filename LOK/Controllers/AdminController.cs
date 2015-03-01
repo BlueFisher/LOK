@@ -42,68 +42,88 @@ namespace LOK.Controllers {
 			return View();
 		}
 		[Authorize(Roles = "SuperAdmin")]
-		public ActionResult SupreAdminControl() {
-			return View();
+		public async Task<ActionResult> SuperAdminControl() {
+			return View(await OrderManager.GetOrderRecordsAsync());
 		}
 
-		public ActionResult UsersTable(string id) {
+		[HttpPost]
+		[Authorize(Roles = "SuperAdmin")]
+		public async Task<JsonResult> AddAdmin(SignUpModel model) {
+			if(!ModelState.IsValid) {
+				return Json(new JsonErrorObj(ModelState));
+			}
+			if(UserManager.IsEmailDuplicated(model.Email)) {
+				return Json(new JsonErrorObj("该邮箱已被注册", "Email"));
+			}
+			var newUser = new ApplicationUser() {
+				UserName = model.Email,
+				Email = model.Email,
+				NickName = model.NickName
+			};
+			IdentityResult result = await UserManager.CreateAsync(newUser, model.Password);
+			if(!result.Succeeded) {
+				return Json(new JsonErrorObj(result.Errors.First()));
+			}
+			await UserManager.AddToRoleAsync(newUser.Id, UserRolesEnum.Admin.ToString());
+			return Json(new JsonSucceedObj());
+
+		}
+
+		// Ajax
+		public ActionResult UsersTable(UserTableViewModel model) {
 			if(!Request.IsAjaxRequest()) {
 				return RedirectToAction("Index");
 			}
-			ViewBag.hasFunctionBtn = true;
-			if(!ConfigControls.RolesMap.Values.Contains(id)) {
-				ViewBag.hasFunctionBtn = false;
-				var user = UserManager.FindById(id);
+			ViewBag.hasFunctionBtn = model.HasFunction;
+			if(model.UserId != null) {
+				var user = UserManager.FindById(model.UserId);
 				ViewBag.RoleName = ConfigControls.RolesMap[user.Roles.First().RoleId];
-				List<ApplicationUser> list = new List<ApplicationUser>();
-				list.Add(user);
-				return View(list);
+				return View(new List<ApplicationUser> { user });
 			}
-			ViewBag.RoleName = id;
+			ViewBag.RoleName = model.RoleName;
 			List<ApplicationUser> userList = UserManager.Users.ToList();
-			userList.RemoveAll(p => ConfigControls.RolesMap[p.Roles.First().RoleId] != id);
+			userList.RemoveAll(p => ConfigControls.RolesMap[p.Roles.First().RoleId] != model.RoleName);
 			return View(userList);
 		}
 
 		// Ajax
-		public async Task<ActionResult> OrdersTable(string type, string status, string userId) {
+		public async Task<ActionResult> OrdersTable(OrderTableViewModel model) {
 			if(!Request.IsAjaxRequest()) {
 				return RedirectToAction("Index");
 			}
-			ViewBag.hasFunctionBtn = true;
-			OrderTypeEnum orderType = type == "Getting" ? OrderTypeEnum.Get : OrderTypeEnum.Send;
+			ViewBag.hasFunctionBtn = model.HasFunction;
+			OrderTypeEnum orderType = model.Type == "Getting" ? OrderTypeEnum.Get : OrderTypeEnum.Send;
 			ViewBag.OrderTableType = orderType;
 
-			if(status == "Active") {
+			if(model.Status == "Active") {
 				return View(await OrderManager.GetOrdersAsync(p =>
 					p.OrderType == orderType && (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing)
 				));
 			}
-			else if(status == "Full") {
+			else if(model.Status == "Full") {
 				return View(await OrderManager.GetOrdersAsync(p =>
 					p.OrderType == orderType
 				));
 			}
 
 			OrderStatusEnum orderStatus;
-			if(status == "Closed") {
+			if(model.Status == "Closed") {
 				orderStatus = OrderStatusEnum.Closed;
 			}
-			else if(status == "Completed") {
+			else if(model.Status == "Completed") {
 				orderStatus = OrderStatusEnum.Completed;
 			}
-			else if(status == "Confirming") {
+			else if(model.Status == "Confirming") {
 				orderStatus = OrderStatusEnum.Confirming;
 			}
-			else if(status == "Failed") {
+			else if(model.Status == "Failed") {
 				orderStatus = OrderStatusEnum.Failed;
 			}
 			else {
 				orderStatus = OrderStatusEnum.OnGoing;
 			}
-			if(userId != "NULL") {
-				ViewBag.hasFunctionBtn = false;
-				return View(await OrderManager.GetOrdersAsync(p => p.UserId == userId && p.OrderType == orderType));
+			if(model.UserId != null) {
+				return View(await OrderManager.GetOrdersAsync(p => p.UserId == model.UserId && p.OrderType == orderType));
 			}
 			else {
 				return View(await OrderManager.GetOrdersAsync(p => p.OrderType == orderType && p.OrderStatus == orderStatus));
@@ -120,23 +140,25 @@ namespace LOK.Controllers {
 			return Json(new JsonSucceedObj(), JsonRequestBehavior.AllowGet);
 		}
 
-		public async Task<JsonResult> AcceptOrder(int id) {
-			if(await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.OnGoing)) {
+		public async Task<JsonResult> ChnageOrderStatus(ChangeOrderStatusViewModel model) {
+			if(model.AdminRemark == null) {
+				if(await OrderManager.ChangeOrderStatus(model.OrderId, model.Status)) {
+					await OrderManager.RecordEventAsync(model.OrderId, User.Identity.GetUserId(), model.Status);
+					return Json(new JsonSucceedObj());
+				}
+				return Json(new JsonErrorObj("修改失败"));
+			}
+			if(await OrderManager.ChangeOrderStatus(model.OrderId, model.Status, model.AdminRemark)) {
+				await OrderManager.RecordEventAsync(model.OrderId, User.Identity.GetUserId(), model.Status);
 				return Json(new JsonSucceedObj());
 			}
-			return Json(new JsonErrorObj("确认失败"));
+			return Json(new JsonErrorObj("修改失败"));
 		}
-		public async Task<JsonResult> FailOrder(int id) {
-			if(await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.Failed)) {
+		public async Task<JsonResult> ChangeAdminRemark(ChangeOrderAdminRemarkViewModel model) {
+			if(await OrderManager.ChangeOrderAdminRemark(model.OrderId, model.AdminRemark)) {
 				return Json(new JsonSucceedObj());
 			}
-			return Json(new JsonErrorObj("取消失败"));
-		}
-		public async Task<JsonResult> CompleteOrder(int id) {
-			if(await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.Completed)) {
-				return Json(new JsonSucceedObj());
-			}
-			return Json(new JsonErrorObj("完成失败"));
+			return Json(new JsonErrorObj("修改失败"));
 		}
 	}
 }
