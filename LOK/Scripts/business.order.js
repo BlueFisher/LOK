@@ -62,7 +62,7 @@ $(document).ready(function() {
 					toastr.error(data.ErrorMessage);
 				}
 			});
-		}, '确认取消');
+		}, '确认关闭');
 	});
 
 	$('#form-change-password').submit(function() {

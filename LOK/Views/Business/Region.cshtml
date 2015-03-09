@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "切换校区";
+    Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+}
+
+@section CSS{
+	<link href="~/Content/css/business.css" rel="stylesheet" />
+}
+@section Javascript{
+	<script src="~/Scripts/business.region.js"></script>
+	<script src="http://api.map.baidu.com/api?v=2.0&ak=NjeXbocivjGjGPAI2nCG4BRe"></script>
+}
+
+<div class="container-fluid">
+	<div class="well well-blank well-sm well-region">
+		<div class="well well-no-padding well-blank well-map-search no-margin-bottom">
+			<div class="list-group no-margin-bottom">
+				<a href="javascript:;" class="list-group-item map-panto active" data-cordinate-x="121.400532" data-cordinate-y="31.322212" data-region="上海大学">
+					<div class="row-action">
+						<span>A</span>
+					</div>
+					<div class="row-content">
+						<h4 class="list-group-item-heading">上海大学</h4>
+						<p class="list-group-item-text">宝山区上大路99号（近南陈路）</p>
+					</div>
+				</a>
+				<a href="javascript:;" class="list-group-item map-panto disabled" data-region="上海应用技术学院">
+					<div class="row-action">
+						<span>B</span>
+					</div>
+					<div class="row-content">
+						<h4 class="list-group-item-heading">上海应用技术学院（即将上线）</h4>
+						<p class="list-group-item-text">海泉路100号</p>
+					</div>
+				</a>
+				<a href="javascript:;" class="list-group-item map-panto disabled" data-region="上海交通大学">
+					<div class="row-action">
+						<span>C</span>
+					</div>
+					<div class="row-content">
+						<h4 class="list-group-item-heading">上海交通大学（即将上线）</h4>
+						<p class="list-group-item-text">上海市闵行区东川路800号</p>
+					</div>
+				</a>
+				<a href="/Business/Index" class="btn btn-primary btn-block">
+					<i class="fa fa-check"></i> 确定选择
+				</a>
+			</div>
+
+		</div>
+		<div id="map"></div>
+	</div>
+</div>
+
+
+@section Template{
+	<script type="text/template" id="tpl-map-info">
+		<p class="map-info-lead">上海大学</p>
+		<p>宝山区上大路99号（近南陈路）</p>
+		<a href="/Business/Index" class="btn btn-primary btn-block">
+			<i class="fa fa-check"></i> 确定选择
+		</a>
+	</script>
+}

@@ -209,9 +209,9 @@
     <Content Include="Views\Admin\UsersControl.cshtml" />
     <Content Include="Views\Admin\UsersTable.cshtml" />
     <Content Include="Views\Admin\SuperAdminControl.cshtml" />
-    <Content Include="Views\Shared\_PartialNavBar.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <None Include="Properties\PublishProfiles\LOKConfig.pubxml" />
+    <Content Include="Views\Business\Region.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

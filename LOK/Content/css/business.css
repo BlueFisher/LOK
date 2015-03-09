@@ -3,23 +3,23 @@
 	margin-bottom: 5px;
 }
 
-.well.well-step1,
-.well.well-step2,
-.well.well-step3{
+.well.well-region,
+.well.well-get,
+.well.well-send{
 	position: relative;
 }
-.well.well-step1 #map{
+.well.well-region #map{
 	width: 100%;
 	min-height: 500px;
 }
-.well.well-step1 .well-map-search{
+.well.well-region .well-map-search{
 	position: absolute;
 	width: 400px;
 	top: 30px;
 	left: 30px;
 	z-index: 10;
 }
-.well.well-step1 .well-map-search .list-group .list-group-item {
+.well.well-region .well-map-search .list-group .list-group-item {
 	padding-top: 15px;
 }
 
@@ -36,125 +36,15 @@
 }
 .well.well-get .well-heading{
 	font-weight: 100;
-	background-color: #3AA2B4;
-	background-image: url(../image/well-get-heading.jpg);
+	background-color: #428BCA;
+	/*background-image: url(../image/well-get-heading.jpg);*/
 }
 .well.well-send .well-heading{
 	font-weight: 100;
-	background-color: #FF9800;
-	background-image: url(../image/well-send-heading.jpg);
+	background-color: #DE485B;
+	/*background-image: url(../image/well-send-heading.jpg);*/
 }
 
-.steps{
-	margin-bottom: 10px;
-}
-.steps ul{
-	margin: 0 auto;
-	padding: 0;
-	width: 900px;
-	height: 30px;
-	list-style: none;
-	box-shadow: 0 3px 10px rgba(0, 0, 0, .23), 0 3px 10px rgba(0, 0, 0, .16);
-}
-.steps ul li{
-	float: left;
-	width: 33.3333%;
-}
-.steps ul li:first-child a{
-	border-radius: 2px 0 0 2px;
-}
-.steps ul li:last-child a{
-	border-radius: 0 2px 2px 0;
-}
-.steps ul li a {
-	display: block;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	color: rgba(225,225,225,0.25);
-	transition: all 0.2s;
-}
-.steps ul li a:hover {
-	color: #fff;
-	text-decoration: none;
-}
-.steps ul li a:focus,
-.steps ul li a:active{
-	text-decoration: none;
-}
-.steps ul li a.active {
-	color: #fff;
-	background-size: 40px 40px;
-	background-image: linear-gradient(45deg,rgba(0,0,0,.15) 25%,transparent 25%,transparent 50%,rgba(0,0,0,.15) 50%,rgba(0,0,0,.15) 75%,transparent 75%,transparent);
-	-webkit-animation: progress-bar-stripes 2s linear infinite;
-}
-
-.steps ul li:nth-child(1) a.active{
-	background-color: #D62425;
-}
-.steps ul li:nth-child(2) a.active{
-	background-color: #3B4EA0;
-}
-.steps ul li:nth-child(3) a.active{
-	background-color: #2D9439;
-}
-.steps ul li:nth-child(1) a{
-	background-color: #941819;
-}
-.steps ul li:nth-child(2) a{
-	background-color: #263367;
-}
-.steps ul li:nth-child(3) a{
-	background-color: #1B5822;
-}
-.steps ul li:nth-child(1) a:hover{
-	background-color: #D62425;
-}
-.steps ul li:nth-child(2) a:hover{
-	background-color: #3B4EA0;
-}
-.steps ul li:nth-child(3) a:hover{
-	background-color: #2D9439;
-}
-
-.footer-container{
-	padding-bottom: 95px;
-}
-
-.load-container{
-	position: fixed;
-	top:0;
-	left:0;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(0,0,0,.9);
-	z-index: 20;
-}
-.load-container .loader {
-	position: fixed;
-	margin: -10px;
-	top: 50%;
-	left: 50%;
-	font-size: 20px;
-	width: 1em;
-	height: 1em;
-	border-radius: 50%;
-	-webkit-animation: load 1.3s infinite linear;
-	animation: load 1.3s infinite linear;
-}
-
-.load-container-static{
-	padding: 100px 0 100px 0;
-}
-.load-container-static .loader {
-	margin: 0 auto;
-	font-size: 20px;
-	width: 1em;
-	height: 1em;
-	border-radius: 50%;
-	-webkit-animation: load 1.3s infinite linear;
-	animation: load 1.3s infinite linear;
-}
 #modal-submit .progress{
 	border-radius: 0 0 2px 2px;
 }
@@ -164,7 +54,7 @@
 	#map{
 		display: none;
 	}
-	.well.well-step1 .well-map-search{
+	.well.well-region .well-map-search{
 		position: static;
 		width: auto;
 	}
@@ -175,20 +65,8 @@
 		font-size: 25px;
 	}
 
-	.steps ul{
-		width: auto;
-		height: 50px;
-		margin: 0 10px;
-	}
-	.steps ul li a {
-		height: 50px;
-		line-height: 50px;
-	}
-	.well-step2 .btn-form-group .btn{
+	.well-order .btn-form-group .btn{
 		margin-bottom: 12px;
-	}
-	.footer-container{
-		padding-bottom: 115px;
 	}
 }
 

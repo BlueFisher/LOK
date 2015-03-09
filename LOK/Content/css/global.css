@@ -5,14 +5,10 @@ body{
 	position: relative;
 	min-height: 100%;
 	font-family: "Microsoft Yahei";
-	background-color: #303030;
-	background-image: url(../image/background.jpg);
+	background-color: #EEEDEF;
+	/*background-image: url(../image/background.jpg);*/
 	background-repeat: no-repeat;
 }
-/*.wrapper{
-	min-height: 100%;
-	padding-bottom: 50px;
-}*/
 .modal-dialog{
 	background-color: #FAFAFA;
 	border: none;
@@ -178,14 +174,14 @@ body{
 .btn-flat{
 	display: inline-block;
 	padding: 10px 30px;
-	border: 2px solid #fff;
+	border: 2px solid #333;
 	border-radius: 0;
 	background-color: transparent;
-	color: #fff !important;
+	color: #333 !important;
 	transition: background-color 0.2s;
 }
 .btn-flat:hover{
-	background-color: rgba(225,225,225, 0.15);
+	background-color: rgba(0,0,0, 0.05);
 }
 .form-control{
 	padding: 0;
@@ -218,10 +214,9 @@ body{
 }
 
 .navbar-material {
-	/*background-color: rgba(48,63,159,0.75);*/
-	margin-bottom: 0;
 	border-radius: 0;
 	border: none;
+	background-color: #66A6FF;
 }
 .navbar-material .navbar-brand,
 .navbar-material .navbar-nav > li > a {
@@ -231,20 +226,7 @@ body{
 .navbar-material .navbar-nav > li > a:hover,
 .navbar-material .navbar-nav > li > a:focus {
 	color: #fff;
-	background-color: rgba(0,0,0,0.15);
-}
-.navbar-material .navbar-nav > .active > a,
-.navbar-material .navbar-nav > .active > a:hover,
-.navbar-material .navbar-nav > .active > a:focus {
-	color: #fff;
-	background-color: rgba(0,0,0,0.25);
-}
-.navbar-material .navbar-nav > .disabled > a,
-.navbar-material .navbar-nav > .disabled > a:hover,
-.navbar-material .navbar-nav > .disabled > a:focus {
-	color: #444;
-	background-color: transparent;
-	transition: background-color 0.2s;
+	background-color: rgba(0,0,0,0.05);
 }
 .navbar-material .navbar-toggle {
 	border: none;
@@ -254,13 +236,13 @@ body{
 }
 .navbar-material .navbar-collapse,
 .navbar-material .navbar-form {
-	border-color: #333;
+	border-color: #fff;
 }
 .navbar-material .navbar-nav > .open > a,
 .navbar-material .navbar-nav > .open > a:hover,
 .navbar-material .navbar-nav > .open > a:focus {
 	color: #fff;
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0,0,0,0.05);
 }
 
 .menu-toggle{

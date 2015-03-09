@@ -11,13 +11,11 @@
 }
 .well.well-signin .well-heading{
 	font-weight: 100;
-	background-color: #3AA2B4;
-	background-image: url(../image/well-get-heading.jpg);
+	background-color: #428BCA;
 }
 .well.well-signup .well-heading{
 	font-weight: 100;
-	background-color: #FF9800;
-	background-image: url(../image/well-send-heading.jpg);
+	background-color: #DE485B;
 }
 
 @media screen and (max-width: 992px) {
