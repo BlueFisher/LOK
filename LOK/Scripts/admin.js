@@ -1,4 +1,69 @@
 $(document).ready(function() {
+	$.post('/Admin/GetOrdersStatistics', function(data, textStatus, xhr) {
+		$('#orders-all-statistics').highcharts({
+			title: {
+				text: false
+			},
+			legend: {
+				enabled: false
+			},
+			tooltip: {
+				formatter: function() {
+					return this.y;
+				}
+			},
+			series: [{
+				type: 'pie',
+				name: '订单总览',
+				data: [
+					['未完成', data.OrdersActiveCount],
+					['已完成', data.OrdersAllCount - data.OrdersActiveCount],
+				]
+			}]
+		});
+		$('#orders-getting-statistics').highcharts({
+			title: {
+				text: false
+			},
+			legend: {
+				enabled: false
+			},
+			tooltip: {
+				formatter: function() {
+					return this.y;
+				}
+			},
+			series: [{
+				type: 'pie',
+				name: '取件单',
+				data: [
+					['未完成', data.OrdersGettingActiveCount],
+					['已完成', data.OrdersGettingCount - data.OrdersGettingActiveCount],
+				]
+			}]
+		});
+		$('#orders-sending-statistics').highcharts({
+			title: {
+				text: false
+			},
+			legend: {
+				enabled: false
+			},
+			tooltip: {
+				formatter: function() {
+					return this.y;
+				}
+			},
+			series: [{
+				type: 'pie',
+				name: '寄件单',
+				data: [
+					['未完成', data.OrdersSendingActiveCount],
+					['已完成', data.OrdersSendingCount - data.OrdersSendingActiveCount],
+				]
+			}]
+		});
+	});
 	$inputOrderType = $('input[name="OrderType"]');
 	$inputOrderStatus = $('input[name="OrderStatus"]');
 
@@ -9,12 +74,6 @@ $(document).ready(function() {
 	_loadOrdersTable();
 
 	$('.dropdown-select').on('click', 'ul li a', function() {
-		var $this = $(this);
-		var text = $this.text(),
-			value = $this.attr('data-value');
-		var $dropdownSelect = $this.parents('.dropdown-select')
-		$dropdownSelect.find('input[type="hidden"]').val(value);
-		$dropdownSelect.find('.label-text').text(text);
 		_loadOrdersTable();
 	});
 

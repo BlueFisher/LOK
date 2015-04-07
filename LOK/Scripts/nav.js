@@ -22,18 +22,18 @@ $(document).ready(function() {
 		});
 	});
 	$menu.click(function(event) {
-		event.stopPropagation()
-	})
+		event.stopPropagation();
+	});
 
 	var isPopoverOpen = false;
+	var oriText = $('#btn-myorder').html();
 	$('#btn-myorder').click(function() {
 		var $this = $(this);
 		if (isPopoverOpen) {
 			$this.popover('destroy');
 		} else {
-			var oriText = $this.text();
-			$this.text('正在获取');
-			$.get('/Business/OrderMenus', function(data) {
+			$this.html('正在获取...');
+			$.get('/Business/AjaxOrderMenus', function(data) {
 				$this.popover({
 					html: true,
 					placement: 'bottom',
@@ -41,7 +41,7 @@ $(document).ready(function() {
 					content: data
 				}).popover('show');
 			}).always(function() {
-				$this.text(oriText);
+				$this.html(oriText);
 			});
 		}
 		isPopoverOpen = !isPopoverOpen;
@@ -51,6 +51,15 @@ $(document).ready(function() {
 	$('a.list-group-item:not(.disabled)').css('position', 'relative').ripples();
 	$('.btn-ripples:not(.disabled)').css('position', 'relative').ripples();
 	$('.ripples:not(.disabled)').ripples();
+
+	$('.dropdown-select').on('click', 'ul li a', function() {
+		var $this = $(this);
+		var text = $this.text(),
+			value = $this.attr('data-value');
+		var $dropdownSelect = $this.parents('.dropdown-select')
+		$dropdownSelect.find('input[type="hidden"]').val(value);
+		$dropdownSelect.find('.label-text').text(text);
+	});
 
 	toastr.options = {
 		onclick: function() {
@@ -149,4 +158,4 @@ $.extend({
 			$panel.append($data);
 		});
 	}
-})
+});

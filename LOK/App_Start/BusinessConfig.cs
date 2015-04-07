@@ -150,24 +150,31 @@ namespace LOK {
 		}
 		public async Task<OrderStatistics> GetOrdersStatistics() {
 			List<Order> orders = await GetOrdersAsync();
-			OrderStatistics os = new OrderStatistics();
-			foreach(Order item in orders) {
-				os.OrdersAllCount++;
-				if(item.OrderType == OrderTypeEnum.Get) {
-					os.OrdersGettingCount++;
-					if(item.OrderStatus == OrderStatusEnum.Confirming || item.OrderStatus == OrderStatusEnum.OnGoing) {
-						os.OrdersActiveCount++;
-						os.OrdersGettingActiveCount++;
-					}
-				}
-				else {
-					os.OrdersSendingCount++;
-					if(item.OrderStatus == OrderStatusEnum.Confirming || item.OrderStatus == OrderStatusEnum.OnGoing) {
-						os.OrdersActiveCount++;
-						os.OrdersSendingActiveCount++;
-					}
-				}
-			}
+			OrderStatistics os = new OrderStatistics {
+				OrdersAllCount = await context.Orders.CountAsync(),
+				OrdersActiveCount = await context.Orders.CountAsync(p => p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing),
+				OrdersGettingCount = await context.Orders.CountAsync(p => p.OrderType == OrderTypeEnum.Get),
+				OrdersGettingActiveCount = await context.Orders.CountAsync(p => p.OrderType == OrderTypeEnum.Get && (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing)),
+				OrdersSendingCount = await context.Orders.CountAsync(p => p.OrderType == OrderTypeEnum.Send),
+				OrdersSendingActiveCount = await context.Orders.CountAsync(p => p.OrderType == OrderTypeEnum.Send && (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing))
+			};
+			//foreach(Order item in orders) {
+			//	os.OrdersAllCount++;
+			//	if(item.OrderType == OrderTypeEnum.Get) {
+			//		os.OrdersGettingCount++;
+			//		if(item.OrderStatus == OrderStatusEnum.Confirming || item.OrderStatus == OrderStatusEnum.OnGoing) {
+			//			os.OrdersActiveCount++;
+			//			os.OrdersGettingActiveCount++;
+			//		}
+			//	}
+			//	else {
+			//		os.OrdersSendingCount++;
+			//		if(item.OrderStatus == OrderStatusEnum.Confirming || item.OrderStatus == OrderStatusEnum.OnGoing) {
+			//			os.OrdersActiveCount++;
+			//			os.OrdersSendingActiveCount++;
+			//		}
+			//	}
+			//}
 			return os;
 		}
 
@@ -186,13 +193,22 @@ namespace LOK {
 			await context.SaveChangesAsync();
 		}
 		public async Task<List<OrderRecord>> GetOrderRecordsAsync() {
-			return await context.OrderRecords.ToListAsync();
+			return await context.OrderRecords.OrderByDescending(p => p.Id).ToListAsync();
 		}
 		public async Task RecordEventAsync(int orderId, string userId, OrderStatusEnum toStatus) {
 			OrderRecord record = new OrderRecord() {
 				OrderId = orderId,
 				UserId = userId,
 				ToStatus = toStatus
+			};
+			context.OrderRecords.Add(record);
+			await context.SaveChangesAsync();
+		}
+		public async Task RecordEventAsync(int orderId, string userId, string other) {
+			OrderRecord record = new OrderRecord() {
+				OrderId = orderId,
+				UserId = userId,
+				Other = other,
 			};
 			context.OrderRecords.Add(record);
 			await context.SaveChangesAsync();

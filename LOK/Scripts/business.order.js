@@ -1,17 +1,6 @@
 $(document).ready(function() {
 	var $wellOrderContainer = $('#well-order-container');
-	var statusArr = ['All', 'Nearly', 'Active', 'Completed', 'Failed', 'Closed'];
 
-	var $activeBtn = $('#btn-order-active').addClass('active');
-
-	for (var i = 0; i < statusArr.length; addEvent(i++));
-	function addEvent(i) {
-		$('#btn-order-' + statusArr[i].toLowerCase()).click(function() {
-			if ($(this).hasClass('active'))
-				return;
-			refreshOrderWells(statusArr[i]);
-		});
-	}
 	var $loader = $($('#tpl-loader-static').html()).addClass('animated fadeIn').css({
 		'-webkit-animation-duration': '0.3s',
 		'animation-duration': '0.3s',
@@ -19,19 +8,10 @@ $(document).ready(function() {
 	refreshOrderWells('Active');
 
 	function refreshOrderWells(type) {
-		var url;
-		for(var i in statusArr){
-			if(type == statusArr[i]){
-				url = '/Business/OrderWells/' + type;
-			}
-		}
-		$activeBtn.removeClass('active');
-		$activeBtn = $('#btn-order-' + type.toLowerCase()).addClass('active');
-
 		$wellOrderContainer.find('.col-order').detach();
 		$wellOrderContainer.append($loader);
 		$.ajax({
-			url: url,
+			url: '/Business/AjaxOrderWells/' + type,
 		}).done(function(data) {
 			$wellOrderContainer.find('.col-order').detach();
 			var $content = $(data);
@@ -57,7 +37,7 @@ $(document).ready(function() {
 			var id = $this.parent('[data-orderid]').attr('data-orderid');
 			$.post('/Business/CloseOrder/' + id, function(data, textStatus, xhr) {
 				if (data.IsSucceed) {
-					refreshOrderWells('Closed');
+					$('.dropdown-select ul li a[data-value="Closed"]').click();
 				} else {
 					toastr.error(data.ErrorMessage);
 				}
@@ -76,5 +56,9 @@ $(document).ready(function() {
 				$('#' + data.ErrorPosition.toLowerCase()).inputError(data.ErrorMessage);
 			}
 		});
+	});
+	$('.dropdown-select').on('click', 'ul li a', function() {
+		var value = $(this).attr('data-value');
+		refreshOrderWells(value);
 	});
 });

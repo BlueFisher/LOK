@@ -200,9 +200,9 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Business\_PartialOrderStatusProgress.cshtml" />
-    <Content Include="Views\Business\OrderWells.cshtml" />
+    <Content Include="Views\Business\AjaxOrderWells.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Business\OrderMenus.cshtml" />
+    <Content Include="Views\Business\AjaxOrderMenus.cshtml" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Views\Admin\OrdersTable.cshtml" />
     <Content Include="Views\Admin\Config.cshtml" />
@@ -212,6 +212,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <None Include="Properties\PublishProfiles\LOKConfig.pubxml" />
     <Content Include="Views\Business\Region.cshtml" />
+    <Content Include="Views\Shared\_PartialMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

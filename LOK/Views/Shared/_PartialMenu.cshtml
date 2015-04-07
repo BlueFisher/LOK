@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNet.Identity.Owin;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.Owin.Security;
+
+@{
+	string userId = User.Identity.GetUserId();
+	var UserManager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+	ApplicationUser user = UserManager.FindById(userId);
+
+	bool isGuest = user == null || UserManager.IsInRole(userId, UserRolesEnum.Guest.ToString());
+}
+
+<a href="/Home/Index" class="title">LOK</a>
+<ul>
+	@if(!isGuest) {
+		<li><a href="/Business/Order">@user.NickName</a></li>
+	}
+	<li><a href="/Home/Aboutz">商户合作</a></li>
+	<li><a href="/Home/About">联系我们</a></li>
+
+	@if(!isGuest) {
+		if(UserManager.IsInRole(userId, UserRolesEnum.Admin.ToString())) {
+			<li><a href="/Admin/Index" class="btn-ripples">管理中心</a></li>
+			<li><a href="/Admin/UsersControl" class="btn-ripples">用户中心</a></li>
+			<li><a href="/Admin/Config" class="btn-ripples">设置中心</a></li>
+		}
+		if(UserManager.IsInRole(userId, UserRolesEnum.SuperAdmin.ToString())) {
+			<li><a href="/Admin/SuperAdminControl" class="btn-ripples">超级管理员</a></li>
+		}
+		<li><a href="/Account/SignOut">注销</a></li>
+	}
+	else {
+		<li><a href="/Account/Index" class="btn-ripples">登录 / 注册</a></li>
+	}
+</ul>

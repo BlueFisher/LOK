@@ -1,8 +1,12 @@
-.well.well-order-get .well-heading{
+.well.well-order-get .well-heading {
 	color: #fff;
-	background-color: #428BCA;
+	background-color: #428CCA;
 }
-.well.well-order-send .well-heading{
+.well.well-order-send .well-heading {
 	color: #fff;
 	background-color: #DE485B;
+}
+.well-heading .btn.btn-transparent:hover,
+.well-heading .btn.btn-transparent:focus{
+	color: #fff;
 }

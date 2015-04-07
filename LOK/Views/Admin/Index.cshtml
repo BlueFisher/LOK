@@ -6,6 +6,7 @@
 }
 
 @section JavaScript{
+	<script src="~/Scripts/tools/highcharts.js"></script>
 	<script src="~/Scripts/admin.js"></script>
 }
 
@@ -38,51 +39,36 @@
 		</div>
 	</div>
 </div>
-
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">订单数据</h3>
+					<h3 class="panel-title">订单总览</h3>
 				</div>
-				<table class="table">
-					<tr>
-						<th>订单总数</th>
-						<th>未完成的订单总数</th>
-						<th>取件单数</th>
-						<th>未完成的取件单数</th>
-						<th>寄件单数</th>
-						<th>未完成的寄件单数</th>
-					</tr>
-					<tr>
-						<td>@os.OrdersAllCount</td>
-						<td>@os.OrdersActiveCount</td>
-						<td>@os.OrdersGettingCount</td>
-						<td>@os.OrdersGettingActiveCount</td>
-						<td>@os.OrdersSendingCount</td>
-						<td>@os.OrdersSendingActiveCount</td>
-					</tr>
-				</table>
+				<div class="panel-body">
+					<div id="orders-all-statistics" style="height:200px;"></div>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">用户数据</h3>
+					<h3 class="panel-title">取件单</h3>
 				</div>
-				<table class="table">
-					<tr>
-						<th>总用户数</th>
-						<th>匿名用户数</th>
-						<th>已注册用户数</th>
-					</tr>
-					<tr>
-						<td>@us.UsersAllCount</td>
-						<td>@us.UsersGuestCount</td>
-						<td>@us.UsersSignedUpCount</td>
-					</tr>
-				</table>
+				<div class="panel-body">
+					<div id="orders-getting-statistics" style="height:200px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">寄件单</h3>
+				</div>
+				<div class="panel-body">
+					<div id="orders-sending-statistics" style="height:200px;"></div>
+				</div>
 			</div>
 		</div>
 

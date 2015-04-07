@@ -21,13 +21,13 @@
 	}*@
 @helper getCloseBtn(OrderStatusEnum status) {
 	if(status == OrderStatusEnum.Confirming) {
-		<button class="btn btn-danger btn-material btn-close-order">取消订单</button>
+		<button class="btn btn-transparent btn-material btn-close-order">取消订单</button>
 	}
 	else if(status == OrderStatusEnum.OnGoing) {
 		<button class="btn btn-default btn-material btn-close-order" disabled>如要取消，请联系客服</button>
 	}
 	else if(status == OrderStatusEnum.Completed || status == OrderStatusEnum.Failed) {
-		<button class="btn btn-danger btn-material btn-close-order">关闭订单</button>
+		<button class="btn btn-transparent btn-material btn-close-order">关闭订单</button>
 	}
 	else if(status==OrderStatusEnum.Closed){
 		<button class="btn btn-default btn-material btn-close-order" disabled>已关闭</button>
@@ -48,10 +48,10 @@ else {
 				<div class="well well-blank well-no-padding well-order-get">
 					<div class="well-heading">
 						<div class="row">
-							<div class="col-sm-6">
-								<p class="lead no-margin-bottom"><i class="fa fa-shopping-cart"></i> 取件单<small>(单号：@order.OrderId)</small></p>
+							<div class="col-xs-6">
+								<p class="lead no-margin-bottom"><i class="fa fa-cloud-download"></i> 取件单<small>(单号：@order.OrderId)</small></p>
 							</div>
-							<div class="col-sm-6 text-right" data-orderid="@order.OrderId">
+							<div class="col-xs-6 text-right" data-orderid="@order.OrderId">
 								@getCloseBtn(order.OrderStatus)
 							</div>
 						</div>
@@ -97,7 +97,7 @@ else {
 					<div class="well-heading">
 						<div class="row">
 							<div class="col-xs-6">
-								<p class="lead no-margin-bottom"><i class="fa fa-paper-plane"></i> 寄件单<small>(单号：@order.OrderId)</small></p>
+								<p class="lead no-margin-bottom"><i class="fa fa-cloud-upload"></i> 寄件单<small>(单号：@order.OrderId)</small></p>
 							</div>
 							<div class="col-xs-6 text-right" data-orderid="@order.OrderId">
 								@getCloseBtn(order.OrderStatus)

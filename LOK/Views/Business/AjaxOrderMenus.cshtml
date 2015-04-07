@@ -1,0 +1,50 @@
+﻿@model List<Order>
+
+@{
+	string nickName = ViewBag.NickName;
+}
+
+<ul class="list-group no-margin-bottom" id="myorder-list-group">
+	<li class="list-group-item">
+		@if(nickName != null) {
+			<p class="no-margin-bottom">你好！ @nickName</p>
+			<div class="text-right">
+				<a class="btn btn-material btn-default btn-sm" href="/Business/Order">个人中心</a>
+				<a class="btn btn-material btn-danger btn-sm" href="/Account/SignOut">注销</a>
+			</div>
+		}
+		else {
+			<a class="btn btn-material btn-primary btn-sm btn-block" href="/Account/Index">登录 / 注册</a>
+		}
+	</li>
+
+	@if(Model.Count == 0) {
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-sm-8">
+					<p class="no-margin-bottom">暂时没有进行中的订单</p>
+				</div>
+				<div class="col-sm-4 text-right">
+					<a href="/Business/Order">查看详情</a>
+				</div>
+			</div>
+		</li>
+	}
+	else {
+		foreach(Order order in Model) {
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-sm-8">
+						<p>订单号：@order.OrderId</p>
+					</div>
+					<div class="col-sm-4 text-right">
+						<a href="/Business/Order">查看详情</a>
+					</div>
+				</div>
+				<div class="progress no-margin-bottom">
+					@Html.Partial("_PartialOrderStatusProgress", order.OrderStatus)
+				</div>
+			</li>
+		}
+	}
+</ul>

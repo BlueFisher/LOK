@@ -36,13 +36,11 @@
 }
 .well.well-get .well-heading{
 	font-weight: 100;
-	background-color: #428BCA;
-	/*background-image: url(../image/well-get-heading.jpg);*/
+	background-color: #428CCA;
 }
 .well.well-send .well-heading{
 	font-weight: 100;
 	background-color: #DE485B;
-	/*background-image: url(../image/well-send-heading.jpg);*/
 }
 
 #modal-submit .progress{

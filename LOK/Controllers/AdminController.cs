@@ -30,9 +30,7 @@ namespace LOK.Controllers {
 		}
 		#endregion
 
-		public async Task<ActionResult> Index() {
-			ViewBag.UsersStatistics = await UserManager.GetUsersStatistics();
-			ViewBag.OrdersStatistics = await OrderManager.GetOrdersStatistics();
+		public ActionResult Index() {
 			return View();
 		}
 		public ActionResult Config() {
@@ -40,6 +38,10 @@ namespace LOK.Controllers {
 		}
 		public ActionResult UsersControl() {
 			return View();
+		}
+		[HttpPost]
+		public async Task<JsonResult> GetOrdersStatistics() {
+			return Json(await OrderManager.GetOrdersStatistics());
 		}
 		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult> SuperAdminControl() {
@@ -156,6 +158,7 @@ namespace LOK.Controllers {
 		}
 		public async Task<JsonResult> ChangeAdminRemark(ChangeOrderAdminRemarkViewModel model) {
 			if(await OrderManager.ChangeOrderAdminRemark(model.OrderId, model.AdminRemark)) {
+				await OrderManager.RecordEventAsync(model.OrderId, User.Identity.GetUserId(), "更改备注：" + model.AdminRemark);
 				return Json(new JsonSucceedObj());
 			}
 			return Json(new JsonErrorObj("修改失败"));

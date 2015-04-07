@@ -1,5 +1,29 @@
+body{
+	/*background-image: url('../image/background.jpg');*/
+}
+
 .navbar-material {
-	margin-bottom: 0;
+	z-index: 10;
+	background-color: #66A6FF;
+}
+.navbar-material .navbar-brand,
+.navbar-material .navbar-nav > li > a {
+	color: #fff;
+}
+.navbar-material .navbar-nav > li > a:hover,
+.navbar-material .navbar-nav > li > a:focus {
+	color: #fff;
+}
+.navbar-material .navbar-toggle .icon-bar {
+	background-color: #fff;
+}
+.navbar-material .navbar-nav > .open > a,
+.navbar-material .navbar-nav > .open > a:hover,
+.navbar-material .navbar-nav > .open > a:focus {
+	color: #fff;
+}
+.menu-toggle .icon-bar{
+	background-color: #fff;
 }
 
 .header {
@@ -10,10 +34,7 @@
 	background-position: bottom;
 	padding-top: 50px;
 	padding-bottom:100px;
-	color: #fff !important;
-}
-.header img{
-	/*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);*/
+	color: #fff;
 }
 .header  h1 {
 	font-family: Helvetica;
@@ -22,53 +43,52 @@
 	text-shadow: 0 3px 10px rgba(0, 0, 0, .23);
 }
 .btn-main-container {
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
-.btn-main-container .btn-flat {
-	padding: 10px 50px;
-	margin:5px 20px;
+.btn-main-container .btn-main{
+	font-size: 18px;
+	padding: 10px 55px;
 }
-.well-step {
-	color: #fff !important;
+.well-index-intro {
+	margin-bottom: 50px;
+	color: #fff;
 }
-.well-step h3 {
-	margin-top: 0;
+.well-index-intro p:last-child{
+	margin-bottom: 0;
 }
-.well-step .btn {
-	color: #fff !important;
+.well-index-intro p.lead {
+	margin-bottom: 8px;
 }
-.well.well-step-1 {
+.well.well-index-intro-1 {
 	background-color: #D62425;
 }
-.well.well-step-2 {
+.well.well-index-intro-2 {
 	background-color: #3B4EA0;
 }
-.well.well-step-3 {
+.well.well-index-intro-3 {
 	background-color: #2D9439;
 }
-.step-icon-1,
-.step-icon-2,
-.step-icon-3{
+.intro-icon{
 	display: inline-block;
 	height: 60px;
 	width: 60px;
 	background-image: url(../image/icons.png);
 	background-repeat: no-repeat;
 }
-.step-icon-1 {
+.well.well-index-intro-1 .intro-icon {
 	background-size: 58px auto;
 }
-.step-icon-2 {
+.well.well-index-intro-2 .intro-icon {
 	background-position: 0 -65px;
 	background-size: 58px auto;
 }
-.step-icon-3 {
+.well.well-index-intro-3 .intro-icon {
 	background-position: 0 -185px;
 	background-size: 58px auto;
 }
 
 .footer-container{
-	padding-bottom: 275px;
+	padding-bottom: 325px;
 }
 
 @media screen and (max-width: 992px) {
@@ -80,15 +100,22 @@
 	.header h1{
 		font-size: 50px;
 	}
-	.footer-container{
-		padding-bottom: 340px;
-	}
-	.well-step{
+	.well-index-intro{
 		text-align: center;
 	}
 }
 @media screen and (max-width: 768px) {
-	.footer-container{
-		padding-bottom: 700px;
+	.btn-main-container {
+		margin-bottom: 10px;
 	}
+	.btn-main-container .btn-main{
+		font-size: 14px;
+		padding: 10px 55px;
+	}
+	.well-index-intro {
+		margin-bottom: 5px;
+	}
+/*	.footer-container{
+		padding-bottom: 600px;
+	}*/
 }
