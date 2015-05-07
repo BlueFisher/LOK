@@ -1,4 +1,5 @@
-$(document).ready(function() {
+;
+(function() {
 	var ANIMATION_FINISH = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 	var $menuContainer = $('.menu-container').css({
 		'-webkit-animation-duration': '0.3s',
@@ -23,6 +24,13 @@ $(document).ready(function() {
 	});
 	$menu.click(function(event) {
 		event.stopPropagation();
+	});
+	$menu.find('.menu-close').click(function() {
+		$menuContainer.addClass('fadeOut');
+		$menu.addClass('fadeOutLeft').one(ANIMATION_FINISH, function() {
+			$menuContainer.css('display', 'none').removeClass('fadeOut');
+			$menu.css('display', 'none').removeClass('fadeOutLeft');
+		});
 	});
 
 	var isPopoverOpen = false;
@@ -71,7 +79,9 @@ $(document).ready(function() {
 		timeOut: "5000",
 		extendedTimeOut: "1000",
 	};
-}).ajaxError(function(event, jqxhr, settings, exception) {
+})();
+
+$(document).ajaxError(function(event, jqxhr, settings, exception) {
 	toastr.error("连接服务器失败 " + settings.url);
 });
 

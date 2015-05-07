@@ -1,4 +1,5 @@
-$(document).ready(function() {
+;
+(function() {
 	var $wellOrderContainer = $('#well-order-container');
 
 	var $loader = $($('#tpl-loader-static').html()).addClass('animated fadeIn').css({
@@ -61,4 +62,4 @@ $(document).ready(function() {
 		var value = $(this).attr('data-value');
 		refreshOrderWells(value);
 	});
-});
+})();

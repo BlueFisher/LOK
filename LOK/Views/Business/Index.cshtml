@@ -1,0 +1,226 @@
+﻿@{
+	Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+	ViewBag.Title = "LOK";
+}
+@section CSS{
+	<link href="~/Content/css/business.css" rel="stylesheet" />
+}
+@section Javascript{
+	<script src="~/Scripts/business.js"></script>
+}
+
+<div class="modal fade" id="modal-submit">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<img src="/Content/image/ad.jpg" width="100%">
+				<div class="progress">
+					<div class="progress-bar progress-bar-success" id="progress-bar-submit">
+						0%
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6"><p class="lead no-margin-bottom">正在提交...</p></div>
+					<div class="col-xs-6 text-right"><button class="btn btn-danger" id="btn-cancel-submit"><i class="fa fa-close"></i> 取消</button></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-lg-5 col-lg-offset-1">
+				<div class="well well-blank well-no-padding well-get">
+					<div class="well-heading">
+						<i class="fa fa-cloud-download"></i>
+						<span>取件</span>
+					</div>
+					<a href="javascript:;" class="well-wrapper disabled" id="btn-choose-getting">
+						<span class="lead text-center">取件服务暂时关闭</span>
+					</a>
+					<div class="well-content">
+						<form action="/Business/OrderGetting" method="POST" id="form-getting" data-valid-url="/Business/IsOrderGettingValid">
+							<input type="hidden" name="Region" class="input-region">
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label class="control-label">快递公司</label>
+										<div class="dropdown dropdown-select">
+											<button class="btn btn-default btn-material btn-block" data-toggle="dropdown"><span class="label-text">快递公司1</span> <i class="fa fa-chevron-circle-down"></i></button>
+											<input type="hidden" name="ExpressCompany" value="0">
+											<ul class="dropdown-menu">
+												@foreach(int item in Enum.GetValues(typeof(ExpressCompanyEnum))) {
+													<li><a href="javascript:;" data-value="@item">@Enum.GetName(typeof(ExpressCompanyEnum),item)</a></li>
+												}
+												
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label class="control-label">上门时间</label>
+										<div class="dropdown dropdown-select">
+											<button class="btn btn-default btn-material btn-block" data-toggle="dropdown"><span class="label-text">立即上门</span> <i class="fa fa-chevron-circle-down"></i></button>
+											<input type="hidden" name="Time" value="0000">
+											<ul class="dropdown-menu">
+												<li><a href="javascript:;" data-value="0000">立即上门</a></li>
+												<li><a href="javascript:;" data-value="1615">16 : 15</a></li>
+												<li><a href="javascript:;" data-value="1630">16 : 30</a></li>
+												<li><a href="javascript:;" data-value="1645">16 : 45</a></li>
+												<li><a href="javascript:;" data-value="1700">17 : 00</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label" for="getting-name"><span class="text-danger">*</span> 姓名</label>
+										<input type="text" class="form-control" id="getting-name" name="Name" placeholder="">
+									</div>		
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label" for="getting-phone"><span class="text-danger">*</span> 联系电话</label>
+										<input type="number" class="form-control" id="getting-phone" name="Phone" placeholder="">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="getting-expressno"><span class="text-danger">*</span> 快递号</label>
+								<input type="text" class="form-control" id="getting-expressno" name="ExpressNo" placeholder="">
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="getting-address"><span class="text-danger">*</span> 上门地址</label>
+								<input type="text" class="form-control" id="getting-address" name="Address" placeholder="">
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="getting-remark">备注</label>
+								<input type="text" class="form-control" id="getting-remark" name="Remark" placeholder="">
+							</div>
+							<!-- <div class="row btn-form-group"> -->
+								<!-- <div class="col-md-6"> -->
+									<button type="submit" class="btn btn-getting btn-material">
+										<i class="fa fa-check"></i> 确认取件
+									</button>
+								<!-- </div> -->
+								<!-- <div class="col-md-6"> -->
+									<!-- <button type="reset" class="btn btn-danger btn-material">
+										<i class="fa fa-refresh"></i> 重置表单
+									</button> -->
+								<!-- </div> -->
+							<!-- </div> -->
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-5">
+				<div class="well well-blank well-no-padding well-send">
+					<div class="well-heading">
+						<i class="fa fa-cloud-upload"></i>
+						<span>寄件</span>
+					</div>
+					<a href="javascript:;" class="well-wrapper disabled" id="btn-choose-sending">
+						<span class="lead text-center">寄件服务暂时关闭</span>
+					</a>
+					<div class="well-content">
+						<form role="form" action="/Business/OrderSending" method="POST" id="form-sending" data-valid-url="/Business/IsOrderSendingValid">
+							<input type="hidden" name="Region" class="input-region">
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label class="control-label">快递公司</label>
+										<div class="dropdown dropdown-select">
+											<button class="btn btn-default btn-material btn-block" data-toggle="dropdown"><span class="label-text">快递公司1</span> <i class="fa fa-chevron-circle-down"></i></button>
+											<input type="hidden" name="ExpressCompany" value="0">
+											<ul class="dropdown-menu">
+												@foreach(int item in Enum.GetValues(typeof(ExpressCompanyEnum))) {
+													<li><a href="javascript:;" data-value="@item">@Enum.GetName(typeof(ExpressCompanyEnum), item)</a></li>
+												}
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label class="control-label">上门时间</label>
+										<div class="dropdown dropdown-select">
+											<button class="btn btn-default btn-material btn-block" data-toggle="dropdown"><span class="label-text">立即上门</span> <i class="fa fa-chevron-circle-down"></i></button>
+											<input type="hidden" name="Time" value="0000">
+											<ul class="dropdown-menu">
+												<li><a href="javascript:;" data-value="0000">立即上门</a></li>
+												<li><a href="javascript:;" data-value="1615">16 : 15</a></li>
+												<li><a href="javascript:;" data-value="1630">16 : 30</a></li>
+												<li><a href="javascript:;" data-value="1645">16 : 45</a></li>
+												<li><a href="javascript:;" data-value="1700">17 : 00</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label" for="sending-name"><span class="text-danger">*</span> 寄件人姓名</label>
+										<input type="text" class="form-control" id="sending-name" name="Name" placeholder="">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label" for="sending-phone"><span class="text-danger">*</span> 联系电话</label>
+										<input type="number" class="form-control" id="sending-phone" name="Phone" placeholder="">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="sending-address"><span class="text-danger">*</span> 上门地址</label>
+								<input type="text" class="form-control" id="sending-address" name="Address" placeholder="">
+							</div>
+							<div class="row">
+								<div class="col-sm-8">
+									<div class="form-group">
+										<label class="control-label" for="sending-toaddress"><span class="text-danger">*</span> 目的地址</label>
+										<input type="text" class="form-control" id="sending-toaddress" name="ToAddress" placeholder="">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="sending-toname"><span class="text-danger">*</span> 取件人姓名</label>
+										<input type="text" class="form-control" id="sending-toname" name="ToName" placeholder="">
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label" for="sending-remark">备注</label>
+								<input type="text" class="form-control" id="sending-remark" name="Remark" placeholder="">
+							</div>
+
+							<!-- <div class="row btn-form-group">
+								<div class="col-md-4"> -->
+									<button type="submit" class="btn btn-sending btn-material">
+										<i class="fa fa-check"></i> 确认寄件
+									</button>
+								<!-- </div>
+								<div class="col-md-4">
+									<button type="reset" class="btn btn-danger btn-material btn-block">
+										<i class="fa fa-refresh"></i> 重置表单
+									</button>
+								</div>
+								<div class="col-md-4">
+									<button type="button" class="btn btn-default btn-material btn-block goto-step1 no-margin-bottom">
+										<i class="fa fa-arrow-circle-left"></i> 切换校区
+									</button>
+								</div>
+							</div> -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- setp2 end -->
+</div> <!-- container-fluid end -->

@@ -299,44 +299,41 @@ body{
 .menu{
 	width: 250px;
 	height: 100%;
+	overflow: auto;
 	background-color: #4884A7;
 }
-.menu .title{
-	display: block;
-	margin:0;
-	border-bottom: 1px solid rgba(0,0,0,0.25);
-	line-height: 70px;
-	font-size: 24px;
-	text-align: center;
-	color: #f3efe0;
-	text-decoration: none;
-	transition: background-color 0.2s;
-}
-.menu .title:hover{
-	background-color: rgba(0,0,0,0.25);
-}
+
 .menu ul{
 	list-style: none;
-	padding: 0;
-	/*padding-top: 70px;*/
+	padding-left: 0;
+	margin-bottom: 10px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, .23), 0 3px 10px rgba(0, 0, 0, .16);
 }
 .menu ul>li>a{
 	display: inline-block;
 	width: 100%;
 	padding: 1em 1em 1em 1.2em;
-	border-bottom: 1px solid rgba(0,0,0,0.25);
+	border-bottom: 1px solid #2A4E63;
 	color: #f3efe0;
 	text-decoration: none;
 	transition: background-color 0.2s;
 }
+.menu ul>li:last-child>a{
+	border-bottom: none;
+}
 .menu ul>li>a:hover{
-	background-color: rgba(0,0,0,0.25);
+	background-color: #2A4E63;
+}
+.menu ul>li>a.menu-close{
+	text-align: right;
+}
+.menu ul>li>a.title{
+	line-height: 30px;
+	font-size: 24px;
+	text-align: center;
 }
 
 
-.nav-material{
-	/*background-color: #00BCD4;*/
-}
 .nav-material li{
 	float: left;
 }
@@ -345,7 +342,6 @@ body{
 	padding: 15px 30px;
 	border-bottom: 2px solid transparent;
 	color: #333;
-	/*font-weight: bold;*/
 	transition: border-bottom-color 0.2s;
 }
 .nav-material li>a:hover,
@@ -409,6 +405,9 @@ body{
 	.list-group .list-group-item .row-action {
 		float: none;
 		text-align: center;
+	}
+	.menu{
+		width: 100%;
 	}
 	.footer-container{
 		padding-bottom: 0 !important;

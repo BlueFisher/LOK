@@ -1,4 +1,5 @@
-$(document).ready(function() {
+;
+(function() {
 	$.loadUsersTable(true, 'Guest', null, 'panel-guest');
 	$.loadUsersTable(true, 'Admin', null, 'panel-admin');
 	$.loadUsersTable(true, 'SignedUp', null, 'panel-signedup');
@@ -25,4 +26,4 @@ $(document).ready(function() {
 			$modal.modal();
 		});
 	});
-});
+})();

@@ -1,4 +1,5 @@
-$(document).ready(function() {
+;
+(function() {
 	$.post('/Business/IsOrderOnService', function(data) {
 		if (data.Getting) {
 			$('#btn-choose-getting').css('display', 'none');
@@ -59,4 +60,4 @@ $(document).ready(function() {
 			}
 		});
 	});
-});
+})();

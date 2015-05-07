@@ -1,0 +1,89 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="UTF-8">
+	<title>@ViewBag.Title</title>
+	<link href="~/Content/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/css/tools/font-awesome.min.css" rel="stylesheet" />
+	<link href="~/Content/css/bootstrap/ripples.css" rel="stylesheet" />
+	<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="/Content/css/bootstrap/bootstrap-ie6.min.css">
+	<[endif]-->
+	<link href="~/Content/css/bootstrap/bootstrap-switch.min.css" rel="stylesheet" />
+	<link href="~/Content/css/tools/animate.min.css" rel="stylesheet">
+	<link href="~/Content/css/tools/toastr.min.css" rel="stylesheet" />
+	<link href="~/Content/css/global.css" rel="stylesheet" />
+	@RenderSection("CSS", false)
+</head>
+<body>
+
+	<nav class="navbar navbar-material" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button class="navbar-toggle menu-toggle">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="navbar-brand hidden-xs">
+					<button class="menu-toggle">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<a class="navbar-brand btn-ripples visible-xs-block" href="/Business/Region">上海大学（切换校区）</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse">
+				<ul class="nav navbar-nav hidden-xs">
+					<li><a href="/Home/Index" class="btn-ripples">首页</a></li>
+					<li><a href="/Business/Region" class="btn-ripples">上海大学（切换校区）</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/Business/Index" class="btn-ripples">立即下单</a></li>
+					<li><a href="javascript:;" class="btn-ripples" id="btn-myorder">个人中心 <i class="caret"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="menu-container">
+		<div class="menu">
+			@Html.Partial("_PartialMenu")
+		</div>
+	</div>
+
+	@RenderBody()
+
+	<div class="footer-container">
+		<div class="footer">
+			@RenderSection("Footer", false)
+			<div class="copy-right">
+				<p class="text-center">Copyright ©2015 LOK, All Rights Reserved. <a href="/Home/About">About us</a></p>
+				<p class="text-center">LOK is under the <a href="/Home/About">MIT License</a>.</p>
+			</div>
+		</div>
+	</div>
+
+	@RenderSection("Template", false)
+
+	<script src="~/Scripts/jquery/jquery.min.js"></script>
+	<script src="~/Scripts/jquery/bootstrap.min.js"></script>
+	<!--[if lte IE 9]>
+	<script src="/Scripts/jquery/bootstrap-ie.js"></script>
+	<[endif]-->
+	<script src="~/Scripts/jquery/bootstrap-switch.min.js"></script>
+	<script src="~/Scripts/tools/ripples.min.js"></script>
+	<script src="~/Scripts/tools/toastr.min.js"></script>
+
+	<script src="~/Scripts/nav.js"></script>
+	@RenderSection("Javascript", false)
+</body>
+
+
+
+</html>

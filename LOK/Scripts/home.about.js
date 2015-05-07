@@ -1,8 +1,9 @@
-$(document).ready(function() {
+;
+(function() {
 	var hash = location.hash.substr(1);
-	if(hash != ''){
+	if (hash != '') {
 		$('#tab-' + hash).tab('show');
-	}else{
+	} else {
 		$('#tab-about-us').tab('show');
 	}
-});
+})();

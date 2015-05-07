@@ -10,15 +10,18 @@
 	bool isGuest = user == null || UserManager.IsInRole(userId, UserRolesEnum.Guest.ToString());
 }
 
-<a href="/Home/Index" class="title">LOK</a>
+<ul>
+	<li class="text-right visible-xs-block"><a class="menu-close"><i class="fa fa-times"></i></a><span></span></li>
+	<li><a href="/Home/Index" class="title">LOK</a></li>
+	<li><a href="/Business/Index" class="btn-ripples">立即下单</a></li>
+</ul>
+<ul>
+	<li><a href="/Home/About">商户合作</a></li>
+	<li><a href="/Home/About">联系我们</a></li>
+</ul>
 <ul>
 	@if(!isGuest) {
 		<li><a href="/Business/Order">@user.NickName</a></li>
-	}
-	<li><a href="/Home/Aboutz">商户合作</a></li>
-	<li><a href="/Home/About">联系我们</a></li>
-
-	@if(!isGuest) {
 		if(UserManager.IsInRole(userId, UserRolesEnum.Admin.ToString())) {
 			<li><a href="/Admin/Index" class="btn-ripples">管理中心</a></li>
 			<li><a href="/Admin/UsersControl" class="btn-ripples">用户中心</a></li>
