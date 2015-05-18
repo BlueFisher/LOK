@@ -10,17 +10,12 @@ namespace LOK.Models {
 		Get,
 		Send
 	}
-	public enum ExpressCompanyEnum {
-		快递公司1,
-		快递公司2,
-		快递公司3
-	}
 	public enum OrderStatusEnum {
-		Completed,
-		Closed,
-		Failed,
+		Confirming,
 		OnGoing,
-		Confirming
+		Completed,
+		Failed,
+		Closed
 	}
 	public class Order {
 		public Order() {
@@ -30,7 +25,9 @@ namespace LOK.Models {
 		[Key]
 		public int OrderId { get; set; }
 		public OrderTypeEnum OrderType { get; set; }
-		public ExpressCompanyEnum ExpressCompany { get; set; }
+		public int ExpressCompanyId { get; set; }
+		[ForeignKey("ExpressCompanyId")]
+		public virtual ExpressCompany ExpressCompany { get; set; }
 		public string ExpressNo { get; set; }
 		public string Name { get; set; }
 		public long Phone { get; set; }
@@ -45,6 +42,7 @@ namespace LOK.Models {
 		public string UserId { get; set; }
 		[ForeignKey("UserId")]
 		public virtual ApplicationUser ApplicationUser { get; set; }
+
 	}
 	public class OrderRecord {
 		public OrderRecord() {

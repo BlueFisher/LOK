@@ -23,32 +23,51 @@ namespace LOK {
 				CookieSecure = CookieSecureOption.Never,
 				ExpireTimeSpan = new TimeSpan(7, 0, 0, 0, 0)
 			});
-			// 网站第一次运行初始化
+
+			// 网站启动
 			using(ApplicationDbContext context = new ApplicationDbContext()) {
-				if(context.Configs.FirstOrDefault()==null) {
+				ConfigModels config = context.Configs.FirstOrDefault();
+				// 网站第一次运行初始化
+				if(config == null) {
 					InitialInTheFirstTime();
 				}
-			}
-			// 网站重启
-			using(var roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(new ApplicationDbContext()))) {
-				List<ApplicationRole> roleList = roleManager.Roles.ToList();
-				foreach(ApplicationRole role in roleList) {
-					ConfigControls.RolesMap.Add(role.Id, role.Name);
-				}
-			}
-			using(ApplicationDbContext context = new ApplicationDbContext()) {
-				ConfigModels config = context.Configs.First();
-				ConfigControls.IsOrderGettingOnService = config.IsOrderGettingOnService;
-				ConfigControls.IsOrderSendingOnService = config.IsOrderSendingOnService;
+				config = context.Configs.FirstOrDefault();
+				ConfigManager.IsOrderGettingOnService = config.IsOrderGettingOnService;
+				ConfigManager.IsOrderSendingOnService = config.IsOrderSendingOnService;
 			}
 		}
 
 		private void InitialInTheFirstTime() {
+			using(ApplicationDbContext context = new ApplicationDbContext()) {
+				context.Configs.Add(new ConfigModels() {
+					IsInitialized = true,
+					IsOrderGettingOnService = true,
+					IsOrderSendingOnService = true
+				});
+				context.ExpressCompanies.Add(new ExpressCompany {
+					Discription = "申通快递"
+				});
+				context.ExpressCompanies.Add(new ExpressCompany {
+					Discription = "圆通快递"
+				});
+				context.ExpressCompanies.Add(new ExpressCompany {
+					Discription = "韵达快递"
+				});
+				context.ExpressCompanies.Add(new ExpressCompany {
+					Discription = "中通快递"
+				});
+				context.ExpressCompanies.Add(new ExpressCompany {
+					Discription = "顺丰快递"
+				});
+
+				context.SaveChanges();
+			}
+
 			using(var roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(new ApplicationDbContext()))) {
-				roleManager.Create(new ApplicationRole(UserRolesEnum.SignedUp.ToString()));
-				roleManager.Create(new ApplicationRole(UserRolesEnum.Guest.ToString()));
-				roleManager.Create(new ApplicationRole(UserRolesEnum.Admin.ToString()));
-				roleManager.Create(new ApplicationRole(UserRolesEnum.SuperAdmin.ToString()));
+				roleManager.Create(new ApplicationRole("SignedUp"));
+				roleManager.Create(new ApplicationRole("Guest"));
+				roleManager.Create(new ApplicationRole("Admin"));
+				roleManager.Create(new ApplicationRole("SuperAdmin"));
 			}
 			using(var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()))) {
 				ApplicationUser superAdmin = new ApplicationUser() {
@@ -57,15 +76,7 @@ namespace LOK {
 					UserName = "blue_fisher@qq.com"
 				};
 				userManager.Create(superAdmin, "BlueFisher_");
-				userManager.AddToRoles(superAdmin.Id, new string[] { UserRolesEnum.Admin.ToString(), UserRolesEnum.SuperAdmin.ToString() });
-			}
-			using(ApplicationDbContext context = new ApplicationDbContext()) {
-				context.Configs.Add(new ConfigModels() {
-					IsInitialized = true,
-					IsOrderGettingOnService = true,
-					IsOrderSendingOnService = true
-				});
-				context.SaveChanges();
+				userManager.AddToRoles(superAdmin.Id, new string[] { "Admin", "SuperAdmin" });
 			}
 		}
 	}

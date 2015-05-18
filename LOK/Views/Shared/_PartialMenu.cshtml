@@ -7,7 +7,7 @@
 	var UserManager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
 	ApplicationUser user = UserManager.FindById(userId);
 
-	bool isGuest = user == null || UserManager.IsInRole(userId, UserRolesEnum.Guest.ToString());
+	bool isGuest = user == null || UserManager.IsInRole(userId, "Guest");
 }
 
 <ul>
@@ -22,12 +22,12 @@
 <ul>
 	@if(!isGuest) {
 		<li><a href="/Business/Order">@user.NickName</a></li>
-		if(UserManager.IsInRole(userId, UserRolesEnum.Admin.ToString())) {
+		if(UserManager.IsInRole(userId,"Admin")) {
 			<li><a href="/Admin/Index" class="btn-ripples">管理中心</a></li>
 			<li><a href="/Admin/UsersControl" class="btn-ripples">用户中心</a></li>
 			<li><a href="/Admin/Config" class="btn-ripples">设置中心</a></li>
 		}
-		if(UserManager.IsInRole(userId, UserRolesEnum.SuperAdmin.ToString())) {
+		if(UserManager.IsInRole(userId, "SuperAdmin")) {
 			<li><a href="/Admin/SuperAdminControl" class="btn-ripples">超级管理员</a></li>
 		}
 		<li><a href="/Account/SignOut">注销</a></li>

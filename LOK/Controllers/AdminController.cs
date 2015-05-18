@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using LOK.Models;
+using System.Linq.Expressions;
+using LOK.ExpressionExtensions;
 
 namespace LOK.Controllers {
 	[Authorize(Roles = "Admin")]
@@ -23,9 +25,9 @@ namespace LOK.Controllers {
 				return HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
 			}
 		}
-		public ApplicationOrderManager OrderManager {
+		public OrderManager OrderManager {
 			get {
-				return ApplicationOrderManager.Create();
+				return OrderManager.Create();
 			}
 		}
 		#endregion
@@ -39,10 +41,7 @@ namespace LOK.Controllers {
 		public ActionResult UsersControl() {
 			return View();
 		}
-		[HttpPost]
-		public async Task<JsonResult> GetOrdersStatistics() {
-			return Json(await OrderManager.GetOrdersStatistics());
-		}
+
 		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult> SuperAdminControl() {
 			return View(await OrderManager.GetOrderRecordsAsync());
@@ -66,25 +65,31 @@ namespace LOK.Controllers {
 			if(!result.Succeeded) {
 				return Json(new JsonErrorObj(result.Errors.First()));
 			}
-			await UserManager.AddToRoleAsync(newUser.Id, UserRolesEnum.Admin.ToString());
+			await UserManager.AddToRoleAsync(newUser.Id, "Admin");
 			return Json(new JsonSucceedObj());
 
 		}
 
+		[HttpPost]
+		public async Task<JsonResult> GetOrdersStatistics() {
+			OrderStatistics os = await OrderManager.GetOrdersStatistics();
+			return Json(os);
+		}
+
 		// Ajax
-		public ActionResult UsersTable(UserTableViewModel model) {
+		public async Task<ActionResult> UsersTable(UserTableViewModel model) {
 			if(!Request.IsAjaxRequest()) {
 				return RedirectToAction("Index");
 			}
 			ViewBag.hasFunctionBtn = model.HasFunction;
 			if(model.UserId != null) {
 				var user = UserManager.FindById(model.UserId);
-				ViewBag.RoleName = ConfigControls.RolesMap[user.Roles.First().RoleId];
+				ViewBag.RoleName = (await RoleManager.FindByIdAsync(user.Roles.First().RoleId)).Name;
 				return View(new List<ApplicationUser> { user });
 			}
 			ViewBag.RoleName = model.RoleName;
-			List<ApplicationUser> userList = UserManager.Users.ToList();
-			userList.RemoveAll(p => ConfigControls.RolesMap[p.Roles.First().RoleId] != model.RoleName);
+			string roleId = (await RoleManager.FindByNameAsync(model.RoleName)).Id;
+			List<ApplicationUser> userList = await UserManager.FindByRoleId(roleId);
 			return View(userList);
 		}
 
@@ -94,74 +99,70 @@ namespace LOK.Controllers {
 				return RedirectToAction("Index");
 			}
 			ViewBag.hasFunctionBtn = model.HasFunction;
+
+			Expression<Func<Order, bool>> exp;
+
 			OrderTypeEnum orderType = model.Type == "Getting" ? OrderTypeEnum.Get : OrderTypeEnum.Send;
 			ViewBag.OrderTableType = orderType;
+			exp = (p => p.OrderType == orderType);
 
-			if(model.Status == "Active") {
-				return View(await OrderManager.GetOrdersAsync(p =>
-					p.OrderType == orderType && (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing)
-				));
-			}
-			else if(model.Status == "Full") {
-				return View(await OrderManager.GetOrdersAsync(p =>
-					p.OrderType == orderType
-				));
+			switch(model.Status) {
+				case "Full":
+					break;
+				case "OnGoing":
+					exp = exp.And(p => p.OrderStatus == OrderStatusEnum.OnGoing);
+					break;
+				case "Closed":
+					exp = exp.And(p => p.OrderStatus == OrderStatusEnum.Closed);
+					break;
+				case "Completed":
+					exp = exp.And(p => p.OrderStatus == OrderStatusEnum.Completed);
+					break;
+				case "Confirming":
+					exp = exp.And(p => p.OrderStatus == OrderStatusEnum.Confirming);
+					break;
+				case "Failed":
+					exp = exp.And(p => p.OrderStatus == OrderStatusEnum.Failed);
+					break;
+				case "Active":
+				default:
+					exp = exp.And(p => (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing));
+					break;
 			}
 
-			OrderStatusEnum orderStatus;
-			if(model.Status == "Closed") {
-				orderStatus = OrderStatusEnum.Closed;
-			}
-			else if(model.Status == "Completed") {
-				orderStatus = OrderStatusEnum.Completed;
-			}
-			else if(model.Status == "Confirming") {
-				orderStatus = OrderStatusEnum.Confirming;
-			}
-			else if(model.Status == "Failed") {
-				orderStatus = OrderStatusEnum.Failed;
-			}
-			else {
-				orderStatus = OrderStatusEnum.OnGoing;
-			}
 			if(model.UserId != null) {
-				return View(await OrderManager.GetOrdersAsync(p => p.UserId == model.UserId && p.OrderType == orderType));
+				exp = exp.And(p => p.UserId == model.UserId);
 			}
-			else {
-				return View(await OrderManager.GetOrdersAsync(p => p.OrderType == orderType && p.OrderStatus == orderStatus));
-			}
+
+			return View(await OrderManager.GetOrdersAsync(exp));
 		}
 
 
 		public async Task<JsonResult> ChangeOrderGettingService(bool id) {
-			await OrderManager.ChangeOrderGettingService(id);
+			await ConfigManager.ChangeOrderGettingService(id);
 			return Json(new JsonSucceedObj(), JsonRequestBehavior.AllowGet);
 		}
 		public async Task<JsonResult> ChangeOrderSendingService(bool id) {
-			await OrderManager.ChangeOrderSendingService(id);
+			await ConfigManager.ChangeOrderSendingService(id);
 			return Json(new JsonSucceedObj(), JsonRequestBehavior.AllowGet);
 		}
 
 		public async Task<JsonResult> ChnageOrderStatus(ChangeOrderStatusViewModel model) {
-			if(model.AdminRemark == null) {
-				if(await OrderManager.ChangeOrderStatus(model.OrderId, model.Status)) {
-					await OrderManager.RecordEventAsync(model.OrderId, User.Identity.GetUserId(), model.Status);
-					return Json(new JsonSucceedObj());
-				}
-				return Json(new JsonErrorObj("修改失败"));
-			}
-			if(await OrderManager.ChangeOrderStatus(model.OrderId, model.Status, model.AdminRemark)) {
+			OrderResult result = await OrderManager.ChangeOrderStatus(model.OrderId, model.Status, model.AdminRemark);
+			if(result.IsSucceed) {
 				await OrderManager.RecordEventAsync(model.OrderId, User.Identity.GetUserId(), model.Status);
 				return Json(new JsonSucceedObj());
 			}
-			return Json(new JsonErrorObj("修改失败"));
+			return Json(new JsonErrorObj(result.ErrorMessage));
 		}
 		public async Task<JsonResult> ChangeAdminRemark(ChangeOrderAdminRemarkViewModel model) {
-			if(await OrderManager.ChangeOrderAdminRemark(model.OrderId, model.AdminRemark)) {
+			OrderResult result = await OrderManager.ChangeOrderAdminRemark(model.OrderId, model.AdminRemark);
+			if(result.IsSucceed) {
 				await OrderManager.RecordEventAsync(model.OrderId, User.Identity.GetUserId(), "更改备注：" + model.AdminRemark);
 				return Json(new JsonSucceedObj());
 			}
-			return Json(new JsonErrorObj("修改失败"));
+			return Json(new JsonErrorObj(result.ErrorMessage));
 		}
 	}
+
 }

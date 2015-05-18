@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace LOK.Models {
 	public class ApplicationUser : IdentityUser {
 		public string NickName { get; set; }
+		public ICollection<Order> Orders { get; set; }
 	}
 	public class ApplicationRole : IdentityRole {
 		public ApplicationRole()
@@ -27,6 +28,7 @@ namespace LOK.Models {
 		public DbSet<Order> Orders { get; set; }
 		public DbSet<OrderRecord> OrderRecords { get; set; }
 		public DbSet<ConfigModels> Configs { get; set; }
+		public DbSet<ExpressCompany> ExpressCompanies { get; set; }
 		public static ApplicationDbContext Create() {
 			return new ApplicationDbContext();
 		}

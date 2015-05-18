@@ -62,6 +62,11 @@ namespace LOK {
 			}
 			return false;
 		}
+		// 新建完整用户
+		public async override Task<IdentityResult> CreateAsync(ApplicationUser user, string password) {
+			await ConfigManager.AddUserSignedUp();
+			return await base.CreateAsync(user, password);
+		}
 		// 将匿名用户转换为完整用户
 		public async Task<IdentityResult> AddFullIdentityToExistedUserAsync(string userId, string email, string password, string nickName) {
 			ApplicationUser user = new ApplicationUser {
@@ -71,6 +76,7 @@ namespace LOK {
 				NickName = nickName,
 				UserName = email
 			};
+			await ConfigManager.GuestTurnToSignedUp();
 			return await UpdateAsync(user);
 		}
 		// 新建匿名用户
@@ -81,22 +87,29 @@ namespace LOK {
 			if(result.Succeeded) {
 				return voidUser;
 			}
+			await ConfigManager.AddUserGuest();
 			return null;
 		}
-		public async Task<UserStatistics> GetUsersStatistics() {
-			ApplicationDbContext context = new ApplicationDbContext();
-			List<ApplicationUser> users = await context.Users.ToListAsync();
-			UserStatistics us = new UserStatistics();
-			foreach(ApplicationUser user in users) {
-				us.UsersAllCount++;
-				if(await IsInRoleAsync(user.Id, UserRolesEnum.SignedUp.ToString())) {
-					us.UsersSignedUpCount++;
-				}
-				else if(await IsInRoleAsync(user.Id,UserRolesEnum.Guest.ToString())) {
-					us.UsersGuestCount++;
-				}
+		public async Task<List<ApplicationUser>> FindByRoleId(string roleId) {
+			using(ApplicationDbContext context = new ApplicationDbContext()) {
+				return await context.Users.Where(p => p.Roles.FirstOrDefault().RoleId == roleId).ToListAsync();
 			}
-			return us;
+		}
+		public async Task<UserStatistics> GetUsersStatistics() {
+			using(ApplicationDbContext context = new ApplicationDbContext()) {
+				List<ApplicationUser> users = await context.Users.ToListAsync();
+				UserStatistics us = new UserStatistics();
+				foreach(ApplicationUser user in users) {
+					us.UsersAllCount++;
+					if(await IsInRoleAsync(user.Id, "SignedUp")) {
+						us.UsersSignedUpCount++;
+					}
+					else if(await IsInRoleAsync(user.Id, "Guest")) {
+						us.UsersGuestCount++;
+					}
+				}
+				return us;
+			}
 		}
 	}
 	public class UserStatistics {
@@ -123,6 +136,5 @@ namespace LOK {
 		public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context) {
 			return new ApplicationRoleManager(new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
 		}
-
 	}
 }

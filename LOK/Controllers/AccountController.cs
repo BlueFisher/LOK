@@ -22,6 +22,11 @@ namespace LOK.Controllers {
 				return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
 			}
 		}
+		public OrderManager OrderManager {
+			get {
+				return OrderManager.Create();
+			}
+		}
 		#endregion
 
 		public ActionResult Index() {
@@ -38,6 +43,13 @@ namespace LOK.Controllers {
 			}
 			else if(UserManager.PasswordHasher.VerifyHashedPassword(user.PasswordHash, model.Password) == PasswordVerificationResult.Failed) {
 				return Json(new JsonErrorObj("密码错误", "Password"));
+			}
+			if(User.Identity.IsAuthenticated) {
+				ApplicationUser oldUser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+				if(await UserManager.IsInRoleAsync(oldUser.Id, "Guest")) {
+					await OrderManager.TransferOrdersAsync(oldUser.Id, user.Id);
+					await UserManager.DeleteAsync(oldUser);
+				}
 			}
 			SignInManager.SignIn(user, true, false);
 			return Json(new JsonSucceedObj());
@@ -64,8 +76,8 @@ namespace LOK.Controllers {
 					return Json(new JsonErrorObj(result.Errors.First()));
 				}
 				//await sendConfirmEmail(newUser.Id);
-				await UserManager.AddToRoleAsync(newUser.Id, UserRolesEnum.SignedUp.ToString());
-				SignInManager.SignIn(newUser, true, false);
+				await UserManager.AddToRoleAsync(newUser.Id, "SignedUp");
+				await SignInManager.SignInAsync(newUser, true, false);
 				return Json(new JsonSucceedObj());
 			}
 			//如果在注册之前已经用匿名用户提交过订单
@@ -80,8 +92,8 @@ namespace LOK.Controllers {
 				return Json(new JsonErrorObj(result.Errors.First()));
 			}
 			//await sendConfirmEmail(user.Id);
-			await UserManager.RemoveFromRoleAsync(user.Id, UserRolesEnum.Guest.ToString());
-			await UserManager.AddToRoleAsync(user.Id, UserRolesEnum.SignedUp.ToString());
+			await UserManager.RemoveFromRoleAsync(user.Id, "Guest");
+			await UserManager.AddToRoleAsync(user.Id, "SignedUp");
 			SignInManager.AuthenticationManager.SignOut();
 			await SignInManager.SignInAsync(user, true, false);
 			return Json(new JsonSucceedObj());

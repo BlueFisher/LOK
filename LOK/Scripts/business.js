@@ -22,7 +22,7 @@
 					backdrop: 'static'
 				});
 				var progressValue = 0;
-				var time = 5; //等待时间（秒）
+				var time = 1; //等待时间（秒）
 				var $progressSubmit = $('#progress-bar-submit');
 				var interval = setInterval(function() {
 					$progressSubmit.css('width', progressValue + '%').text(parseInt(progressValue) + '%');

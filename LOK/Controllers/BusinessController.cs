@@ -22,9 +22,9 @@ namespace LOK.Controllers {
 				return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
 			}
 		}
-		public ApplicationOrderManager OrderManager {
+		public OrderManager OrderManager {
 			get {
-				return ApplicationOrderManager.Create();
+				return OrderManager.Create();
 			}
 		}
 		#endregion
@@ -39,12 +39,13 @@ namespace LOK.Controllers {
 			ViewBag.IsUserInGuest = false;
 			ViewBag.User = null;
 			if(Request.IsAuthenticated) {
-				ViewBag.IsUserInGuest = await UserManager.IsInRoleAsync(User.Identity.GetUserId(), UserRolesEnum.Guest.ToString());
+				ViewBag.IsUserInGuest = await UserManager.IsInRoleAsync(User.Identity.GetUserId(),"Guest");
 				ViewBag.User = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 				return View();
 			}
 			return View();
 		}
+
 		#region Ajax获取表单信息
 		// 所有面板形式的详细订单
 		public async Task<ActionResult> AjaxOrderWells(string id) {
@@ -89,7 +90,7 @@ namespace LOK.Controllers {
 			if(Request.IsAjaxRequest()) {
 				string userId = User.Identity.GetUserId();
 				ApplicationUser user = UserManager.FindById(userId);
-				if(user != null && !UserManager.IsInRole(userId, UserRolesEnum.Guest.ToString())) {
+				if(user != null && !UserManager.IsInRole(userId, "Guest")) {
 					ViewBag.NickName = user.NickName;
 				}
 				return View(await OrderManager.GetOrdersAsync(p =>
@@ -120,28 +121,28 @@ namespace LOK.Controllers {
 		#region 提交订单
 		[HttpPost]
 		public async Task<JsonResult> OrderGetting(OrderGettingViewModel model) {
-			if(!ConfigControls.IsOrderGettingOnService) {
+			if(!ConfigManager.IsOrderGettingOnService) {
 				return Json(new JsonErrorObj("取件服务暂时不开放"));
 			}
 			if(!ModelState.IsValid) {
 				return Json(new JsonErrorObj(ModelState));
 			}
 			if(Request.IsAuthenticated) {
-				bool result = await OrderManager.CreateOrderGettingAsync(model, User.Identity.GetUserId());
-				if(result) {
+				OrderResult result = await OrderManager.CreateOrderGettingAsync(model, User.Identity.GetUserId());
+				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
-				return Json(new JsonErrorObj());
+				return Json(new JsonErrorObj(result.ErrorMessage));
 			}
 			ApplicationUser voidUser = await UserManager.CreateVoidUserAsync();
 			if(voidUser != null) {
-				UserManager.AddToRole(voidUser.Id, UserRolesEnum.Guest.ToString());
-				SignInManager.SignIn(voidUser, true, true);
-				bool result = await OrderManager.CreateOrderGettingAsync(model, voidUser.Id);
-				if(result) {
+				UserManager.AddToRole(voidUser.Id, "Guest");
+				await SignInManager.SignInAsync(voidUser, true, true);
+				OrderResult result = await OrderManager.CreateOrderGettingAsync(model, voidUser.Id);
+				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
-				return Json(new JsonErrorObj());
+				return Json(new JsonErrorObj(result.ErrorMessage));
 			}
 			else {
 				return Json(new JsonErrorObj("匿名用户申请失败"));
@@ -149,28 +150,28 @@ namespace LOK.Controllers {
 		}
 		[HttpPost]
 		public async Task<JsonResult> OrderSending(OrderSendingViewModel model) {
-			if(!ConfigControls.IsOrderSendingOnService) {
+			if(!ConfigManager.IsOrderSendingOnService) {
 				return Json(new JsonErrorObj("寄件服务暂时不开放"));
 			}
 			if(!ModelState.IsValid) {
 				return Json(new JsonErrorObj(ModelState));
 			}
 			if(Request.IsAuthenticated) {
-				bool result = await OrderManager.CreateOrderSendingAsync(model, User.Identity.GetUserId());
-				if(result) {
+				OrderResult result = await OrderManager.CreateOrderSendingAsync(model, User.Identity.GetUserId());
+				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
-				return Json(new JsonErrorObj());
+				return Json(new JsonErrorObj(result.ErrorMessage));
 			}
 			ApplicationUser voidUser = await UserManager.CreateVoidUserAsync();
 			if(voidUser != null) {
-				UserManager.AddToRole(voidUser.Id, UserRolesEnum.Guest.ToString());
+				UserManager.AddToRole(voidUser.Id, "Guest");
 				SignInManager.SignIn(voidUser, true, true);
-				bool result = await OrderManager.CreateOrderSendingAsync(model, voidUser.Id);
-				if(result) {
+				OrderResult result = await OrderManager.CreateOrderSendingAsync(model, voidUser.Id);
+				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
-				return Json(new JsonErrorObj());
+				return Json(new JsonErrorObj(result.ErrorMessage));
 			}
 			else {
 				return Json(new JsonErrorObj("匿名用户申请失败"));
@@ -181,11 +182,10 @@ namespace LOK.Controllers {
 
 		public JsonResult IsOrderOnService() {
 			return Json(new {
-				Getting = ConfigControls.IsOrderGettingOnService,
-				Sending = ConfigControls.IsOrderSendingOnService,
+				Getting = ConfigManager.IsOrderGettingOnService,
+				Sending = ConfigManager.IsOrderSendingOnService,
 			}, JsonRequestBehavior.AllowGet);
 		}
-
 
 		[HttpPost]
 		public async Task<JsonResult> CloseOrder(int id) {
@@ -193,10 +193,11 @@ namespace LOK.Controllers {
 			if(await OrderManager.IsOrderBelongToUser(id, userId)) {
 				Order order = (await OrderManager.GetOrdersAsync(p => p.OrderId == id)).FirstOrDefault();
 				if(order.OrderStatus == OrderStatusEnum.Confirming || order.OrderStatus == OrderStatusEnum.Completed || order.OrderStatus == OrderStatusEnum.Failed) {
-					if(await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.Closed)) {
+					OrderResult result = await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.Closed, null);
+					if(result.IsSucceed) {
 						return Json(new JsonSucceedObj());
 					}
-					return Json(new JsonErrorObj("关闭失败"));
+					return Json(new JsonErrorObj(result.ErrorMessage));
 				}
 				return Json(new JsonErrorObj("无法关闭当前订单"));
 			}
@@ -205,30 +206,4 @@ namespace LOK.Controllers {
 
 	}
 
-	public class JsonErrorObj {
-		public JsonErrorObj() { }
-		public JsonErrorObj(string errorMessage) {
-			ErrorMessage = errorMessage;
-		}
-		public JsonErrorObj(string errorMessage, string errorPosition) {
-			ErrorMessage = errorMessage;
-			ErrorPosition = errorPosition;
-		}
-		public JsonErrorObj(ModelStateDictionary model) {
-			foreach(KeyValuePair<string, ModelState> item in model) {
-				ModelErrorCollection errors = item.Value.Errors;
-				if(errors.Count > 0) {
-					ErrorMessage = errors[0].ErrorMessage;
-					ErrorPosition = item.Key;
-					break;
-				}
-			}
-		}
-		public bool IsSucceed = false;
-		public string ErrorMessage;
-		public string ErrorPosition;
-	}
-	public class JsonSucceedObj {
-		public bool IsSucceed = true;
-	}
 }

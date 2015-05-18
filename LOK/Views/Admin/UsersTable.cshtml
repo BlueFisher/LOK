@@ -4,7 +4,7 @@
 	string roleName = ViewBag.RoleName;
 }
 
-@if(roleName == UserRolesEnum.Guest.ToString()) {
+@if(roleName == "Guest") {
 	<table class="table">
 		<tr>
 			<th>UserName</th>
@@ -26,7 +26,7 @@
 		}
 	</table>
 }
-else if(roleName == UserRolesEnum.SignedUp.ToString() || roleName == UserRolesEnum.Admin.ToString() || roleName == UserRolesEnum.SuperAdmin.ToString()) {
+else if(roleName == "SignedUp" || roleName == "Admin" || roleName =="SuperAdmin") {
 	<table class="table">
 		<tr>
 			<th>邮箱</th>

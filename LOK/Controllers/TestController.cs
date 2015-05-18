@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Threading.Tasks;
 
 namespace LOK.Controllers {
 
@@ -41,9 +42,11 @@ namespace LOK.Controllers {
 			}
 		}
 		// GET: Test
-		public ActionResult Index(string GetorSend, string FullorActive) {
+		public async Task<ActionResult> Index() {
+			List<Order> orders = await new OrderManager().GetOrdersAsync(p => p.ExpressCompanyId == 1);
 
-			return Content(GetorSend + " " + FullorActive);
+
+			return Content("");
 		}
 	}
 }
