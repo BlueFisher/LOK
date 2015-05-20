@@ -46,6 +46,7 @@ namespace LOK.Controllers {
 			}
 			if(User.Identity.IsAuthenticated) {
 				ApplicationUser oldUser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+				
 				if(await UserManager.IsInRoleAsync(oldUser.Id, "Guest")) {
 					await OrderManager.TransferOrdersAsync(oldUser.Id, user.Id);
 					await UserManager.DeleteAsync(oldUser);

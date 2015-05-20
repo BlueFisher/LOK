@@ -6,7 +6,7 @@
 
 	function _loadOrdersTable() {
 		var $panel = $('#panel-table');
-		$.post('/Admin/OrdersTable/', {
+		$.post('/Admin/Ajax/OrdersTable/', {
 			HasFunction: true,
 			Type: $inputOrderType.val(),
 			Status: $inputOrderStatus.val(),
@@ -21,12 +21,10 @@
 		});
 	}
 
-
-	function _loadOrdersStatistics() {
-		$.post('/Admin/GetOrdersStatistics', function (data, textStatus, xhr) {
+	function _initializeChart() {
+		$.post('/Admin/GetOrdersStatistics', function (data) {
 			$('#orders-statistics').highcharts({
 				chart: {
-					animation: false,
 					type: 'bar'
 				},
 				credits: { enabled: false },
@@ -67,11 +65,25 @@
 				}]
 			});
 		});
+
 	}
 
-	_loadOrdersStatistics();
-	_loadOrdersTable();
+	function _updateChart() {
+		$.post('/Admin/GetOrdersStatistics', function (data) {
+			var chart = $('#orders-statistics').highcharts();
+			chart.series[0].update({
+				data: [data.OrdersGettingCount - data.OrdersGettingActiveCount,
+					data.OrdersSendingCount - data.OrdersSendingActiveCount]
+			});
+			chart.series[1].update({
+				data: [data.OrdersGettingActiveCount,
+					data.OrdersSendingActiveCount]
+			});
+		});
+	}
 
+	_initializeChart();
+	_loadOrdersTable();
 
 	$('.dropdown-select').on('click', 'ul li a', function () {
 		_loadOrdersTable();
@@ -79,14 +91,14 @@
 
 	$('.btn-refresh').click(function () {
 		_loadOrdersTable();
-		_loadOrdersStatistics();
+		_updateChart();
 	});
 
 	$('.panel').on('click', '.btn-accept-order', function () {
 		var $this = $(this);
 		$this.btnConfirm(function () {
 			var orderId = $this.parents('tr').attr('data-order-id');
-			$.post('/Admin/ChnageOrderStatus/', {
+			$.post('/Admin/ChangeOrderStatus/', {
 				OrderId: orderId,
 				Status: 'OnGoing'
 			}, function (data, textStatus, xhr) {
@@ -103,13 +115,13 @@
 		var $this = $(this);
 		$this.btnConfirm(function () {
 			var orderId = $this.parents('tr').attr('data-order-id');
-			$.post('/Admin/ChnageOrderStatus/', {
+			$.post('/Admin/ChangeOrderStatus/', {
 				OrderId: orderId,
 				Status: 'Completed'
 			}, function (data, textStatus, xhr) {
 				if (data.IsSucceed) {
 					_loadOrdersTable();
-					_loadOrdersStatistics();
+					_updateChart();
 				} else {
 					toastr.error(data.ErrorMessage);
 				}
@@ -124,14 +136,14 @@
 			var $modal = $('#modal-admin-remark')
 			$modal.find('#form-admin-remark').one('submit', function () {
 				event.preventDefault();
-				$.post('/Admin/ChnageOrderStatus/', {
+				$.post('/Admin/ChangeOrderStatus/', {
 					OrderId: orderId,
 					Status: 'Failed',
 					AdminRemark: $modal.find('[name="AdminRemark"]').val()
 				}, function (data, textStatus, xhr) {
 					if (data.IsSucceed) {
 						_loadOrdersTable();
-						_loadOrdersStatistics();
+						_updateChart();
 						$modal.modal('hide');
 					} else {
 						toastr.error(data.ErrorMessage);
@@ -167,8 +179,9 @@
 	$('.panel').on('click', '.btn-find-user', function () {
 		var $this = $(this);
 		var userId = $this.parents('tr').attr('data-user-id');
-		$.post('/Admin/UsersTable', {
-			userId: userId
+		$.post('/Admin/Ajax/UsersTable/', {
+			HasFunction: false,
+			UserId: userId,
 		}, function (data, textStatus, xhr) {
 			$data = $(data).addClass('no-margin-bottom');
 			$modal.find('table').detach();

@@ -1,16 +1,5 @@
 ﻿@model List<Order>
 
-
-@helper formatTime(int time) {
-	if(time == 0) {
-		<span>立即送出</span>
-	}
-	else {
-		int sec = time % 100;
-		int min = (time - sec) / 100;
-		<span>@min : @sec</span>
-	}
-}
 @helper getButton(OrderStatusEnum status) {
 	<div class="btn-group">
 		@if(status == OrderStatusEnum.Confirming) {
@@ -76,7 +65,7 @@
 				<td>@item.Phone</td>
 				<td>@item.Address</td>
 				<td>@item.StartTime</td>
-				<td>@formatTime(item.Time)</td>
+				<td>@Utility.FormatTime(item.Time)</td>
 				<td>@item.Remark</td>
 				<td>@item.AdminRemark</td>
 				<td>@getStatusText(item.OrderStatus)</td>
@@ -118,7 +107,7 @@ else {
 				<td>@item.ToAddress</td>
 				<td>@item.ToName</td>
 				<td>@item.StartTime</td>
-				<td>@formatTime(item.Time)</td>
+				<td>@Utility.FormatTime(item.Time)</td>
 				<td>@item.Remark</td>
 				<td>@item.AdminRemark</td>
 				<td>@getStatusText(item.OrderStatus)</td>

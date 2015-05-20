@@ -137,35 +137,35 @@ $.fn.extend({
 	}
 });
 $.extend({
-	loadUsersTable: function(hasFunction, roleName, userId, panelId) {
-		var $panel = $('#' + panelId);
-		$.post('/Admin/UsersTable/', {
-			HasFunction: hasFunction,
-			RoleName: roleName,
-			UserId: userId
-		}, function(data, textStatus, xhr) {
-			$data = $(data).addClass('animated fadeIn').css({
-				'-webkit-animation-duration': '0.3s',
-				'animation-duration': '0.3s'
-			});
-			$panel.find('table').detach();
-			$panel.append($data);
-		});
-	},
-	loadOrdersTable: function(hasFunction, type, status, userId, panelId) {
-		var $panel = $('#' + panelId);
-		$.post('/Admin/OrdersTable/', {
-			HasFunction: hasFunction,
-			Type: type,
-			Status: status,
-			UserId: userId
-		}, function(data, textStatus, xhr) {
-			$data = $(data).addClass('animated fadeIn').css({
-				'-webkit-animation-duration': '0.3s',
-				'animation-duration': '0.3s'
-			});
-			$panel.find('table').detach();
-			$panel.append($data);
-		});
-	}
+	//loadUsersTable: function(hasFunction, roleName, userId, panelId) {
+	//	var $panel = $('#' + panelId);
+	//	$.post('/Admin/UsersTable/', {
+	//		HasFunction: hasFunction,
+	//		RoleName: roleName,
+	//		UserId: userId
+	//	}, function(data, textStatus, xhr) {
+	//		$data = $(data).addClass('animated fadeIn').css({
+	//			'-webkit-animation-duration': '0.3s',
+	//			'animation-duration': '0.3s'
+	//		});
+	//		$panel.find('table').detach();
+	//		$panel.append($data);
+	//	});
+	//},
+	//loadOrdersTable: function(hasFunction, type, status, userId, panelId) {
+	//	var $panel = $('#' + panelId);
+	//	$.post('/Admin/OrdersTable/', {
+	//		HasFunction: hasFunction,
+	//		Type: type,
+	//		Status: status,
+	//		UserId: userId
+	//	}, function(data, textStatus, xhr) {
+	//		$data = $(data).addClass('animated fadeIn').css({
+	//			'-webkit-animation-duration': '0.3s',
+	//			'animation-duration': '0.3s'
+	//		});
+	//		$panel.find('table').detach();
+	//		$panel.append($data);
+	//	});
+	//}
 });

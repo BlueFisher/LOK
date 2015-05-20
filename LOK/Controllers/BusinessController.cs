@@ -39,7 +39,7 @@ namespace LOK.Controllers {
 			ViewBag.IsUserInGuest = false;
 			ViewBag.User = null;
 			if(Request.IsAuthenticated) {
-				ViewBag.IsUserInGuest = await UserManager.IsInRoleAsync(User.Identity.GetUserId(),"Guest");
+				ViewBag.IsUserInGuest = await UserManager.IsInRoleAsync(User.Identity.GetUserId(), "Guest");
 				ViewBag.User = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 				return View();
 			}
@@ -50,37 +50,43 @@ namespace LOK.Controllers {
 		// 所有面板形式的详细订单
 		public async Task<ActionResult> AjaxOrderWells(string id) {
 			if(Request.IsAjaxRequest()) {
+				List<Order> orders;
 				string userId = User.Identity.GetUserId();
 				switch(id) {
 					case "All":
-						return View(await OrderManager.GetOrdersAsync(p =>
-							p.UserId == userId
-						));
-					case "Nearly":
-						List<Order> list = await OrderManager.GetOrdersAsync(p =>
+						orders = await OrderManager.GetOrdersAsync(p =>
 							p.UserId == userId
 						);
-						return View(list.Where(p =>
-							Convert.ToDateTime(p.StartTime) >= DateTime.Now.AddMonths(-1)
-						).ToList());
+						break;
+					case "Nearly":
+						orders = (await OrderManager.GetOrdersAsync(p =>
+							p.UserId == userId)).Where(p =>
+								Convert.ToDateTime(p.StartTime) >= DateTime.Now.AddMonths(-1)
+						).ToList();
+						break;
 					case "Active":
-						return View(await OrderManager.GetOrdersAsync(p =>
+						orders = await OrderManager.GetOrdersAsync(p =>
 							p.UserId == userId && (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing)
-						));
+						);
+						break;
 					case "Completed":
-						return View(await OrderManager.GetOrdersAsync(p =>
+						orders = await OrderManager.GetOrdersAsync(p =>
 							p.UserId == userId && p.OrderStatus == OrderStatusEnum.Completed
-						));
+						);
+						break;
 					case "Failed":
-						return View(await OrderManager.GetOrdersAsync(p =>
+						orders = await OrderManager.GetOrdersAsync(p =>
 							p.UserId == userId && p.OrderStatus == OrderStatusEnum.Failed
-						));
+						);
+						break;
 					case "Closed":
 					default:
-						return View(await OrderManager.GetOrdersAsync(p =>
+						orders = await OrderManager.GetOrdersAsync(p =>
 							p.UserId == userId && p.OrderStatus == OrderStatusEnum.Closed
-						));
+						);
+						break;
 				}
+				return View("Ajax/AjaxOrderWells", orders);
 			}
 			return RedirectToAction("Order");
 		}
@@ -93,7 +99,7 @@ namespace LOK.Controllers {
 				if(user != null && !UserManager.IsInRole(userId, "Guest")) {
 					ViewBag.NickName = user.NickName;
 				}
-				return View(await OrderManager.GetOrdersAsync(p =>
+				return View("Ajax/AjaxOrderMenus", await OrderManager.GetOrdersAsync(p =>
 					p.UserId == userId && (p.OrderStatus == OrderStatusEnum.Confirming || p.OrderStatus == OrderStatusEnum.OnGoing)
 				));
 			}
@@ -128,7 +134,7 @@ namespace LOK.Controllers {
 				return Json(new JsonErrorObj(ModelState));
 			}
 			if(Request.IsAuthenticated) {
-				OrderResult result = await OrderManager.CreateOrderGettingAsync(model, User.Identity.GetUserId());
+				FunctionResult result = await OrderManager.CreateOrderGettingAsync(model, User.Identity.GetUserId());
 				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
@@ -138,7 +144,7 @@ namespace LOK.Controllers {
 			if(voidUser != null) {
 				UserManager.AddToRole(voidUser.Id, "Guest");
 				await SignInManager.SignInAsync(voidUser, true, true);
-				OrderResult result = await OrderManager.CreateOrderGettingAsync(model, voidUser.Id);
+				FunctionResult result = await OrderManager.CreateOrderGettingAsync(model, voidUser.Id);
 				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
@@ -157,7 +163,7 @@ namespace LOK.Controllers {
 				return Json(new JsonErrorObj(ModelState));
 			}
 			if(Request.IsAuthenticated) {
-				OrderResult result = await OrderManager.CreateOrderSendingAsync(model, User.Identity.GetUserId());
+				FunctionResult result = await OrderManager.CreateOrderSendingAsync(model, User.Identity.GetUserId());
 				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
@@ -167,7 +173,7 @@ namespace LOK.Controllers {
 			if(voidUser != null) {
 				UserManager.AddToRole(voidUser.Id, "Guest");
 				SignInManager.SignIn(voidUser, true, true);
-				OrderResult result = await OrderManager.CreateOrderSendingAsync(model, voidUser.Id);
+				FunctionResult result = await OrderManager.CreateOrderSendingAsync(model, voidUser.Id);
 				if(result.IsSucceed) {
 					return Json(new JsonSucceedObj());
 				}
@@ -193,7 +199,7 @@ namespace LOK.Controllers {
 			if(await OrderManager.IsOrderBelongToUser(id, userId)) {
 				Order order = (await OrderManager.GetOrdersAsync(p => p.OrderId == id)).FirstOrDefault();
 				if(order.OrderStatus == OrderStatusEnum.Confirming || order.OrderStatus == OrderStatusEnum.Completed || order.OrderStatus == OrderStatusEnum.Failed) {
-					OrderResult result = await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.Closed, null);
+					FunctionResult result = await OrderManager.ChangeOrderStatus(id, OrderStatusEnum.Closed, null);
 					if(result.IsSucceed) {
 						return Json(new JsonSucceedObj());
 					}

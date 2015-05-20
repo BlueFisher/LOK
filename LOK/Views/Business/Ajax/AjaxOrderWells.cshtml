@@ -1,24 +1,5 @@
 ﻿@model List<Order>
 
-@*@helper getOrderStatus(OrderStatusEnum status) {
-		switch(status) {
-			case OrderStatusEnum.Completed:
-				<p class="lead no-margin-bottom">状态： <i class="fa fa-check-circle"></i></p>
-				break;
-			case OrderStatusEnum.Closed:
-			<p class="lead no-margin-bottom">状态： <i class="fa fa-ban"></i></p>
-				break;
-			case OrderStatusEnum.Failed:
-			<p class="lead no-margin-bottom">状态： <i class="fa fa-times-circle"></i></p>
-				break;
-			case OrderStatusEnum.OnGoing:
-			case OrderStatusEnum.Confirming:
-			<p class="lead no-margin-bottom">状态： <i class="fa fa-refresh"></i></p>
-				break;
-			default:
-				break;
-		}
-	}*@
 @helper getCloseBtn(OrderStatusEnum status) {
 	if(status == OrderStatusEnum.Confirming) {
 		<button class="btn btn-transparent btn-material btn-close-order">取消订单</button>
@@ -58,31 +39,24 @@ else {
 					</div>
 					<div class="well-content">
 						<div class="row">
-							<div class="col-md-4">
-								<p>下单时间：@order.StartTime</p>
+							<div class="col-md-4 order-info-left-decoration">
+								<p><b>下单时间：</b>@order.StartTime</p>
+								<p><b>上门时间：</b>@Utility.FormatTime(order.Time)</p>
+								<p><b>上门地址：</b>@order.Address</p>
+								<p><b>联系电话：</b>@order.Phone</p>
 							</div>
-							<div class="col-md-4">
-								<p>快递公司：@order.ExpressCompany.Discription</p>
+							<div class="col-md-4 order-info-left-decoration">
+								<p><b>快递公司：</b>@order.ExpressCompany.Discription</p>
+								<p><b>快递号：</b>@order.ExpressNo</p>
 							</div>
-							<div class="col-md-4">
-								<p>上门地址：@order.Address</p>
+							<div class="col-md-4 order-info-left-decoration">
+								@if(@order.Remark != null) {
+									<p><b>备注：</b>@order.Remark</p>
+								}
+								@if(@order.AdminRemark != null) {
+									<p class="text-danger"><b>客服备注：</b>@order.AdminRemark</p>
+								}
 							</div>
-							<div class="col-md-4">
-								<p>联系电话：@order.Phone</p>
-							</div>
-							<div class="col-md-4">
-								<p>快递号：@order.ExpressNo</p>
-							</div>
-							@if(@order.Remark != null) {
-								<div class="col-md-12">
-									<p>备注：@order.Remark</p>
-								</div>
-							}
-							@if(@order.AdminRemark != null) {
-								<div class="col-md-12">
-									<p class="text-danger">客服备注：@order.AdminRemark</p>
-								</div>
-							}
 							<div class="col-md-12">
 								<div class="progress no-margin-bottom">
 									@Html.Partial("_PartialOrderStatusProgress", order.OrderStatus)
@@ -110,7 +84,7 @@ else {
 								<p>下单时间：@order.StartTime</p>
 							</div>
 							<div class="col-md-4">
-								<p>快递公司：@order.ExpressCompany</p>
+								<p>快递公司：@order.ExpressCompany.Discription</p>
 							</div>
 							<div class="col-md-4">
 								<p>上门地址：@order.Address</p>

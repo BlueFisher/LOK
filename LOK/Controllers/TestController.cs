@@ -42,11 +42,12 @@ namespace LOK.Controllers {
 			}
 		}
 		// GET: Test
-		public async Task<ActionResult> Index() {
-			List<Order> orders = await new OrderManager().GetOrdersAsync(p => p.ExpressCompanyId == 1);
-
-
-			return Content("");
+		public ActionResult Index() {
+			return View();
+		}
+		
+		public ActionResult Another() {
+			return Content("!");
 		}
 	}
 }

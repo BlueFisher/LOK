@@ -10,3 +10,7 @@
 .well-heading .btn.btn-transparent:focus{
 	color: #fff;
 }
+
+.order-info-left-decoration{
+	border-left:1px solid #ccc;
+}

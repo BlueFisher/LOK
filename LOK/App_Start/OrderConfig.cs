@@ -20,9 +20,9 @@ namespace LOK {
 		}
 		private ApplicationDbContext context;
 
-		#region 新建订单
+		 #region 新建订单
 		// 新建取件单
-		public async Task<OrderResult> CreateOrderGettingAsync(OrderGettingViewModel model, string userId) {
+		public async Task<FunctionResult> CreateOrderGettingAsync(OrderGettingViewModel model, string userId) {
 			try {
 				context.Orders.Add(new Order() {
 					OrderType = model.OrderType,
@@ -37,14 +37,14 @@ namespace LOK {
 				});
 				await context.SaveChangesAsync();
 				await ConfigManager.AddOrderCount(true);
-				return new OrderResult();
+				return new FunctionResult();
 			}
 			catch(Exception e) {
-				return new OrderResult(e.Message);
+				return new FunctionResult(e);
 			}
 		}
 		// 新建寄件单
-		public async Task<OrderResult> CreateOrderSendingAsync(OrderSendingViewModel model, string userId) {
+		public async Task<FunctionResult> CreateOrderSendingAsync(OrderSendingViewModel model, string userId) {
 			try {
 				context.Orders.Add(new Order() {
 					OrderType = model.OrderType,
@@ -60,14 +60,14 @@ namespace LOK {
 				});
 				await context.SaveChangesAsync();
 				await ConfigManager.AddOrderCount(false);
-				return new OrderResult();
+				return new FunctionResult();
 			}
 			catch(Exception e) {
-				return new OrderResult(e.Message);
+				return new FunctionResult(e);
 			}
 		}
 		// 将旧用户下的所有订单转移到新用户上
-		public async Task<OrderResult> TransferOrdersAsync(string oldUserId, string newUserId) {
+		public async Task<FunctionResult> TransferOrdersAsync(string oldUserId, string newUserId) {
 			try {
 				List<Order> orders = await GetOrdersAsync(p => p.UserId == oldUserId);
 				foreach(Order o in orders) {
@@ -76,10 +76,10 @@ namespace LOK {
 					context.Entry<Order>(o).State = EntityState.Modified;
 				}
 				await context.SaveChangesAsync();
-				return new OrderResult();
+				return new FunctionResult();
 			}
 			catch(Exception e) {
-				return new OrderResult(e.Message);
+				return new FunctionResult(e);
 			}
 		}
 		#endregion
@@ -96,50 +96,44 @@ namespace LOK {
 		#endregion
 
 		#region 修改订单
-		public async Task<OrderResult> ChangeOrderAdminRemark(int orderId, string adminRemark) {
+		public async Task<FunctionResult> ChangeOrderAdminRemark(int orderId, string adminRemark) {
 			Order model = await (from p in context.Orders
 								 where p.OrderId == orderId
 								 select p).FirstOrDefaultAsync();
 			if(model == null) {
-				return new OrderResult("未找到订单");
+				return new FunctionResult("未找到订单");
 			}
 			model.AdminRemark = adminRemark == string.Empty ? null : adminRemark;
-			context.Entry(model).Property(p => p.AdminRemark).IsModified = true;
 			await context.SaveChangesAsync();
-			return new OrderResult();
+			return new FunctionResult();
 		}
 
-		public async Task<OrderResult> ChangeOrderStatus(int orderId, OrderStatusEnum status, string adminRemark) {
+		public async Task<FunctionResult> ChangeOrderStatus(int orderId, OrderStatusEnum status, string adminRemark) {
 			Order order = await (from p in context.Orders
 								 where p.OrderId == orderId
 								 select p).FirstOrDefaultAsync();
 			if(order == null) {
-				return new OrderResult("订单不存在");
+				return new FunctionResult("订单不存在");
 			}
 
 			// 订单状态是否能被修改
-			if(order.OrderStatus < status) {
-				return new OrderResult("无法改变订单状态");
+			if(order.OrderStatus >= status) {
+				return new FunctionResult("无法改变订单状态");
 			}
-
-			order.OrderStatus = status;
-			context.Entry(order).Property(p => p.OrderStatus).IsModified = true;
-			if(adminRemark != null) {
-				order.AdminRemark = adminRemark;
-				context.Entry(order).Property(p => p.AdminRemark).IsModified = true;
-			}
-			await context.SaveChangesAsync();
 
 			// 增加统计数
-			if(status == OrderStatusEnum.Confirming) {
-				await ConfigManager.AddOrderActiveCount(order.OrderType == OrderTypeEnum.Get);
-			}
-			else if(status != OrderStatusEnum.OnGoing) {
+			if((order.OrderStatus == OrderStatusEnum.Confirming || order.OrderStatus == OrderStatusEnum.OnGoing) && status != OrderStatusEnum.OnGoing) {
 				await ConfigManager.ReduceOrderActiveCount(order.OrderType == OrderTypeEnum.Get);
 			}
 
-			return new OrderResult();
-		} 
+			order.OrderStatus = status;
+			if(adminRemark != null) {
+				order.AdminRemark = adminRemark;
+			}
+			await context.SaveChangesAsync();
+
+			return new FunctionResult();
+		}
 		#endregion
 
 		#region 订单变更记录
@@ -164,6 +158,7 @@ namespace LOK {
 			context.OrderRecords.Add(record);
 			await context.SaveChangesAsync();
 		}
+		#endregion
 
 		public async Task<OrderStatistics> GetOrdersStatistics() {
 			OrderStatistics os;
@@ -177,9 +172,7 @@ namespace LOK {
 				OrdersAllCount = model.OrdersGettingCount + model.OrdersSendingCount
 			};
 			return os;
-		} 
-		#endregion
-
+		}
 		public async Task<bool> IsOrderBelongToUser(int orderId, string userId) {
 			if(userId == null) {
 				return false;
@@ -189,22 +182,5 @@ namespace LOK {
 								 select p).FirstOrDefaultAsync();
 			return model == null ? false : true;
 		}
-	}
-
-	public class OrderStatistics {
-		public OrderStatistics() {
-			OrdersAllCount = 0;
-			OrdersActiveCount = 0;
-			OrdersGettingCount = 0;
-			OrdersGettingActiveCount = 0;
-			OrdersSendingCount = 0;
-			OrdersSendingActiveCount = 0;
-		}
-		public int OrdersAllCount { get; set; }
-		public int OrdersActiveCount { get; set; }
-		public int OrdersGettingCount { get; set; }
-		public int OrdersGettingActiveCount { get; set; }
-		public int OrdersSendingCount { get; set; }
-		public int OrdersSendingActiveCount { get; set; }
 	}
 }

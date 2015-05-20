@@ -112,16 +112,7 @@ namespace LOK {
 			}
 		}
 	}
-	public class UserStatistics {
-		public UserStatistics() {
-			UsersAllCount = 0;
-			UsersSignedUpCount = 0;
-			UsersGuestCount = 0;
-		}
-		public int UsersAllCount { get; set; }
-		public int UsersSignedUpCount { get; set; }
-		public int UsersGuestCount { get; set; }
-	}
+	
 	public class ApplicationSignInManager : SignInManager<ApplicationUser, string> {
 		public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
 			: base(userManager, authenticationManager) { }

@@ -6,23 +6,23 @@
 
 @section JavaScript{
 	<script>
-		$(document).ready(function() {
+		; (function () {
 			// admin.config
 			$('#switch-getting').bootstrapSwitch();
 			$('#switch-sending').bootstrapSwitch();
-			$.getJSON('/Business/IsOrderOnService', function(json, textStatus) {
-				$('#switch-getting').bootstrapSwitch('state', json.Getting).bootstrapSwitch('onSwitchChange', function(e, s) {
-					$.get('/Admin/ChangeOrderGettingService/' + s, function(data) {
+			$.getJSON('/Business/IsOrderOnService', function (json, textStatus) {
+				$('#switch-getting').bootstrapSwitch('state', json.Getting).bootstrapSwitch('onSwitchChange', function (e, s) {
+					$.get('/Admin/ChangeOrderGettingService/' + s, function (data) {
 						/*optional stuff to do after success */
 					});
 				});
-				$('#switch-sending').bootstrapSwitch('state', json.Sending).bootstrapSwitch('onSwitchChange', function(e, s) {
-					$.get('/Admin/ChangeOrderSendingService/' + s, function(data) {
+				$('#switch-sending').bootstrapSwitch('state', json.Sending).bootstrapSwitch('onSwitchChange', function (e, s) {
+					$.get('/Admin/ChangeOrderSendingService/' + s, function (data) {
 						/*optional stuff to do after success */
 					});
 				});
 			});
-		});
+		})();
 	</script>
 }
 
@@ -54,11 +54,21 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">校区设置</h3>
+					<h3 class="panel-title">快递公司设置</h3>
 				</div>
-				<div class="panel-body">
-					
-				</div>
+				<table class="table">
+					<tr>
+						<th>快递公司</th>
+						<th>功能</th>
+					</tr>
+					@foreach(ExpressCompany c in new ExpressCompaniesManager().GetExpressCompanies()) {
+						<tr>
+							<td>@c.Discription</td>
+							<td><a href="/Admin/DeleteExpressCompany/@c.Id" class="btn btn-danger">删除</a></td>
+							<td><a href="/Admin/UpdateExpressCompany?Id=@c.Id&Discription=aaa" class="btn btn-danger">修改</a></td>
+						</tr>
+					}
+				</table>
 			</div>
 		</div>
 	</div>
