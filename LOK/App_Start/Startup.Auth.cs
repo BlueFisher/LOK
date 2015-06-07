@@ -73,7 +73,8 @@ namespace LOK {
 				ApplicationUser superAdmin = new ApplicationUser() {
 					Email = "blue_fisher@qq.com",
 					NickName = "Fisher_SuperAdmin",
-					UserName = "blue_fisher@qq.com"
+					UserName = "blue_fisher@qq.com",
+					PhoneNumber = "13917601178"
 				};
 				userManager.Create(superAdmin, "BlueFisher_");
 				userManager.AddToRoles(superAdmin.Id, new string[] { "Admin", "SuperAdmin" });

@@ -21,7 +21,6 @@
 				@if(ViewBag.hasFunctionBtn) {
 					<td><button class="btn btn-primary btn-material btn-find-order">查看订单</button></td>
 				}
-				
 			</tr>
 		}
 	</table>
@@ -31,6 +30,7 @@ else if(roleName == "SignedUp" || roleName == "Admin" || roleName =="SuperAdmin"
 		<tr>
 			<th>邮箱</th>
 			<th>昵称</th>
+			<th>手机</th>
 			<th>身份</th>
 			@if(ViewBag.hasFunctionBtn) {
 				<th>功能</th>
@@ -41,6 +41,7 @@ else if(roleName == "SignedUp" || roleName == "Admin" || roleName =="SuperAdmin"
 			<tr data-user-id="@user.Id">
 				<td>@user.Email</td>
 				<td>@user.NickName</td>
+				<td>@user.PhoneNumber</td>
 				<td>@roleName</td>
 				@if(ViewBag.hasFunctionBtn) {
 					<td><button class="btn btn-primary btn-material btn-find-order">查看订单</button></td>

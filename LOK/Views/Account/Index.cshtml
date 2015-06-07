@@ -10,6 +10,30 @@
 	<script src="~/Scripts/account.js"></script>
 }
 
+<div class="modal fade" id="modal-forget-password">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+				<h4 class="modal-title">忘记密码</h4>
+			</div>
+			<div class="modal-body">
+				<form action="/Account/ForgetPassword" method="POST" id="form-forget-password">
+					<div class="form-group">
+						<label class="control-label" for="email">邮箱</label>
+						<input type="email" class="form-control" id="email" name="Email" placeholder="">
+					</div>
+					<div class="btn-group">
+						<button type="submit" class="btn btn-primary btn-material">发送邮件</button>
+						<button type="button" class="btn btn-default btn-material" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-lg-5 col-lg-offset-1">
@@ -21,22 +45,27 @@
 				<div class="well-content">
 					<form action="/Account/SignIn" method="POST" id="form-signin">
 						<div class="form-group">
-							<label class="control-label" for="signin-email">邮箱</label>
-							<input type="email" class="form-control" id="signin-email" name="Email" placeholder="">
+							<label class="control-label" for="signin-email">邮箱 / 手机</label>
+							<input type="text" class="form-control" id="signin-signinstring" name="SignInString" placeholder="">
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="signin-password">密码</label>
 							<input type="password" class="form-control" id="signin-password" name="Password" placeholder="">
 						</div>
-						<div class="row btn-form-group">
+						<div class="form-group pos-relative">
+							<label class="control-label" for="signin-code">验证码</label>
+							<input type="text" class="form-control" id="signin-code" name="Code" placeholder="" maxlength="4">
+							<a href="javascript:;" id="refresh-code"><img src="/Account/CodeImage" /></a>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<button type="submit" class="btn btn-primary btn-material btn-block">
 									<i class="fa fa-check"></i> 登录
 								</button>
 							</div>
 							<div class="col-md-6">
-								<button type="reset" class="btn btn-danger btn-material btn-block">
-									<i class="fa fa-refresh"></i> 重置表单
+								<button type="button" class="btn btn-default btn-material btn-block" data-toggle="modal" data-target="#modal-forget-password">
+									<i class="fa fa-refresh"></i> 忘记密码
 								</button>
 							</div>
 						</div>
@@ -61,6 +90,10 @@
 							<input type="text" class="form-control" id="signup-nickname" name="NickName" placeholder="">
 						</div>
 						<div class="form-group">
+							<label class="control-label" for="signup-nickname">手机</label>
+							<input type="text" class="form-control" id="signup-phonenumber" name="PhoneNumber" placeholder="">
+						</div>
+						<div class="form-group">
 							<label class="control-label" for="signup-password">密码</label>
 							<input type="password" class="form-control" id="signup-password" name="Password" placeholder="">
 						</div>
@@ -68,18 +101,9 @@
 							<label class="control-label" for="signup-passwordrepeat">重复密码</label>
 							<input type="password" class="form-control" id="signup-passwordrepeat" name="PasswordRepeat" placeholder="">
 						</div>
-						<div class="row btn-form-group">
-							<div class="col-md-6">
-								<button type="submit" class="btn btn-primary btn-material btn-block">
-									<i class="fa fa-check"></i> 注册
-								</button>
-							</div>
-							<div class="col-md-6">
-								<button type="reset" class="btn btn-danger btn-material btn-block">
-									<i class="fa fa-refresh"></i> 重置表单
-								</button>
-							</div>
-						</div>
+						<button type="submit" class="btn btn-primary btn-material btn-block">
+							<i class="fa fa-check"></i> 注册
+						</button>
 					</form>
 				</div>
 			</div>

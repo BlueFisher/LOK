@@ -16,7 +16,6 @@
 	}
 
 	_loadUsersTable('Guest', 'panel-guest');
-	_loadUsersTable('Admin', 'panel-admin');
 	_loadUsersTable('SignedUp', 'panel-signedup');
 
 	var $modal = $('#modal-order');

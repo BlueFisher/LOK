@@ -8,7 +8,7 @@ using LOK.Utility;
 namespace Test {
 	class Program {
 		static void Main(string[] args) {
-			Utility.GenerateTime();
+			Util.GenerateTime();
 		}
 	}
 }

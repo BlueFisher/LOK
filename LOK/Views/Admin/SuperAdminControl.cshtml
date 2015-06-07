@@ -29,45 +29,13 @@
 	<script src="~/Scripts/admin.superAdminControl.js"></script>
 }
 
-<div class="modal fade" id="modal-add-admin">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-				<h4 class="modal-title">添加管理员</h4>
-			</div>
-			<div class="modal-body">
-				<form action="/Admin/AddAdmin" method="POST" id="form-add-admin">
-					<div class="form-group">
-						<label class="control-label" for="signup-email">邮箱</label>
-						<input type="email" class="form-control" id="signup-email" name="Email" placeholder="">
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="signup-nickname">昵称</label>
-						<input type="text" class="form-control" id="signup-nickname" name="NickName" placeholder="">
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="signup-password">密码</label>
-						<input type="password" class="form-control" id="signup-password" name="Password" placeholder="">
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="signup-passwordrepeat">重复密码</label>
-						<input type="password" class="form-control" id="signup-passwordrepeat" name="PasswordRepeat" placeholder="">
-					</div>
-					<div class="btn-group">
-						<button type="submit" class="btn btn-primary btn-material">保存</button>
-						<button type="button" class="btn btn-default btn-material" data-dismiss="modal">取消</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="container-fluid">
 	<div class="panel panel-default" id="panel-admin">
 		<div class="panel-heading">
-			<h3 class="panel-title"><button class="btn btn-primary btn-material" data-toggle="modal" data-target="#modal-add-admin"><i class="fa fa-plus"></i> 添加管理员</button></h3>
+			<div class="form-inline">
+				<input type="text" id="input-phonenumber" class="form-control" placeholder="手机号" maxlength="11">
+				<button class="btn btn-primary btn-material" id="btn-add-admin"><i class="fa fa-plus"></i> 添加管理员</button>
+			</div>
 		</div>
 		<!-- Ajax Region -->
 	</div>

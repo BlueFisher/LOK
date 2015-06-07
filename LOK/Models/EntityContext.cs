@@ -10,7 +10,9 @@ namespace LOK.Models {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
 		public ApplicationDbContext()
 			: base("DefaultConnection") {
+
 		}
+
 		public DbSet<Order> Orders { get; set; }
 		public DbSet<OrderRecord> OrderRecords { get; set; }
 		public DbSet<ConfigModels> Configs { get; set; }
@@ -19,4 +21,5 @@ namespace LOK.Models {
 			return new ApplicationDbContext();
 		}
 	}
+
 }

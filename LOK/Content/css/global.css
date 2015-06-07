@@ -9,6 +9,11 @@ body{
 	/*background-image: url(../image/background.jpg);*/
 	background-repeat: no-repeat;
 }
+
+.pos-relative{
+	position:relative;
+}
+
 .modal-dialog{
 	background-color: #FAFAFA;
 	border: none;
@@ -258,6 +263,7 @@ body{
 	background-color: rgba(0,0,0,0.05);
 }
 .navbar-material .navbar-toggle {
+	margin-left: 8px;
 	border: none;
 }
 .navbar-material .navbar-nav > .open > a,
@@ -402,6 +408,14 @@ body{
 	body{
 		background-image: none;
 	}
+	
+	.navbar-toggle {
+		float: left;
+	}
+	.navbar-brand{
+		float: right;
+	}
+	
 	.list-group .list-group-item .row-action {
 		float: none;
 		text-align: center;

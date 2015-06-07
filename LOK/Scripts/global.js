@@ -6,17 +6,19 @@
 		'animation-duration': '0.3s',
 		'display': 'none'
 	}).addClass('animated fadeIn');
-	$menu = $('.menu-container .menu').css({
+	var $menu = $('.menu-container .menu').css({
 		'-webkit-animation-duration': '0.3s',
 		'animation-duration': '0.3s',
 		'display': 'none'
 	}).addClass('animated fadeInLeft');
 	$('.menu-toggle').click(function() {
+		$('body').css('overflow','hidden');
 		$menuContainer.css('display', 'block');
 		$menu.css('display', 'block');
 		$menuContainer.one('click', function() {
 			$menuContainer.addClass('fadeOut');
 			$menu.addClass('fadeOutLeft').one(ANIMATION_FINISH, function() {
+				$('body').css('overflow','auto');
 				$menuContainer.css('display', 'none').removeClass('fadeOut');
 				$menu.css('display', 'none').removeClass('fadeOutLeft');
 			});

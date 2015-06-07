@@ -133,6 +133,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\LOKDB.mdf" />
+    <Content Include="App_Data\LOKDB_log.ldf">
+      <DependentUpon>LOKDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\css\account.css" />
     <Content Include="Content\css\bootstrap\bootstrap-ie6.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap-switch.min.css" />
@@ -148,12 +152,13 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\image\ad.jpg" />
     <Content Include="Content\image\background.jpg" />
+    <Content Include="Content\image\header-background.png" />
     <Content Include="Content\image\icons.png" />
     <Content Include="Content\image\logo.png" />
+    <Content Include="Content\image\logo1.png" />
     <Content Include="Content\image\map_icon.png" />
     <Content Include="Content\image\well-get-heading.jpg" />
     <Content Include="Content\image\well-send-heading.jpg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\account.js" />
     <Content Include="Scripts\admin.js" />
@@ -163,15 +168,14 @@
     <Content Include="Scripts\business.order.js" />
     <Content Include="Scripts\business.region.js" />
     <Content Include="Scripts\home.about.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\ErrorArea\Views\web.config" />
+    <Content Include="Areas\ErrorArea\Views\Default\Page404.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery\bootstrap-ie.js" />
     <Content Include="Scripts\jquery\bootstrap-switch.min.js" />
     <Content Include="Scripts\jquery\bootstrap.min.js" />
     <Content Include="Scripts\jquery\jquery.cookie.min.js" />
+    <Content Include="Scripts\jquery\jquery.loadTemplate.min.js" />
     <Content Include="Scripts\jquery\jquery.min.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\tools\highcharts.js" />
@@ -188,6 +192,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\ErrorArea\Controllers\DefaultController.cs" />
+    <Compile Include="Areas\ErrorArea\ErrorAreaAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
@@ -197,6 +203,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505211424276_InitialCreate.cs" />
+    <Compile Include="Migrations\201505211424276_InitialCreate.Designer.cs">
+      <DependentUpon>201505211424276_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505291045233_RemoveUnique.cs" />
+    <Compile Include="Migrations\201505291045233_RemoveUnique.Designer.cs">
+      <DependentUpon>201505291045233_RemoveUnique.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506030516487_Nemo.cs" />
+    <Compile Include="Migrations\201506030516487_Nemo.Designer.cs">
+      <DependentUpon>201506030516487_Nemo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EntityContext.cs" />
     <Compile Include="Models\ViewModels\ExpressViewModels.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -238,6 +257,7 @@
     <None Include="Properties\PublishProfiles\LOKConfig.pubxml" />
     <Content Include="Views\Business\Region.cshtml" />
     <Content Include="Views\Shared\_PartialMenu.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -256,8 +276,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\ExpressCompany\" />
+    <Folder Include="Areas\ErrorArea\Models\" />
+    <Folder Include="Areas\ErrorArea\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201505211424276_InitialCreate.resx">
+      <DependentUpon>201505211424276_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505291045233_RemoveUnique.resx">
+      <DependentUpon>201505291045233_RemoveUnique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506030516487_Nemo.resx">
+      <DependentUpon>201506030516487_Nemo.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -11,11 +11,6 @@ namespace LOK {
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 			routes.MapMvcAttributeRoutes();
 			routes.MapRoute(
-				name: "ExpressCompany",
-				url: "ExpressCompany/{action} ",
-				defaults: new { controller = "ExpressCompany" }
-			);
-			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

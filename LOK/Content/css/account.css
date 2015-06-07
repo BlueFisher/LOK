@@ -18,6 +18,12 @@
 	background-color: #DE485B;
 }
 
+#refresh-code{
+	position:absolute;
+	bottom:2px;
+	right:0;
+}
+
 @media screen and (max-width: 992px) {
 	.btn-form-group .btn{
 		margin-bottom: 12px;

@@ -49,25 +49,14 @@ namespace LOK.Controllers {
 
 		[HttpPost]
 		[Authorize(Roles = "SuperAdmin")]
-		public async Task<JsonResult> AddAdmin(SignUpModel model) {
-			if(!ModelState.IsValid) {
-				return Json(new JsonErrorObj(ModelState));
+		public async Task<JsonResult> AddAdmin(string PhoneNumber) {
+			ApplicationUser user = await UserManager.FindByPhoneNumberAsync(PhoneNumber);
+			if(user != null) {
+				await UserManager.RemoveFromRoleAsync(user.Id, "SignedUp");
+				await UserManager.AddToRoleAsync(user.Id, "Admin");
+				return Json(new JsonSucceedObj());
 			}
-			if(UserManager.IsEmailDuplicated(model.Email)) {
-				return Json(new JsonErrorObj("该邮箱已被注册", "Email"));
-			}
-			var newUser = new ApplicationUser() {
-				UserName = model.Email,
-				Email = model.Email,
-				NickName = model.NickName
-			};
-			IdentityResult result = await UserManager.CreateAsync(newUser, model.Password);
-			if(!result.Succeeded) {
-				return Json(new JsonErrorObj(result.Errors.First()));
-			}
-			await UserManager.AddToRoleAsync(newUser.Id, "Admin");
-			return Json(new JsonSucceedObj());
-
+			return Json(new JsonErrorObj("没有此用户"));
 		}
 
 		[HttpPost]
@@ -135,7 +124,7 @@ namespace LOK.Controllers {
 			}
 			ViewBag.RoleName = model.RoleName;
 			string roleId = (await RoleManager.FindByNameAsync(model.RoleName)).Id;
-			List<ApplicationUser> userList = await UserManager.FindByRoleId(roleId);
+			List<ApplicationUser> userList = await UserManager.FindByRoleIdAsync(roleId);
 			return View("Ajax/UsersTable", userList);
 		}
 

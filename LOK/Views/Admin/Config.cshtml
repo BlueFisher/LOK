@@ -1,10 +1,20 @@
-﻿
-@{
-    ViewBag.Title = "设置中心";
-    Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
+﻿@{
+	ViewBag.Title = "设置中心";
+	Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
 }
 
 @section JavaScript{
+	<script type="text/html" id="template">
+		<tr data-template-bind="{'attribute': 'id', 'value': 'Id'}">
+			<td data-content="Discription"></td>
+			<td>
+				<button href="/Admin/ExpressCompany/Delete" class="btn btn-danger">删除</button>
+				<button href="/Admin/ExpressCompany/Update" class="btn btn-danger">修改</button>
+			</td>
+		</tr>
+	</script>
+
+	<script src="~/Scripts/jquery/jquery.loadTemplate.min.js"></script>
 	<script>
 		; (function () {
 			// admin.config
@@ -22,6 +32,14 @@
 					});
 				});
 			});
+			
+			$.post('/Admin/ExpressCompany/Find', function (data) {
+				for (var i in data) {
+					$('#testTable').loadTemplate($("#template"), data[i]);
+				}
+				
+			});
+
 		})();
 	</script>
 }
@@ -38,7 +56,7 @@
 						<div class="form-group">
 							<label for="switch-getting" class="col-sm-2 control-label">取件服务</label>
 							<div class="col-sm-10">
-								<input type="checkbox"id="switch-getting">
+								<input type="checkbox" id="switch-getting">
 							</div>
 						</div>
 						<div class="form-group no-margin-bottom">
@@ -56,18 +74,11 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">快递公司设置</h3>
 				</div>
-				<table class="table">
+				<table class="table" id="testTable">
 					<tr>
 						<th>快递公司</th>
 						<th>功能</th>
 					</tr>
-					@foreach(ExpressCompany c in new ExpressCompaniesManager().GetExpressCompanies()) {
-						<tr>
-							<td>@c.Discription</td>
-							<td><a href="/Admin/DeleteExpressCompany/@c.Id" class="btn btn-danger">删除</a></td>
-							<td><a href="/Admin/UpdateExpressCompany?Id=@c.Id&Discription=aaa" class="btn btn-danger">修改</a></td>
-						</tr>
-					}
 				</table>
 			</div>
 		</div>

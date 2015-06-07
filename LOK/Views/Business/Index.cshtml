@@ -2,7 +2,7 @@
 	Layout = "~/Views/Shared/_LayoutGlobal.cshtml";
 	ViewBag.Title = "LOK";
 	List<ExpressCompany> companyList = new ExpressCompaniesManager().GetExpressCompanies();
-	Dictionary<int, string> timeMap = Utility.GenerateTime();
+	Dictionary<int, string> timeMap = Util.GenerateTime();
 }
 @section CSS{
 	<link href="~/Content/css/business.css" rel="stylesheet" />
@@ -80,7 +80,7 @@
 									<div class="form-group">
 										<label class="control-label" for="getting-name"><span class="text-danger">*</span> 姓名</label>
 										<input type="text" class="form-control" id="getting-name" name="Name" placeholder="">
-									</div>		
+									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
@@ -182,7 +182,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label class="control-label" for="sending-remark">备注</label>
 								<input type="text" class="form-control" id="sending-remark" name="Remark" placeholder="">
