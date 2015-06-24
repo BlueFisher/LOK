@@ -170,6 +170,8 @@
     <Content Include="Scripts\home.about.js" />
     <Content Include="Areas\ErrorArea\Views\web.config" />
     <Content Include="Areas\ErrorArea\Views\Default\Page404.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <None Include="Properties\PublishProfiles\LOKFTP.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery\bootstrap-ie.js" />
     <Content Include="Scripts\jquery\bootstrap-switch.min.js" />
@@ -192,6 +194,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\ErrorArea\Controllers\DefaultController.cs" />
     <Compile Include="Areas\ErrorArea\ErrorAreaAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -276,6 +279,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\ErrorArea\Models\" />
     <Folder Include="Areas\ErrorArea\Views\Shared\" />
   </ItemGroup>

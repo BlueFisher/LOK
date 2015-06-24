@@ -21,22 +21,26 @@ namespace LOK {
 		}
 
 		public static void SendEmail(string mailTo, string mailSubject, string mailContent) {
-			//MailMessage mailMsg = new MailMessage();
-			//mailMsg.To.Add(new MailAddress(mailTo));
-			//mailMsg.From = new MailAddress("noreply@lok.com", "LOK");
-			//mailMsg.Subject = mailSubject;
-			//string html = mailContent;
+			bool isDebug = System.Web.Configuration.WebConfigurationManager.AppSettings["DebugMode"] == "true";
+			if(isDebug) {
+				FileStream fs = new FileStream("d:/test.txt", FileMode.OpenOrCreate);
+				StreamWriter sw = new StreamWriter(fs);
+				sw.WriteLine(mailContent);
+				sw.Dispose();
+			}
+			else {
+				MailMessage mailMsg = new MailMessage();
+				mailMsg.To.Add(new MailAddress(mailTo));
+				mailMsg.From = new MailAddress("noreply@lok.com", "LOK");
+				mailMsg.Subject = mailSubject;
+				string html = mailContent;
 
-			//mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html));
+				mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html));
 
-			//SmtpClient smtpClient = new SmtpClient("localhost", 25);
-			//smtpClient.DeliveryMethod = SmtpDeliveryMethod.PickupDirectoryFromIis;
-			//smtpClient.Send(mailMsg);
-
-			FileStream fs = new FileStream("d:/test.txt",FileMode.OpenOrCreate);
-			StreamWriter sw = new StreamWriter(fs);
-			sw.WriteLine(mailContent);
-			sw.Dispose();
+				SmtpClient smtpClient = new SmtpClient("localhost", 25);
+				smtpClient.DeliveryMethod = SmtpDeliveryMethod.PickupDirectoryFromIis;
+				smtpClient.Send(mailMsg);
+			}			
 		}
 	}
 	public class ApplicationUserManager : UserManager<ApplicationUser> {
