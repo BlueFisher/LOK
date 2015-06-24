@@ -198,7 +198,7 @@
     <Compile Include="Areas\ErrorArea\Controllers\DefaultController.cs" />
     <Compile Include="Areas\ErrorArea\ErrorAreaAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\ExpressCompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -245,17 +245,17 @@
     <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Views\Business\Order.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Views\Business\_PartialOrderStatusProgress.cshtml" />
     <Content Include="Views\Business\Ajax\AjaxOrderWells.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Business\Ajax\AjaxOrderMenus.cshtml" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Views\Admin\Ajax\OrdersTable.cshtml" />
-    <Content Include="Views\Admin\Config.cshtml" />
-    <Content Include="Views\Admin\UsersControl.cshtml" />
-    <Content Include="Views\Admin\Ajax\UsersTable.cshtml" />
-    <Content Include="Views\Admin\SuperAdminControl.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Ajax\OrdersTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Config.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\UsersControl.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Ajax\UsersTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\SuperAdminControl.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <None Include="Properties\PublishProfiles\LOKConfig.pubxml" />
     <Content Include="Views\Business\Region.cshtml" />
@@ -279,7 +279,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\ErrorArea\Models\" />

@@ -11,8 +11,9 @@ using LOK.Models;
 using System.Linq.Expressions;
 using LOK.ExpressionExtensions;
 
-namespace LOK.Controllers {
+namespace LOK.Areas.Admin.Controllers {
 	[Authorize(Roles = "Admin")]
+	[RouteArea("Admin")]
 	public class AdminController : Controller {
 		#region ManagerDefinition
 		public ApplicationUserManager UserManager {
@@ -67,7 +68,7 @@ namespace LOK.Controllers {
 
 		#region Ajax获取订单、用户列表
 		// Ajax
-		[Route("Admin/Ajax/OrdersTable")]
+		[Route("Ajax/OrdersTable")]
 		public async Task<ActionResult> OrdersTable(OrderTableViewModel model) {
 			if(!Request.IsAjaxRequest()) {
 				return RedirectToAction("Index");
@@ -111,7 +112,7 @@ namespace LOK.Controllers {
 			return View("Ajax/OrdersTable", await OrderManager.GetOrdersAsync(exp));
 		}
 		// Ajax
-		[Route("Admin/Ajax/UsersTable")]
+		[Route("Ajax/UsersTable")]
 		public async Task<ActionResult> UsersTable(UserTableViewModel model) {
 			if(!Request.IsAjaxRequest()) {
 				return RedirectToAction("Index");

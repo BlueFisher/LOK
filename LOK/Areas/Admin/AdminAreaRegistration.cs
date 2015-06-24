@@ -1,24 +1,19 @@
 ﻿using System.Web.Mvc;
 
-namespace LOK.Areas.Admin
-{
-    public class AdminAreaRegistration : AreaRegistration 
-    {
-        public override string AreaName 
-        {
-            get 
-            {
-                return "Admin";
-            }
-        }
+namespace LOK.Areas.Admin {
+	public class AdminAreaRegistration : AreaRegistration {
+		public override string AreaName {
+			get {
+				return "Admin";
+			}
+		}
 
-        public override void RegisterArea(AreaRegistrationContext context) 
-        {
-            context.MapRoute(
-                "Admin_default",
-                "Admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
-        }
-    }
+		public override void RegisterArea(AreaRegistrationContext context) {
+			context.MapRoute(
+				"Admin_default",
+				"Admin/{action}/{id}",
+				new { controller = "Admin",action="Index", id = UrlParameter.Optional }
+			);
+		}
+	}
 }
